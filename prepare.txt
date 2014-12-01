@@ -1,0 +1,4 @@
+vagrant搭建开发环境
+postgresql数据库
+flask web框架
+bootstrap前段框架
