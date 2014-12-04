@@ -1,4 +1,5 @@
 vagrant搭建开发环境
 postgresql数据库
+alembic 数据迁移
 flask web框架
 bootstrap前段框架
