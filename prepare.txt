@@ -3,3 +3,8 @@ postgresql数据库
 alembic 数据迁移
 flask web框架
 bootstrap前段框架
+
+psql prepare:
+sudo -u postgres psql -c "CREATE USER amc WITH PASSWORD 'aaaa';"
+sudo -u postgres psql -c "CREATE DATABASE amc OWNER amc;"
+sudo -u postgres psql -c "GRANT ALL PRIVILEGES ON DATABASE amc to amc;"
