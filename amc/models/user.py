@@ -1,6 +1,7 @@
 # -*- coding: utf-8 -*-
 
 from sqlalchemy.ext.hybrid import hybrid_property
+from werkzeug.security import generate_password_hash, check_password_hash
 
 from .base import ModelBase, SurrogatePK, db
 
@@ -10,7 +11,7 @@ class UserModel(SurrogatePK, ModelBase):
     __tablename__ = 'user'
 
     name = db.Column(db.String(64), nullable=False, unique=True)
-    password_hash = db.Column(db.String(64), nullable=False)
+    pw_hash = db.Column(db.String(64), nullable=False)
     date_created = db.Column(db.DateTime(timezone=True), nullable=False,
                              server_default=db.func.current_timestamp())
 
@@ -23,6 +24,12 @@ class UserModel(SurrogatePK, ModelBase):
     def is_employee(self):
         employee = EmployeeModel.query.get(self.id)
         return True if employee else False
+
+    def set_password(self, pw):
+        self.password_hash = generate_password_hash(pw)
+
+    def check_password(self, pw):
+        return check_password_hash(self.pw_hash, pw)
 
 
 class CustomModel(ModelBase):
@@ -40,6 +47,12 @@ class CustomModel(ModelBase):
     address = db.Column(db.String(), nullable=False)
     credit = db.Column(db.String(), nullable=False,
                        server_default=credit_dict.get('common'))
+    
+    user = db.relationship(
+        'UserModel',
+        primaryjoin='UserModel.id==CustomModel.user_id',
+        foregin_keys='UserModel.id',
+        uselist=False)
 
 
 class EmployeeModel(ModelBase):
@@ -48,3 +61,9 @@ class EmployeeModel(ModelBase):
 
     user_id = db.Column(db.Integer(), primary_key=True)
     department = db.Column(db.String(16), nullable=False)
+    
+    user = db.relationship(
+        'UserModel',
+        primaryjoin='UserModel.id==EmployeeModel.user_id',
+        foregin_keys='UserModel.id',
+        uselist=False)
