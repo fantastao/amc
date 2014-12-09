@@ -1,6 +1,6 @@
 # -*- coding: utf-8 -*-
 
-from sqlalchemy import sql
+from sqlalchemy.ext.hybrid import hybrid_property
 
 from .base import ModelBase, SurrogatePK, db
 
@@ -11,23 +11,27 @@ class UserModel(SurrogatePK, ModelBase):
 
     name = db.Column(db.String(64), nullable=False, unique=True)
     password_hash = db.Column(db.String(64), nullable=False)
-    is_custom = db.Column(db.Boolean(), nullable=False,
-                          server_default=sql.true())
-    is_admin = db.Column(db.Boolean(), nullable=False,
-                         server_default=sql.false())
-    is_root = db.Column(db.Boolean(), nullable=False,
-                        server_default=sql.false())
-    date_created = db.Column(db.DateTime(timezone=True),nullable=False,
+    date_created = db.Column(db.DateTime(timezone=True), nullable=False,
                              server_default=db.func.current_timestamp())
+
+    @hybrid_property
+    def is_custom(self):
+        custom = CustomModel.query.get(self.id)
+        return True if custom else False
+
+    @hybrid_property
+    def is_employee(self):
+        employee = EmployeeModel.query.get(self.id)
+        return True if employee else False
 
 
 class CustomModel(ModelBase):
 
     credit_dict = {
-        'high': u'高',
-        'common': u'中',
-        'low': u'差',
-        }
+        'high': u'信用情况较好',
+        'common': u'信用情况一般',
+        'low': u'信用情况较差',
+    }
 
     __tablename__ = 'custom'
 
@@ -36,3 +40,11 @@ class CustomModel(ModelBase):
     address = db.Column(db.String(), nullable=False)
     credit = db.Column(db.String(), nullable=False,
                        server_default=credit_dict.get('common'))
+
+
+class EmployeeModel(ModelBase):
+
+    __tablename__ = 'employee'
+
+    user_id = db.Column(db.Integer(), primary_key=True)
+    department = db.Column(db.String(16), nullable=False)
