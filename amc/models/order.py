@@ -16,7 +16,7 @@ class OrderModel(SurrogatePK, ModelBase):
     products = db.relationship(
         'OrderProductModel',
         primaryjoin='OrderModel.id==OrderProductModel.order_id',
-        foregin_keys='OrderProductModel.order_id',
+        foreign_keys='OrderProductModel.order_id',
         uselist=True)
 
 

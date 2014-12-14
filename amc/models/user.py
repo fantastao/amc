@@ -51,7 +51,7 @@ class CustomModel(ModelBase):
     user = db.relationship(
         'UserModel',
         primaryjoin='UserModel.id==CustomModel.user_id',
-        foregin_keys='UserModel.id',
+        foreign_keys='UserModel.id',
         uselist=False)
 
 
@@ -65,5 +65,5 @@ class EmployeeModel(ModelBase):
     user = db.relationship(
         'UserModel',
         primaryjoin='UserModel.id==EmployeeModel.user_id',
-        foregin_keys='UserModel.id',
+        foreign_keys='UserModel.id',
         uselist=False)
