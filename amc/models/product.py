@@ -3,11 +3,15 @@
 from .base import ModelBase, SurrogatePK, db
 
 
+# product divide into different categories with attributions
+PRODUCT_CATEGORIES = []
+
 class ProductModel(SurrogatePK, ModelBase):
 
     __tablename__ = 'product'
 
     name = db.Column(db.String(64), nullable=False)
+    category = db.Column(db.String(64), nullable=False)
     description = db.Column(db.UnicodeText(), nullable=True)
     price = db.Column(db.Float(), nullable=False)
     quantity = db.Column(db.Integer(), nullable=False, default=0)

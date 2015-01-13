@@ -7,10 +7,22 @@ from .base import ModelBase, SurrogatePK, db
 
 class OrderModel(SurrogatePK, ModelBase):
 
+    STATUS_LAUNCH = 'launch'
+    STATUS_CONFIRM = 'confirm'
+    STATUS_CANCEL = 'cancel'
+    STATUS_SUCCESS = 'success'
+    STATUS_RETURN = 'return'
+
     __tablename__ = 'order'
 
     custom_id = db.Column(db.Integer(), nullable=False)
-    date_created = db.Column(db.DateTime(timezone=True), nullable=False,
+    status = db.Column(db.String(64), nullable=False,
+                       index=True, default=STATUS_LAUNCH)
+    date_created = db.Column(db.DateTime(timezone=True),
+                             nullable=False, index=True,
+                             server_default=db.func.current_timestamp())
+    date_updated = db.Column(db.DateTime(timezone=True),
+                             nullable=False, index=True,
                              server_default=db.func.current_timestamp())
 
     products = db.relationship(
@@ -18,6 +30,13 @@ class OrderModel(SurrogatePK, ModelBase):
         primaryjoin='OrderModel.id==OrderProductModel.order_id',
         foreign_keys='OrderProductModel.order_id',
         uselist=True)
+
+    @hybrid_property
+    def order_price(self):
+        order_fee = 0
+        for product in self.products:
+            order_fee += product.total_price
+        return order_fee
 
 
 class OrderProductModel(ModelBase):
@@ -32,3 +51,14 @@ class OrderProductModel(ModelBase):
     @hybrid_property
     def total_price(self):
         return self.product_quantity * self.product_price
+
+
+class OrderHistoryModel(SurrogatePK, ModelBase):
+
+    __tablename__ = 'order_history'
+
+    order_id = db.Column(db.Integer(), nullable=False, index=True)
+    status = db.Column(db.String(64), nullable=False, index=True)
+    date_created = db.Column(db.DateTime(timezone=True),
+                             nullable=False, index=True,
+                             server_default=db.func.current_timestamp())

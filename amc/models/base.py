@@ -49,10 +49,8 @@ class SurrogatePK(object):
 
     @classmethod
     def get_by_id(cls, id):
-        if any(
-            (isinstance(id, basestring) and id.isdigit(),
-             isinstance(id, (int, float))),
-        ):
+        if any((isinstance(id, basestring) and id.isdigit(),
+               isinstance(id, (int, float))),):
             return cls.query.get(int(id))
         return None
 
