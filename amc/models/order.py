@@ -9,9 +9,10 @@ class OrderModel(SurrogatePK, ModelBase):
 
     STATUS_LAUNCH = 'launch'
     STATUS_CONFIRM = 'confirm'
-    STATUS_CANCEL = 'cancel'
+    STATUS_DISPATCH = 'dispatch'
     STATUS_SUCCESS = 'success'
     STATUS_RETURN = 'return'
+    STATUS_CANCEL = 'cancel'
 
     __tablename__ = 'order'
 
