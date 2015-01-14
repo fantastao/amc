@@ -32,6 +32,12 @@ class OrderModel(SurrogatePK, ModelBase):
         foreign_keys='OrderProductModel.order_id',
         uselist=True)
 
+    pay = db.relationship(
+        'Pay',backref='order',
+        primaryjoin='PayModel.order_id==Order.id',
+        foreign_keys='PayModel.order_id',
+        uselist=False)
+
     @hybrid_property
     def order_price(self):
         order_fee = 0
