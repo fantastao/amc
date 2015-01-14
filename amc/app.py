@@ -12,7 +12,7 @@ bps = [
 
 
 def create_app(config=DevConfig):
-    app = Flask(__name__)
+    app = Flask(__name__, static_folder=config.STATIC_FOLDER)
     app.config.from_object(config)
     register_extensions(app)
     register_blueprints(app)
