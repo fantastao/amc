@@ -1,17 +1,28 @@
 # -*- coding: utf-8 -*-
 
 from sqlalchemy.ext.hybrid import hybrid_property
-from werkzeug.security import generate_password_hash, check_password_hash
+from flask.ext.login import UserMixin
+
+from amc.extensions import login_manager
+from amc._settings import ProdConfig
 
 from .base import ModelBase, SurrogatePK, db
 
 
-class UserModel(SurrogatePK, ModelBase):
+@login_manager.user_loader
+def load_user(user_id):
+    return UserModel.query.get(user_id)
+
+
+class UserModel(SurrogatePK, ModelBase, UserMixin):
 
     __tablename__ = 'user'
 
-    name = db.Column(db.String(64), nullable=False, unique=True)
-    pw_hash = db.Column(db.String(64), nullable=False)
+    name = db.Column(db.String(64), nullable=False)
+    avatar = db.Column(db.String(512), nullable=False,
+                       default=ProdConfig.AVATAR_DEFAULT)
+    phone = db.Column(db.String(), nullable=True)
+    address = db.Column(db.String(), nullable=True)
     date_created = db.Column(db.DateTime(timezone=True), nullable=False,
                              server_default=db.func.current_timestamp())
 
@@ -25,12 +36,6 @@ class UserModel(SurrogatePK, ModelBase):
         employee = EmployeeModel.query.get(self.id)
         return True if employee else False
 
-    def set_password(self, pw):
-        self.password_hash = generate_password_hash(pw)
-
-    def check_password(self, pw):
-        return check_password_hash(self.pw_hash, pw)
-
 
 class CustomModel(ModelBase):
 
@@ -43,11 +48,9 @@ class CustomModel(ModelBase):
     __tablename__ = 'custom'
 
     user_id = db.Column(db.Integer(), primary_key=True)
-    phone = db.Column(db.String(), nullable=False)
-    address = db.Column(db.String(), nullable=False)
     credit = db.Column(db.String(), nullable=False,
                        server_default=credit_dict.get('common'))
-    
+
     user = db.relationship(
         'UserModel',
         primaryjoin='UserModel.id==CustomModel.user_id',
@@ -61,7 +64,7 @@ class EmployeeModel(ModelBase):
 
     user_id = db.Column(db.Integer(), primary_key=True)
     department = db.Column(db.String(16), nullable=False)
-    
+
     user = db.relationship(
         'UserModel',
         primaryjoin='UserModel.id==EmployeeModel.user_id',

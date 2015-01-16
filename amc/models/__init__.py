@@ -5,7 +5,8 @@ from .order import OrderModel, OrderProductModel, OrderHistoryModel
 from .pay import PayModel
 from .product import ProductModel
 from .user import UserModel, CustomModel, EmployeeModel
+from .auth import AuthModel
 
 __all__ = [OrderModel, OrderProductModel, OrderHistoryModel,
-           PayModel, ProductModel,
+           PayModel, ProductModel, AuthModel,
            UserModel, CustomModel, EmployeeModel]

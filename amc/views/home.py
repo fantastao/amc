@@ -11,4 +11,4 @@ class HomeView(views.MethodView):
     def get(self):
         return render_template('home.html')
 
-bp.add_url_rule('/', view_func=HomeView.as_view('home'))
+bp.add_url_rule('/', view_func=HomeView.as_view('index'))
