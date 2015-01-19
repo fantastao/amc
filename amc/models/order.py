@@ -26,8 +26,10 @@ class OrderModel(SurrogatePK, ModelBase):
                              nullable=False, index=True,
                              server_default=db.func.current_timestamp())
 
-    products = db.relationship(
+    # 订单的产品
+    order_products = db.relationship(
         'OrderProductModel',
+        backref='order',
         primaryjoin='OrderModel.id==OrderProductModel.order_id',
         foreign_keys='OrderProductModel.order_id',
         uselist=True)
@@ -41,9 +43,16 @@ class OrderModel(SurrogatePK, ModelBase):
     @hybrid_property
     def order_price(self):
         order_fee = 0
-        for product in self.products:
+        for product in self.order_products:
             order_fee += product.total_price
         return order_fee
+
+    @hybrid_property
+    def is_supplied(self):
+        for order_product in self.order_products:
+            if not order_product.is_supplied:
+                return False
+        return True
 
 
 class OrderProductModel(ModelBase):
@@ -58,6 +67,12 @@ class OrderProductModel(ModelBase):
     @hybrid_property
     def total_price(self):
         return self.product_quantity * self.product_price
+
+    @hybrid_property
+    def is_supplied(self):
+        if self.product_quantity > self.product.quantity:
+            return False
+        return True
 
 
 class OrderHistoryModel(SurrogatePK, ModelBase):

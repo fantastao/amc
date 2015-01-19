@@ -19,3 +19,11 @@ class ProductModel(SurrogatePK, ModelBase):
                              server_default=db.func.current_timestamp())
     date_updated = db.Column(db.DateTime(timezone=True), nullable=False,
                              server_default=db.func.current_timestamp())
+
+    # 产品的订单
+    product_orders = db.relationship(
+        'OrderProductModel',
+        backref='product',
+        primaryjoin='ProductModel.id==OrderProductModel.product_id',
+        foreign_keys='OrderProductModel.product_id',
+        uselist=True)
