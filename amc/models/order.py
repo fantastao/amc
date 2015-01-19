@@ -16,7 +16,7 @@ class OrderModel(SurrogatePK, ModelBase):
 
     __tablename__ = 'order'
 
-    custom_id = db.Column(db.Integer(), nullable=False)
+    custom_id = db.Column(db.Integer(), nullable=False, index=True)
     status = db.Column(db.String(64), nullable=False,
                        index=True, default=STATUS_LAUNCH)
     date_created = db.Column(db.DateTime(timezone=True),
@@ -35,7 +35,7 @@ class OrderModel(SurrogatePK, ModelBase):
         uselist=True)
 
     pay = db.relationship(
-        'Pay',backref='order',
+        'Pay', backref='order',
         primaryjoin='PayModel.order_id==Order.id',
         foreign_keys='PayModel.order_id',
         uselist=False)
@@ -59,8 +59,8 @@ class OrderProductModel(ModelBase):
 
     __tablename__ = 'order_product'
 
-    order_id = db.Column(db.Integer(), primary_key=True)
-    product_id = db.Column(db.Integer(), primary_key=True)
+    order_id = db.Column(db.Integer(), primary_key=True, index=True)
+    product_id = db.Column(db.Integer(), primary_key=True, index=True)
     product_quantity = db.Column(db.Integer(), nullable=False)
     product_price = db.Column(db.Float(), nullable=False)
 
@@ -81,6 +81,7 @@ class OrderHistoryModel(SurrogatePK, ModelBase):
 
     order_id = db.Column(db.Integer(), nullable=False, index=True)
     status = db.Column(db.String(64), nullable=False, index=True)
+    operator_id = db.Column(db.Integer(), nullable=False, index=True)
     date_created = db.Column(db.DateTime(timezone=True),
                              nullable=False, index=True,
                              server_default=db.func.current_timestamp())

@@ -18,7 +18,7 @@ class UserModel(SurrogatePK, ModelBase, UserMixin):
 
     __tablename__ = 'user'
 
-    name = db.Column(db.String(64), nullable=False)
+    name = db.Column(db.String(64), nullable=False, index=True)
     avatar = db.Column(db.String(512), nullable=False,
                        default=ProdConfig.AVATAR_DEFAULT)
     phone = db.Column(db.String(), nullable=True)
@@ -47,8 +47,8 @@ class CustomModel(ModelBase):
 
     __tablename__ = 'custom'
 
-    user_id = db.Column(db.Integer(), primary_key=True)
-    credit = db.Column(db.String(), nullable=False,
+    user_id = db.Column(db.Integer(), primary_key=True, index=True)
+    credit = db.Column(db.String(), nullable=False, index=True,
                        server_default=credit_dict.get('common'))
 
     user = db.relationship(
@@ -62,7 +62,7 @@ class EmployeeModel(ModelBase):
 
     __tablename__ = 'employee'
 
-    user_id = db.Column(db.Integer(), primary_key=True)
+    user_id = db.Column(db.Integer(), primary_key=True, index=True)
     department = db.Column(db.String(16), nullable=False)
 
     user = db.relationship(
