@@ -27,3 +27,14 @@ class ProductModel(SurrogatePK, ModelBase):
         primaryjoin='ProductModel.id==OrderProductModel.product_id',
         foreign_keys='OrderProductModel.product_id',
         uselist=True)
+
+
+class LackedProductHistoryModel(SurrogatePK, ModelBase):
+    
+    __tablename__ = 'lacked_product_history'
+
+    product_id = db.Column(db.Integer(), nullable=False, index=True)
+    order_id = db.Column(db.Integer(), nullable=False, index=True)
+    quantity = db.Column(db.Integer(), nullable=False)
+    date_created = db.Column(db.DateTime(timezone=True), nullable=False,
+                             server_default=db.func.current_timestamp())
