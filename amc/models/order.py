@@ -59,8 +59,8 @@ class OrderProductModel(ModelBase):
 
     __tablename__ = 'order_product'
 
-    order_id = db.Column(db.Integer(), primary_key=True, index=True)
-    product_id = db.Column(db.Integer(), primary_key=True, index=True)
+    order_id = db.Column(db.Integer(), primary_key=True)
+    product_id = db.Column(db.Integer(), primary_key=True)
     product_quantity = db.Column(db.Integer(), nullable=False)
     product_price = db.Column(db.Float(), nullable=False)
 

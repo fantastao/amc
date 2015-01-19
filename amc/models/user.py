@@ -47,12 +47,12 @@ class CustomModel(ModelBase):
 
     __tablename__ = 'custom'
 
-    user_id = db.Column(db.Integer(), primary_key=True, index=True)
+    user_id = db.Column(db.Integer(), primary_key=True)
     credit = db.Column(db.String(), nullable=False, index=True,
-                       server_default=credit_dict.get('common'))
+                       default=credit_dict.get('common'))
 
     user = db.relationship(
-        'UserModel',
+        'UserModel', backref='custom',
         primaryjoin='UserModel.id==CustomModel.user_id',
         foreign_keys='UserModel.id',
         uselist=False)
@@ -62,11 +62,11 @@ class EmployeeModel(ModelBase):
 
     __tablename__ = 'employee'
 
-    user_id = db.Column(db.Integer(), primary_key=True, index=True)
+    user_id = db.Column(db.Integer(), primary_key=True)
     department = db.Column(db.String(16), nullable=False)
 
     user = db.relationship(
-        'UserModel',
+        'UserModel', backref='employee',
         primaryjoin='UserModel.id==EmployeeModel.user_id',
         foreign_keys='UserModel.id',
         uselist=False)
