@@ -2,7 +2,7 @@ vagrant搭建开发环境
 postgresql数据库
 alembic 数据迁移
 flask web框架
-bootstrap前段框架
+bootstrap-3.3.2-dist前段框架
 
 psql prepare:
 sudo -u postgres psql -c "CREATE USER amc WITH PASSWORD 'aaaa';"
