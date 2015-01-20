@@ -1,0 +1,30 @@
+<!DOCTYPE html>
+<html>
+<head>
+   {% block head_meta %}
+   {% endblock head_meta %}
+   <title>{% block title %}base{% endblock title %}</title>
+   
+   <link href="/static/bootstrap-3.3.2-dist/bootstrap-3.3.2-dist/css/bootstrap.min.css" rel="stylesheet">
+   
+   {% block head_css %}
+   {% endblock head_css %}
+   
+   <script src="/static/jquery.js"></script>
+   <script src="/static/bootstrap-3.3.2-dist/bootstrap-3.3.2-dist/js/bootstrap.min.js"></script>
+   
+   {% block head_js %}
+   {% endblock head_js %}
+</head>
+<body>
+   {% block content %}
+
+      <h1>This is base.html</h1>
+   {% endblock content%}
+
+   {% block tail_js %}
+   {% endblock tail_js %}
+
+</body>
+</html>
+
