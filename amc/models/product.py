@@ -32,6 +32,11 @@ class ProductModel(SurrogatePK, ModelBase):
         foreign_keys='OrderProductModel.product_id',
         uselist=True)
 
+    @classmethod
+    def get_all_products(cls):
+        return cls.query.all()
+        
+
 
 class LackedProductHistoryModel(SurrogatePK, ModelBase):
 

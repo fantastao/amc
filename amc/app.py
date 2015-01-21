@@ -9,6 +9,8 @@ from amc._settings import DevConfig
 bps = [
     'amc.views.home:bp',
     'amc.views.auth:bp',
+    'amc.views.products:bp',
+    'amc.views.orders:bp',
 ]
 
 
