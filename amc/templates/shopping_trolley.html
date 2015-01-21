@@ -1,0 +1,12 @@
+{% extends "base.html" %}
+    {% block title %}home{% endblock %} 
+    {% block content %}
+        <a href="/orders/new_order?order='undefined'"><input type="button" value='order'></input></a>
+    {% endblock %}
+
+    {% block js%}
+        {{ super() }}
+        <script>
+            
+        </script>
+    {% endblock %}

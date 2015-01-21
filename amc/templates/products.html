@@ -1,0 +1,17 @@
+{% extends "base.html" %}
+    {% block title %}home{% endblock %} 
+    {% block content %}
+        {% for product in products %}
+            {% for k in product %}
+                {{product[k]}}
+            {% endfor %}
+            <a href="/products/details/{{product['id']}}"><input type="button" value='details'></input></a>
+        {% endfor %}
+    {% endblock %}
+
+    {% block js%}
+        {{ super() }}
+        <script>
+            
+        </script>
+    {% endblock %}
