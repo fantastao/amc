@@ -15,7 +15,7 @@
     {% block content %}
  
     {% endblock %}
-    <a href="/products/trolley"><input type="button" value='shopping_trolley'></input></a>
+    <a href="{{ url_for('order.trolley', id=1) }}"><input type="button" value='shopping_trolley'></input></a>
      
     {% block footer %}
     {% endblock %} 

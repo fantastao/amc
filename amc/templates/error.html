@@ -1,0 +1,9 @@
+{% extends "base.html" %}
+{% block content %}
+<div>
+    {% if request.referrer %}
+    <p><a href="{{ request.referrer }}">回上一页</a></p>
+    {% else %}
+    <p><a href="{{ url_for('home.index') }}">回首页</a></p>
+    {% endif %}
+{% endblock %}
