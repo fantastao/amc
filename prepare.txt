@@ -14,5 +14,6 @@ sudo -u postgres psql -c "GRANT ALL PRIVILEGES ON DATABASE amc to amc;"
 页面首页，产品列表页，产品详情页
 用户个人页：订单列表，订单详情
 购物车页（相当于订单下单时详情页）
+用户登陆页
 后台页面包含
 。。。
