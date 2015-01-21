@@ -35,8 +35,8 @@ class OrderModel(SurrogatePK, ModelBase):
         uselist=True)
 
     pay = db.relationship(
-        'Pay', backref='order',
-        primaryjoin='PayModel.order_id==Order.id',
+        'PayModel', backref='order',
+        primaryjoin='PayModel.order_id==OrderModel.id',
         foreign_keys='PayModel.order_id',
         uselist=False)
 
