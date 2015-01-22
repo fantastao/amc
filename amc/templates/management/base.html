@@ -15,11 +15,11 @@
     <div>
         {% block navbar %} 
             <ul id="navbar" class="nav nav-pills">
-                <li id="orders" class="active"><a href="#">orders</a></li>
-                <li id="products"><a href="#">products</a></li>
-                <li id="accounts"><a href="#">accounts</a></li>
-                <li id="purchases"><a href="#">purchases</a></li>
-                <li id="customers"><a href="#">customers</a></li>
+                <li id="order"><a href="{{ url_for('management.order') }}">orders</a></li>
+                <li id="product"><a href="{{ url_for('management.product') }}">products</a></li>
+                <li id="account"><a href="{{ url_for('management.account') }}">accounts</a></li>
+                <li id="purchase"><a href="{{ url_for('management.purchase') }}">purchases</a></li>
+                <li id="customer"><a href="{{ url_for('management.customer') }}">customers</a></li>
             </ul>
         {% endblock %}   
 
@@ -36,28 +36,9 @@
     {% block js %}
     <script src="/static/jquery.js"></script>
     <script src="/static/js/bootstrap.min.js"></script>
-    <script>
-        $("#content_container").empty();
-        $("#content_container").load("/management/orders");
+    {% endblock %}
 
-        function bindNavbarClick(){
-            var select_ul_id = "navbar";
-            $("#"+select_ul_id).children("li").unbind();
-            $("#"+select_ul_id).children("li").click(function(){
-                var select_li = $(this);
-                var unselect_li = $(this).siblings('li');
-                if (!select_li.hasClass('active')){
-                    select_li.addClass('active');
-                    unselect_li.removeClass('active');
-                    var select_role = select_li.attr("id");
-                    console.log(select_role);
-                }
-            });
-        }
-        $(document).ready(function(){
-            bindNavbarClick();
-        });
-    </script>
+    {% block spec_js %}
     {% endblock %}
     <!-- end scripts -->
 
