@@ -1,11 +1,31 @@
 {% extends "management/base.html" %}
 
 {% block content %}
-    <div id="content_container">order</div>
+    <div id="content_container">
+        <p>list of orders</p>
+        {% for order in orders %}
+            {% for k in order %}
+                {{ order[k] }}
+            {% endfor %}
+            <input class="delete" id="{{ order['id'] }}" type="button" value='delete')></input>
+            <p></p>
+        {% endfor %}
+    </div>
+        
 {% endblock %}
 
 {% block spec_js %}
     <script>
-        $("#order").addClass('active');        
+        $("#order").addClass('active');
+        $(".delete").click(function (){
+            id = $(this).attr("id");
+            $.get("{{ url_for("management.order_delete") }}",
+                {"id":id},
+                function(data){
+                    alert(data);
+                }
+            );
+        });        
+            
     </script>
 {% endblock %}

@@ -2,7 +2,7 @@
 
 from flask import request, Blueprint, render_template, redirect, views
 
-
+from amc.models import OrderModel
 
 bp = Blueprint('management', __name__)
 
@@ -11,14 +11,18 @@ class ManageIndexView(views.MethodView):
     template = 'management/order_manage.html'    
     
     def get(self):
-        return render_template(self.template)
+        # order = OrderModel.query.all()
+        orders = [{'id':1,'customer_id':111, 'status':'launch'}, {'id':'2','customer_id':222,'status':'launch'}]
+        return render_template(self.template, orders = orders)
 
 class ManageOrderView(views.MethodView):
 
     template = 'management/order_manage.html'    
 
     def get(self):
-        return render_template(self.template)
+        # order = OrderModel.query.all()
+        orders = [{'id':1,'customer_id':111, 'status':'launch'}, {'id':'2','customer_id':222,'status':'launch'}]
+        return render_template(self.template, orders = orders)
 
 class ManageProductView(views.MethodView):
 
@@ -48,6 +52,17 @@ class ManageCustomerView(views.MethodView):
     def get(self):
         return render_template(self.template)
 
+class OrderDeleteView(views.MethodView):
+
+    def get(self):
+        id = request.args.get('id','1')
+        '''
+        item = OrderModel.query.get(id)
+        status = OrderModel.delete(item)
+        if item and status:
+            return 'success'
+        '''
+        return 'success'
 
 bp.add_url_rule(
     '/management/',
@@ -67,4 +82,7 @@ bp.add_url_rule(
 bp.add_url_rule(
     '/management/customers/',
     view_func=ManageCustomerView.as_view('customer'))
+bp.add_url_rule(
+    '/order/delete/',
+    view_func=OrderDeleteView.as_view('order_delete'))
 
