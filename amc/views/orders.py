@@ -1,6 +1,6 @@
 # -*- coding: utf-8 -*-
 
-from flask import Blueprint, views
+from flask import Blueprint, views, render_template
 
 
 bp = Blueprint('order', __name__)
@@ -20,6 +20,7 @@ class TrolleyView(views.MethodView):
 
     def get(self, id):
         # 从购物车表中获取信息
+        return render_template(self.template)
         pass
 
     def post(self):
