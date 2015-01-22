@@ -85,3 +85,23 @@ class OrderHistoryModel(SurrogatePK, ModelBase):
     date_created = db.Column(db.DateTime(timezone=True),
                              nullable=False, index=True,
                              server_default=db.func.current_timestamp())
+
+
+class ShoppingTrolleyModel(SurrogatePK, ModelBase):
+
+    STATUS_HOLDING = 'holding'
+    STATUS_SETTLED = 'settled'
+
+    __tablename__ = 'shopping_trolley'
+
+    custom_id = db.Column(db.Integer(), nullable=False, index=True)
+    # should be reconsider  
+    product_info = db.Column(db.PickleType(), nullable=True)
+    status = db.Column(db.String(64), nullable=False,
+                       index=True, default=STATUS_HOLDING)
+    date_created = db.Column(db.DateTime(timezone=True),
+                             nullable=False, index=True,
+                             server_default=db.func.current_timestamp())
+    date_updated = db.Column(db.DateTime(timezone=True),
+                             nullable=False, index=True,
+                             server_default=db.func.current_timestamp())

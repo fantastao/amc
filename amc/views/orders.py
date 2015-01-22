@@ -1,21 +1,35 @@
 # -*- coding: utf-8 -*-
 
-from flask import (request, Blueprint, render_template,
-                   redirect, url_for)
-
-from amc.models import OrderModel, OrderProductModel, OrderHistoryModel, PayModel
+from flask import Blueprint, views
 
 
-bp = Blueprint('orders', __name__, url_prefix='/orders')
+bp = Blueprint('order', __name__)
 
-@bp.route('/new_order', methods=['GET', 'POST'])
-def new_order():
-    if request.method == 'GET':
-        # order = request.args.get('order', None)
-        order = {'custom_id':'123456', 'order_products':[{'product_id':1, 'quantity':10,'price':50},{'product_id':2, 'quantity':10, 'price': 30}]}
-        create_new_order(order)
-        return render_template('home.html')
 
-def create_new_order(order):
-    #  create new records in OrderModel,OrderProductModel, OrderHistoryModel, PayModel
-    return
+class OrderDetailView(views.MethodView):
+
+    template = 'front/shopping_trolley.html'
+
+    def get(self, id):
+        pass
+
+
+class TrolleyView(views.MethodView):
+
+    template = 'front/shopping_trolley.html'
+
+    def get(self, id):
+        # 从购物车表中获取信息
+        pass
+
+    def post(self):
+        # 点击提交，购物车信息生成订单
+        pass
+
+
+bp.add_url_rule(
+    '/order/<int:id>',
+    view_func=OrderDetailView.as_view('detail'))
+bp.add_url_rule(
+    '/trolley/<int:id>',
+    view_func=TrolleyView.as_view('trolley'))
