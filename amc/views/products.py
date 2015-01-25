@@ -25,7 +25,7 @@ class ProductDetailView(views.MethodView):
         product = ProductModel.query.get(id)
         if not product:
             # 没有这个产品的错误界面
-            pass
+            return
         return render_template(self.template, product=product)
 
 

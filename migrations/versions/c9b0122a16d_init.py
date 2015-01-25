@@ -60,7 +60,6 @@ def upgrade():
         sa.Column('id', sa.Integer(), primary_key=True),
         sa.Column('custom_id', sa.Integer(), nullable=False, index=True),
         sa.Column('product_info', sa.PickleType(), nullable=True),
-        sa.Column('status', sa.String(64), nullable=False, index=True),
         sa.Column('date_created', sa.DateTime(timezone=True),
                   nullable=False, index=True,
                   server_default=sa.func.current_timestamp()),

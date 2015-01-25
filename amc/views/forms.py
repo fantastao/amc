@@ -25,6 +25,7 @@ class LoginForm(Form):
         auth = AuthModel.get_by_account(self.account.data)
         if not check_password(auth.pw_hash, self.password.data):
             self.password.errors.append('Password error')
+            return False
         # login user here
         login_user(auth.user)
         return True

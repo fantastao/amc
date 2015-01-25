@@ -57,6 +57,13 @@ class CustomModel(ModelBase):
         foreign_keys='UserModel.id',
         uselist=False)
 
+    trolley = db.relationship(
+        'ShoppingTrolleyModel',
+        backref='custom',
+        primaryjoin='CustomModel.user_id==ShoppingTrolleyModel.custom_id',
+        foreign_keys='ShoppingTrolleyModel.custom_id',
+        uselist=True)
+
 
 class EmployeeModel(ModelBase):
 
