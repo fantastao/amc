@@ -1,6 +1,7 @@
 # -*- coding: utf-8 -*-
 
 from sqlalchemy import sql
+from sqlalchemy.orm.exc import NoResultFound, MultipleResultsFound
 
 from .base import ModelBase, SurrogatePK, db
 
@@ -28,7 +29,12 @@ class AuthModel(SurrogatePK, ModelBase):
 
     @classmethod
     def account_exists_verified(cls, account):
-        auth = cls.query.filter_by(account=account).one()
+        try:
+            auth = cls.query.filter_by(account=account).one()
+        except MultipleResultsFound as e:
+            raise e
+        except NoResultFound as e:
+            raise e
         if auth and auth.is_verified:
             return True
         return False

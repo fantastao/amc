@@ -30,22 +30,21 @@ def upgrade():
         'order',
         sa.Column('id', sa.Integer(), primary_key=True),
         sa.Column('custom_id', sa.Integer(), nullable=False, index=True),
-        sa.Column('status', sa.String(64), nullable=False,
-                  index=True, default='launch'),
+        sa.Column('status', sa.String(64), nullable=False, index=True),
         sa.Column('date_created', sa.DateTime(timezone=True),
                   nullable=False, index=True,
                   server_default=sa.func.current_timestamp()),
         sa.Column('date_updated', sa.DateTime(timezone=True),
                   nullable=False, index=True,
                   server_default=sa.func.current_timestamp())
-        )
+    )
     op.create_table(
         'order_product',
         sa.Column('order_id', sa.Integer(), primary_key=True),
         sa.Column('product_id', sa.Integer(), primary_key=True),
         sa.Column('product_quantity', sa.Integer(), nullable=False),
         sa.Column('product_price', sa.Float(), nullable=False)
-        )
+    )
     op.create_table(
         'order_history',
         sa.Column('id', sa.Integer(), primary_key=True),
@@ -55,7 +54,20 @@ def upgrade():
         sa.Column('date_created', sa.DateTime(timezone=True),
                   nullable=False, index=True,
                   server_default=sa.func.current_timestamp())
-        )
+    )
+    op.create_table(
+        'shopping_trolley',
+        sa.Column('id', sa.Integer(), primary_key=True),
+        sa.Column('custom_id', sa.Integer(), nullable=False, index=True),
+        sa.Column('product_info', sa.PickleType(), nullable=True),
+        sa.Column('status', sa.String(64), nullable=False, index=True),
+        sa.Column('date_created', sa.DateTime(timezone=True),
+                  nullable=False, index=True,
+                  server_default=sa.func.current_timestamp()),
+        sa.Column('date_updated', sa.DateTime(timezone=True),
+                  nullable=False, index=True,
+                  server_default=sa.func.current_timestamp())
+    )
     op.create_table(
         'pay',
         sa.Column('id', sa.Integer(), primary_key=True),
@@ -67,7 +79,7 @@ def upgrade():
         sa.Column('date_updated', sa.DateTime(timezone=True),
                   nullable=False, index=True,
                   server_default=sa.func.current_timestamp())
-        )
+    )
     op.create_table(
         'product',
         sa.Column('id', sa.Integer(), primary_key=True),
@@ -83,7 +95,7 @@ def upgrade():
         sa.Column('date_updated', sa.DateTime(timezone=True),
                   nullable=False, index=True,
                   server_default=sa.func.current_timestamp())
-        )
+    )
     op.create_table(
         'lacked_product_history',
         sa.Column('id', sa.Integer(), primary_key=True),
@@ -92,7 +104,7 @@ def upgrade():
         sa.Column('quantity', sa.Integer(), nullable=False),
         sa.Column('date_created', sa.DateTime(timezone=True), nullable=False,
                   server_default=sa.func.current_timestamp())
-        )
+    )
     op.create_table(
         'purchase',
         sa.Column('id', sa.Integer(), primary_key=True),
@@ -105,7 +117,7 @@ def upgrade():
         sa.Column('date_updated', sa.DateTime(timezone=True),
                   nullable=False, index=True,
                   server_default=sa.func.current_timestamp())
-        )
+    )
     op.create_table(
         'user',
         sa.Column('id', sa.Integer(), primary_key=True),
@@ -115,17 +127,17 @@ def upgrade():
         sa.Column('address', sa.String(), nullable=True),
         sa.Column('date_created', sa.DateTime(timezone=True), nullable=False,
                   server_default=sa.func.current_timestamp())
-        )
+    )
     op.create_table(
         'custom',
         sa.Column('user_id', sa.Integer(), primary_key=True),
         sa.Column('credit', sa.String(), nullable=False, index=True)
-        )
+    )
     op.create_table(
         'employee',
         sa.Column('user_id', sa.Integer(), primary_key=True),
         sa.Column('department', sa.String(16), nullable=False)
-        )
+    )
 
 
 def downgrade():
@@ -133,6 +145,7 @@ def downgrade():
     op.drop_table('order')
     op.drop_table('order_product')
     op.drop_table('order_history')
+    op.drop_table('shopping_trolley')
     op.drop_table('pay')
     op.drop_table('product')
     op.drop_table('lacked_product_history')
