@@ -29,7 +29,7 @@ def upgrade():
     op.create_table(
         'order',
         sa.Column('id', sa.Integer(), primary_key=True),
-        sa.Column('custom_id', sa.Integer(), nullable=False, index=True),
+        sa.Column('user_id', sa.Integer(), nullable=False, index=True),
         sa.Column('status', sa.String(64), nullable=False, index=True),
         sa.Column('date_created', sa.DateTime(timezone=True),
                   nullable=False, index=True,
@@ -58,7 +58,7 @@ def upgrade():
     op.create_table(
         'shopping_trolley',
         sa.Column('id', sa.Integer(), primary_key=True),
-        sa.Column('custom_id', sa.Integer(), nullable=False, index=True),
+        sa.Column('user_id', sa.Integer(), nullable=False, index=True),
         sa.Column('product_info', sa.PickleType(), nullable=True),
         sa.Column('date_created', sa.DateTime(timezone=True),
                   nullable=False, index=True,
@@ -124,16 +124,12 @@ def upgrade():
         sa.Column('avatar', sa.String(512), nullable=False),
         sa.Column('phone', sa.String(), nullable=True),
         sa.Column('address', sa.String(), nullable=True),
+        sa.Column('credit', sa.String(), nullable=False, index=True),
         sa.Column('date_created', sa.DateTime(timezone=True), nullable=False,
                   server_default=sa.func.current_timestamp())
     )
     op.create_table(
-        'custom',
-        sa.Column('user_id', sa.Integer(), primary_key=True),
-        sa.Column('credit', sa.String(), nullable=False, index=True)
-    )
-    op.create_table(
-        'employee',
+        'admin',
         sa.Column('user_id', sa.Integer(), primary_key=True),
         sa.Column('department', sa.String(16), nullable=False)
     )
@@ -150,5 +146,4 @@ def downgrade():
     op.drop_table('lacked_product_history')
     op.drop_table('purchase')
     op.drop_table('user')
-    op.drop_table('custom')
-    op.drop_table('employee')
+    op.drop_table('admin')

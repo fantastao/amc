@@ -16,7 +16,7 @@ class OrderModel(SurrogatePK, ModelBase):
 
     __tablename__ = 'order'
 
-    custom_id = db.Column(db.Integer(), nullable=False, index=True)
+    user_id = db.Column(db.Integer(), nullable=False, index=True)
     status = db.Column(db.String(64), nullable=False,
                        index=True, default=STATUS_LAUNCH)
     date_created = db.Column(db.DateTime(timezone=True),
@@ -91,7 +91,7 @@ class ShoppingTrolleyModel(SurrogatePK, ModelBase):
 
     __tablename__ = 'shopping_trolley'
 
-    custom_id = db.Column(db.Integer(), nullable=False, index=True)
+    user_id = db.Column(db.Integer(), nullable=False, index=True)
     product_info = db.Column(db.PickleType(), nullable=True)
     date_created = db.Column(db.DateTime(timezone=True),
                              nullable=False, index=True,
