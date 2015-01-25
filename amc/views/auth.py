@@ -22,7 +22,7 @@ def login():
             return render_template('login.html', form=form)
         # after form validate finish,login_user directly
         # login_user(auth.user)
-        return redirect(request.args.get('next') or url_for('home.index'))
+        return redirect(url_for('home.index'))
 
 
 @bp.route('/logout', methods=['GET'])

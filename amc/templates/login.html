@@ -1,0 +1,12 @@
+<form method="post">
+    {{ form.csrf_token }}
+    {% if form.account.errors %}
+    <p>{{ form.account.errors[0] }}</p>
+    {% endif %}
+    {{ form.account }}
+    {% if form.password.errors %}
+    <p>{{ form.password.errors[0] }}</p>
+    {% endif %}
+    {{ form.password }}
+    <button type="submit">登陆</button>
+</form>

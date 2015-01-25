@@ -20,7 +20,7 @@ def upgrade():
         sa.Column('id', sa.Integer(), primary_key=True),
         sa.Column('user_id', sa.Integer(), nullable=False),
         sa.Column('account', sa.String(64), nullable=False, unique=True),
-        sa.Column('pw_hash', sa.String(64), nullable=False),
+        sa.Column('pw_hash', sa.String(256), nullable=False),
         sa.Column('is_verified', sa.Boolean(), nullable=False,
                   server_default=sa.sql.false()),
         sa.Column('date_created', sa.DateTime(timezone=True), nullable=False,
