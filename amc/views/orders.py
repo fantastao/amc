@@ -20,6 +20,9 @@ class OrderDetailView(views.MethodView):
     @login_required
     def get(self, id):
         order = OrderModel.query.get(id)
+        if current_user is not order.user:
+            # 订单不是当前用户的禁止访问
+            return
         return render_template(self.template, order=order)
 
 
