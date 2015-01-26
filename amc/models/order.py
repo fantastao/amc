@@ -26,8 +26,7 @@ class OrderModel(SurrogatePK, ModelBase):
                              nullable=False, index=True,
                              server_default=db.func.current_timestamp())
 
-    # 订单的产品
-    order_products = db.relationship(
+    products = db.relationship(
         'OrderProductModel',
         backref='order',
         primaryjoin='OrderModel.id==OrderProductModel.order_id',
@@ -43,14 +42,14 @@ class OrderModel(SurrogatePK, ModelBase):
     @hybrid_property
     def order_price(self):
         order_fee = 0
-        for product in self.order_products:
+        for product in self.products:
             order_fee += product.total_price
         return order_fee
 
     @hybrid_property
     def is_supplied(self):
-        for order_product in self.order_products:
-            if not order_product.is_supplied:
+        for product in self.products:
+            if not product.is_supplied:
                 return False
         return True
 
@@ -62,7 +61,14 @@ class OrderProductModel(ModelBase):
     order_id = db.Column(db.Integer(), primary_key=True)
     product_id = db.Column(db.Integer(), primary_key=True)
     product_quantity = db.Column(db.Integer(), nullable=False)
+    # in case that price altered
     product_price = db.Column(db.Float(), nullable=False)
+
+    product = db.relationship(
+        'ProductModel',
+        primaryjoin='ProductModel.id==OrderProductModel.product_id',
+        foreign_keys='OrderProductModel.product_id',
+        uselist=False)
 
     @hybrid_property
     def total_price(self):
@@ -81,7 +87,7 @@ class OrderHistoryModel(SurrogatePK, ModelBase):
 
     order_id = db.Column(db.Integer(), nullable=False, index=True)
     status = db.Column(db.String(64), nullable=False, index=True)
-    operator_id = db.Column(db.Integer(), nullable=False, index=True)
+    operator_id = db.Column(db.Integer(), nullable=True, index=True)
     date_created = db.Column(db.DateTime(timezone=True),
                              nullable=False, index=True,
                              server_default=db.func.current_timestamp())
@@ -92,10 +98,30 @@ class ShoppingTrolleyModel(SurrogatePK, ModelBase):
     __tablename__ = 'shopping_trolley'
 
     user_id = db.Column(db.Integer(), nullable=False, index=True)
-    product_info = db.Column(db.PickleType(), nullable=True)
     date_created = db.Column(db.DateTime(timezone=True),
                              nullable=False, index=True,
                              server_default=db.func.current_timestamp())
     date_updated = db.Column(db.DateTime(timezone=True),
                              nullable=False, index=True,
                              server_default=db.func.current_timestamp())
+
+    products = db.relationship(
+        'TrolleyProductModel',
+        primaryjoin='ShoppingTrolleyModel.id==TrolleyProductModel.trolley_id',
+        foreign_keys='TrolleyProductModel.trolley_id',
+        uselist=True)
+
+
+class TrolleyProductModel(ModelBase):
+
+    __tablename__ = 'trolley_product'
+
+    trolley_id = db.Column(db.Integer(), primary_key=True)
+    product_id = db.Column(db.Integer(), primary_key=True)
+    product_quantity = db.Column(db.Integer(), nullable=False)
+
+    product = db.relationship(
+        'ProductModel',
+        primaryjoin='ProductModel.id==TrolleyProductModel.product_id',
+        foreign_keys='TrolleyProductModel.product_id',
+        uselist=False)

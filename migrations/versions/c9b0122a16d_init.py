@@ -50,7 +50,7 @@ def upgrade():
         sa.Column('id', sa.Integer(), primary_key=True),
         sa.Column('order_id', sa.Integer(), nullable=False, index=True),
         sa.Column('status', sa.String(64), nullable=False, index=True),
-        sa.Column('operator_id', sa.Integer(), nullable=False, index=True),
+        sa.Column('operator_id', sa.Integer(), nullable=True, index=True),
         sa.Column('date_created', sa.DateTime(timezone=True),
                   nullable=False, index=True,
                   server_default=sa.func.current_timestamp())
