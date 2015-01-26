@@ -1,11 +1,11 @@
-{% extends "base.html" %}
-    {% block title %}home{% endblock %} 
+{% extends "front/base.html" %}
+    {% block title %}products_list{% endblock %} 
     {% block content %}
         {% for product in products %}
             {% for k in product %}
                 {{product[k]}}
             {% endfor %}
-            <a href="/products/details/{{product['id']}}"><input type="button" value='details'></input></a>
+            <a href="{{ url_for('product.detail', id=product['id']) }}"><input type="button" value='details'></input></a>
         {% endfor %}
     {% endblock %}
 

@@ -1,6 +1,6 @@
 # -*- coding: utf-8 -*-
 
-from flask import Blueprint, render_template, views
+from flask import Blueprint, views, render_template
 
 from amc.models import ProductModel
 
@@ -13,7 +13,8 @@ class ProductListView(views.MethodView):
     template = 'front/products.html'
 
     def get(self):
-        products = ProductModel.query.all()
+        # products = ProductModel.query.all()
+        products = [{'id':1,'name':'book','price':50,'quantity':50,'made_in':'china'},{'id':2,'name':'food','price':100,'quantity':'100','made_in':'japan'}]
         return render_template(self.template, products=products)
 
 
@@ -22,7 +23,8 @@ class ProductDetailView(views.MethodView):
     template = 'front/product_detail.html'
 
     def get(self, id):
-        product = ProductModel.query.get(id)
+        # product = ProductModel.query.get(id)
+        product = {'id':1,'name':'book','price':50,'quantity':50,'made_in':'china'}
         if not product:
             # 没有这个产品的错误界面
             return

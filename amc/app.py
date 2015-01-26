@@ -11,6 +11,7 @@ bps = [
     'amc.views.auth:bp',
     'amc.views.products:bp',
     'amc.views.orders:bp',
+    'amc.panel.management:bp',
 ]
 
 
