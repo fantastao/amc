@@ -59,7 +59,7 @@ class OrderProductModel(ModelBase):
     __tablename__ = 'order_product'
 
     order_id = db.Column(db.Integer(), primary_key=True)
-    product_id = db.Column(db.Integer(), primary_key=True)
+    product_id = db.Column(db.Integer(), primary_key=True, index=True)
     product_quantity = db.Column(db.Integer(), nullable=False)
     # in case that price altered
     product_price = db.Column(db.Float(), nullable=False)
@@ -117,7 +117,7 @@ class TrolleyProductModel(ModelBase):
     __tablename__ = 'trolley_product'
 
     trolley_id = db.Column(db.Integer(), primary_key=True)
-    product_id = db.Column(db.Integer(), primary_key=True)
+    product_id = db.Column(db.Integer(), primary_key=True, index=True)
     product_quantity = db.Column(db.Integer(), nullable=False)
 
     product = db.relationship(

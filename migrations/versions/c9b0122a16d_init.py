@@ -41,7 +41,7 @@ def upgrade():
     op.create_table(
         'order_product',
         sa.Column('order_id', sa.Integer(), primary_key=True),
-        sa.Column('product_id', sa.Integer(), primary_key=True),
+        sa.Column('product_id', sa.Integer(), primary_key=True, index=True),
         sa.Column('product_quantity', sa.Integer(), nullable=False),
         sa.Column('product_price', sa.Float(), nullable=False)
     )
@@ -59,13 +59,18 @@ def upgrade():
         'shopping_trolley',
         sa.Column('id', sa.Integer(), primary_key=True),
         sa.Column('user_id', sa.Integer(), nullable=False, index=True),
-        sa.Column('product_info', sa.PickleType(), nullable=True),
         sa.Column('date_created', sa.DateTime(timezone=True),
                   nullable=False, index=True,
                   server_default=sa.func.current_timestamp()),
         sa.Column('date_updated', sa.DateTime(timezone=True),
                   nullable=False, index=True,
                   server_default=sa.func.current_timestamp())
+    )
+    op.create_table(
+        'trolley_product',
+        sa.Column('trolley_id', sa.Integer(), primary_key=True),
+        sa.Column('product_id', sa.Integer(), primary_key=True, index=True),
+        sa.Column('product_quantity', sa.Integer(), nullable=False)
     )
     op.create_table(
         'pay',
@@ -141,6 +146,7 @@ def downgrade():
     op.drop_table('order_product')
     op.drop_table('order_history')
     op.drop_table('shopping_trolley')
+    #op.drop_table('trolley_product')
     op.drop_table('pay')
     op.drop_table('product')
     op.drop_table('lacked_product_history')
