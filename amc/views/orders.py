@@ -40,13 +40,9 @@ class TrolleyView(views.MethodView):
         if not trolley:
             # 没有购物车的错误界面，不可能发生
             return
-        product_info = pickle.dumps(trolley.product_info)
-        if product_info and isinstance(product_info, dict):
-            products = (ProductModel.query
-                        .filter(ProductModel.id.in_(product_info.keys()))
-                        .all())
-            product_info = [(p, product_info.get(p.id)) for p in products]
-        return render_template(self.template, product_info=product_info)
+        # forms add here
+        products = trolley.products
+        return render_template(self.template, products=products)
 
     @login_required
     def post(self):

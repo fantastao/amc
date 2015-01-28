@@ -2,7 +2,7 @@
 
 from flask.ext.wtf import Form
 from wtforms import validators
-from wtforms import PasswordField, StringField
+from wtforms import PasswordField, StringField, BooleanField, FieldList
 from flask.ext.login import login_user
 
 from amc.utils import check_password
@@ -10,8 +10,7 @@ from amc.models import AuthModel
 
 
 class LoginForm(Form):
-    account = StringField('account',
-                          validators=[validators.Required()])
+    account = StringField('account', validators=[validators.Required()])
     password = PasswordField('password', validators=[validators.Required()])
 
     def validate(self):
@@ -29,3 +28,7 @@ class LoginForm(Form):
         # login user here
         login_user(auth.user)
         return True
+
+
+class TrolleyForm(Form):
+    product_id = FieldList(BooleanField('', validators=[validators.Optional()]))

@@ -39,7 +39,7 @@ class UserModel(SurrogatePK, ModelBase, UserMixin):
         backref='user',
         primaryjoin='UserModel.id==ShoppingTrolleyModel.user_id',
         foreign_keys='ShoppingTrolleyModel.user_id',
-        uselist=True)
+        uselist=False)
 
     orders = db.relationship(
         'OrderModel',
