@@ -8,6 +8,15 @@ from amc.models import OrderModel
 bp = Blueprint('admin', __name__)
 
 
+class AdminIndex(views.MethodView):
+    """后台管理首页"""
+
+    template = 'panel/index.html'
+
+    def get(self):
+        return render_template(self.template)
+
+
 class OrdersAdmin(views.MethodView):
     """订单管理"""
 
@@ -45,6 +54,9 @@ class UserAdmin(views.MethodView):
         return render_template(self.template)
 
 
+bp.add_url_rule(
+    '/admin/',
+    view_func=AdminIndex.as_view('index'))
 bp.add_url_rule(
     '/admin/orders/',
     view_func=OrdersAdmin.as_view('orders'))
