@@ -18,7 +18,7 @@ class AdminIndex(views.MethodView):
 
 
 class OrdersAdmin(views.MethodView):
-    """订单管理"""
+    """订单管理,按照订单状态分几个表格展示"""
 
     template = 'panel/order_admin.html'
 
@@ -28,7 +28,7 @@ class OrdersAdmin(views.MethodView):
 
 
 class ProductsAdmin(views.MethodView):
-    """产品管理"""
+    """库存管理"""
 
     template = 'panel/product_admin.html'    
 
