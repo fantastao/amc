@@ -34,6 +34,13 @@ class UserModel(SurrogatePK, ModelBase, UserMixin):
     date_created = db.Column(db.DateTime(timezone=True), nullable=False,
                              server_default=db.func.current_timestamp())
 
+    auth = db.relationship(
+        'AuthModel',
+        backref='user',
+        primaryjoin='UserModel.id==AuthModel.user_id',
+        foreign_keys='AuthModel.user_id',
+        uselist=False)
+
     trolley = db.relationship(
         'ShoppingTrolleyModel',
         backref='user',

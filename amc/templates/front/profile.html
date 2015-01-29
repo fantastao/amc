@@ -1,0 +1,30 @@
+{% extends "front/base.html" %}
+    {% block content %}
+    <div>
+       <h1>Hello, world!</h1>
+       {% if current_user.name %}
+       <p>{{ current_user.name }}</p>
+       <a href="{{ url_for('auth.logout') }}">退出</a>
+       {% else %}
+       <a href="{{ url_for('auth.login') }}">登陆</a>
+       {% endif %}
+    </div>
+    <div>
+        <form method="post">
+            {{ form.csrf_token }}
+            {% if form.name.errors %}
+            <p>{{ form.name.errors[0] }}</p>
+            {% endif %}
+            {{ form.name }}
+            {% if form.phone.errors %}
+            <p>{{ form.phone.errors[0] }}</p>
+            {% endif %}
+            {{ form.phone }}
+            {% if form.address.errors %}
+            <p>{{ form.address.errors[0] }}</p>
+            {% endif %}
+            {{ form.address }}
+            <button type="submit">修改</button>
+        </form>
+    </div>
+    {% endblock %}

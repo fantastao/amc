@@ -1,7 +1,7 @@
 # -*- coding: utf-8 -*-
 
 from flask import (request, Blueprint, render_template,
-                   redirect, url_for)
+                   redirect, url_for, flash)
 from flask.ext.login import login_required, logout_user
 
 from .forms import LoginForm
@@ -16,10 +16,11 @@ def login():
         form = LoginForm()
         return render_template('login.html', form=form)
     elif request.method == 'POST':
-        form = LoginForm(request.form)
-        if not form.validate():
+        form = LoginForm()
+        if not form.validate_on_submit():
             # return form.errors rendered in templates
             return render_template('login.html', form=form)
+        flash(u'登陆成功')
         # after form validate finish,login_user directly
         # login_user(auth.user)
         return redirect(url_for('home.index'))

@@ -1,0 +1,24 @@
+{% extends "panel/index.html" %}
+
+{% block content %}
+<form method="post">
+    {{ form.csrf_token }}
+    {% if form.name.errors %}
+    <p>{{ form.name.errors[0] }}</p>
+    {% endif %}
+    {{ form.name }}
+    {% if form.phone.errors %}
+    <p>{{ form.phone.errors[0] }}</p>
+    {% endif %}
+    {{ form.phone }}
+    {% if form.address.errors %}
+    <p>{{ form.address.errors[0] }}</p>
+    {% endif %}
+    {{ form.address }}
+    {% if form.account.errors %}
+    <p>{{ form.account.errors[0] }}</p>
+    {% endif %}
+    {{ form.account }}
+    <button type="submit">提交</button>
+</form>
+{% endblock %}

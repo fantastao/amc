@@ -146,7 +146,7 @@ def downgrade():
     op.drop_table('order_product')
     op.drop_table('order_history')
     op.drop_table('shopping_trolley')
-    #op.drop_table('trolley_product')
+    op.drop_table('trolley_product')
     op.drop_table('pay')
     op.drop_table('product')
     op.drop_table('lacked_product_history')

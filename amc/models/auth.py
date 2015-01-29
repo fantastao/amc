@@ -18,10 +18,14 @@ class AuthModel(SurrogatePK, ModelBase):
     date_created = db.Column(db.DateTime(timezone=True), nullable=False,
                              server_default=db.func.current_timestamp())
 
+    """
     user = db.relationship(
         'UserModel',
+        backref = 'auth',
         primaryjoin='UserModel.id==AuthModel.user_id',
-        foreign_keys='AuthModel.user_id')
+        foreign_keys='AuthModel.user_id',
+        uselist=False)
+    """
 
     @classmethod
     def get_by_account(cls, account):
