@@ -12,6 +12,7 @@ from amc.models import AuthModel
 
 
 class UserInfoForm(Form):
+    """后台创建用户，修改用户信息"""
 
     name = StringField(
         u'用户名',

@@ -1,11 +1,14 @@
-{% extends "management/base.html" %}
+{% extends "panel/index.html" %}
 
 {% block content %}
-    <div id="content_container">customer</div>
-{% endblock %}
-
-{% block spec_js %}
-    <script>        
-        $("#customer").addClass('active');        
-    </script>
+    {% for user in users %}
+        <p>用户名</p>
+        <p>{{ user.name }}</p>
+        <p>联系方式</p>
+        <p>{{ user.phone }}</p>
+        <p>地址</p>
+        <p>{{ user.address }}</p>
+        <p>信用情况</p>
+        <p>{{ user.credit }}</p>
+    {% endfor %}  
 {% endblock %}
