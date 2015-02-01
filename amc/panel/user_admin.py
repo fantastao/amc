@@ -90,8 +90,8 @@ class UserDeleteAdmin(views.MethodView):
         user = UserModel.query.get(id)
         if not user:
             return
-        user.delete()
         user.auth.delete()
+        user.delete()
         flash(u'用户删除成功')
         return redirect(url_for('.list'))
 

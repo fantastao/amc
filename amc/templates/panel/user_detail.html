@@ -1,6 +1,7 @@
 {% extends "panel/index.html" %}
 
 {% block content %}
+<h1>用户管理</h1>
 {% with messages = get_flashed_messages() %}
     {% if messages %}
         <ul class=flashes>
@@ -12,22 +13,34 @@
 {% endwith %}
 <form method="post">
     {{ form.csrf_token }}
-    {% if form.name.errors %}
-    <p>{{ form.name.errors[0] }}</p>
-    {% endif %}
-    {{ form.name }}
-    {% if form.phone.errors %}
-    <p>{{ form.phone.errors[0] }}</p>
-    {% endif %}
-    {{ form.phone }}
-    {% if form.address.errors %}
-    <p>{{ form.address.errors[0] }}</p>
-    {% endif %}
-    {{ form.address }}
-    {% if form.account.errors %}
-    <p>{{ form.account.errors[0] }}</p>
-    {% endif %}
-    {{ form.account }}
+    <div class="form-group">
+        <label>用户名</label>
+        {% if form.name.errors %}
+        <p>{{ form.name.errors[0] }}</p>
+        {% endif %}
+        {{ form.name(class='form-control', placeholder='必填项') }}
+    </div>
+    <div class="form-group">
+        <label>联系方式</label>
+        {% if form.phone.errors %}
+        <p>{{ form.phone.errors[0] }}</p>
+        {% endif %}
+        {{ form.phone(class='form-control', placeholder='可选项') }}
+    </div>
+    <div class="form-group">
+        <label>地址</label>
+        {% if form.address.errors %}
+        <p>{{ form.address.errors[0] }}</p>
+        {% endif %}
+        {{ form.address(class='form-control', placeholder='可选项') }}
+    </div>
+    <div class="form-group">
+        <label>邮箱（登录名）</label>
+        {% if form.account.errors %}
+        <p>{{ form.account.errors[0] }}</p>
+        {% endif %}
+        {{ form.account(class='form-control', placeholder='必填项') }}
+    </div>
     <button type="submit">提交</button>
 </form>
 {% endblock %}

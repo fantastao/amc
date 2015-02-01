@@ -1,14 +1,33 @@
 {% extends "panel/index.html" %}
 
 {% block content %}
+<h1>用户管理</h1>
+<a class="btn btn-default" href="{{ url_for('user_admin.create') }}" role="button">创建用户</a>
+<div class="table-responsive">
+    <table class="table table-striped">
+        <thead>
+            <tr>
+                <th>#</th>
+                <th>用户名</th>
+                <th>联系方式</th>
+                <th>地址</th>
+                <th>信用情况</th>
+                <th>操作</th>
+            </tr>
+        </thead>
     {% for user in users %}
-        <p>用户名</p>
-        <p>{{ user.name }}</p>
-        <p>联系方式</p>
-        <p>{{ user.phone }}</p>
-        <p>地址</p>
-        <p>{{ user.address }}</p>
-        <p>信用情况</p>
-        <p>{{ user.credit }}</p>
+        <tbody>
+            <tr>
+                <td>{{ user.id }}</td>
+                <td>{{ user.name }}</td>
+                <td>{{ user.phone }}</td>
+                <td>{{ user.address }}</td>
+                <td>{{ user.credit }}</td>
+                <td>
+                    <a href="{{ url_for('user_admin.delete', id=user.id) }}">删除</a>
+                    <a href="{{ url_for('user_admin.detail', id=user.id) }}">查看</a>
+                </td>
+            </tr>
+        </tbody>
     {% endfor %}  
 {% endblock %}
