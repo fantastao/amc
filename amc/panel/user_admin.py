@@ -46,7 +46,8 @@ class UserDetailAdmin(views.MethodView):
         user.name = form.name.data
         user.phone = form.phone.data
         user.address = form.address.data
-        user.auth.account = form.account.data
+        # 暂时不允许更新登录名
+        # user.auth.account = form.account.data
         user.save()
         flash(u'用户更新成功')
         return redirect(url_for('.detail', id=user.id))
