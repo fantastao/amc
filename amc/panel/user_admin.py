@@ -29,6 +29,8 @@ class UserDetailAdmin(views.MethodView):
 
     def get(self, id):
         user = UserModel.query.get(id)
+        if not user:
+            return
         form = UserInfoForm(
             name=user.name,
             phone=user.phone,

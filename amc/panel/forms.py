@@ -2,13 +2,15 @@
 
 import re
 
+from flask import request
+
 from flask.ext.wtf import Form
 from wtforms.validators import DataRequired, Optional, Length, Email
 from wtforms import StringField
 from wtforms.fields.html5 import EmailField
 from wtforms import ValidationError
 
-# from amc.models import AuthModel
+from amc.models import AuthModel, UserModel
 
 
 class UserInfoForm(Form):
@@ -22,12 +24,17 @@ class UserInfoForm(Form):
                           validators=[Optional(), Length(min=2, max=256)])
     account = EmailField(u'邮箱（即登录名）', validators=[DataRequired(), Email()])
 
-    """
     def validate_account(form, field):
+        if 'id' in request.view_args:
+            # 更新操作，排除自己账户
+            id = request.view_args.get('id')
+            user = UserModel.query.get(id)
+            if (user and user.auth and
+                    user.auth.account == field.data):
+                return
         auth = AuthModel.get_by_account(field.data)
         if auth:
             raise ValidationError('Account exists')
-    """
 
     def validate_phone(form, field):
         re_mobile = re.compile(r'^((\+86)|(86))?(1)[3|4|5|7|8|]\d{9}$')
