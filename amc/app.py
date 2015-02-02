@@ -13,6 +13,7 @@ bps = [
     'amc.views.orders:bp',
     'amc.panel.index:bp',
     'amc.panel.user_admin:bp',
+    'amc.panel.order_admin:bp',
 ]
 
 

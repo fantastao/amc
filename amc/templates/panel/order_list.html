@@ -1,0 +1,33 @@
+{% extends "panel/index.html" %}
+
+{% block content %}
+<h1>订单管理</h1>
+<div class="table-responsive">
+    <table class="table table-striped">
+        <thead>
+            <tr>
+                <th>#</th>
+                <th>用户名</th>
+                <th>订单状态</th>
+                <th>成交金额</th>
+                <th>创建时间</th>
+                <th>更新时间</th>
+                <th>操作</th>
+            </tr>
+        </thead>
+    {% for order in orders %}
+        <tbody>
+            <tr>
+                <td>{{ order.id }}</td>
+                <td>{{ order.user.name }}</td>
+                <td>{{ order.status }}</td>
+                <td>{{ order.order_price }}</td>
+                <td>{{ order.date_created }}</td>
+                <td>{{ order.date_updated }}</td>
+                <td>
+                    <a href="{{ url_for('order_admin.detail', id=order.id) }}">查看详情</a>
+                </td>
+            </tr>
+        </tbody>
+    {% endfor %}  
+{% endblock %}
