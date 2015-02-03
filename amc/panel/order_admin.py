@@ -27,5 +27,5 @@ bp.add_url_rule(
     '/admin/orders/',
     view_func=OrderAdmin.as_view('list'))
 bp.add_url_rule(
-    '/admin/order/<int:id>',
+    '/admin/order/<int:id>/',
     view_func=OrderAdmin.as_view('detail'))
