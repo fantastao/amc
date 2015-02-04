@@ -16,6 +16,7 @@ class ProductModel(SurrogatePK, ModelBase):
     description = db.Column(db.UnicodeText(), nullable=True)
     price = db.Column(db.Float(), nullable=False, index=True)
     quantity = db.Column(db.Integer(), nullable=False, default=0)
+    safe_quantity = db.Column(db.Integer(), nullable=False, default=50)
     made_in = db.Column(db.String(64), nullable=False)
     date_created = db.Column(db.DateTime(timezone=True),
                              nullable=False, index=True,

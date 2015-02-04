@@ -2,7 +2,7 @@ vagrant搭建开发环境
 postgresql数据库
 alembic 数据迁移
 flask web框架
-bootstrap-3.3.2-dist前段框架
+bootstrap-3.3.2前端框架
 
 psql prepare:
 sudo -u postgres psql -c "CREATE USER amc WITH PASSWORD 'aaaa';"
@@ -15,5 +15,8 @@ sudo -u postgres psql -c "GRANT ALL PRIVILEGES ON DATABASE amc to amc;"
 用户个人页：订单列表，订单详情
 购物车页（相当于订单下单时详情页）
 用户登陆页
-后台页面包含
-。。。
+后台页面包含（略）
+
+部署环境:
+安装python依赖：pip install -r requirements.txt
+在数据库中建表：python manage.py db upgrade

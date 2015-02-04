@@ -92,6 +92,7 @@ def upgrade():
         sa.Column('description', sa.UnicodeText(), nullable=True),
         sa.Column('price', sa.Float(), nullable=False, index=True),
         sa.Column('quantity', sa.Integer(), nullable=False),
+        sa.Column('safe_quantity', sa.Integer(), nullable=False),
         sa.Column('made_in', sa.String(64), nullable=False),
         sa.Column('date_created', sa.DateTime(timezone=True),
                   nullable=False, index=True,
