@@ -6,7 +6,7 @@ from flask import request
 
 from flask.ext.wtf import Form
 from wtforms.validators import DataRequired, Optional, Length, Email
-from wtforms import StringField
+from wtforms import StringField, FloatField, IntegerField
 from wtforms.fields.html5 import EmailField
 from wtforms import ValidationError
 
@@ -40,3 +40,14 @@ class UserInfoForm(Form):
         re_mobile = re.compile(r'^((\+86)|(86))?(1)[3|4|5|7|8|]\d{9}$')
         if not re.match(re_mobile, field.data):
             raise ValidationError('Not a phone number')
+
+class ProductInfoForm(Form):
+    """后台创建产品，修改产品信息"""
+
+    name = StringField(
+        u'产品名称',
+        validators=[DataRequired(), Length(min=2, max=20)])
+    price = FloatField(u'价格')
+    quantity = IntegerField(u'库存量')
+    category = StringField(u'类别')
+    made_in = StringField(u'产地', validators=[DataRequired(), Length(min=2, max=20)])

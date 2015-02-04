@@ -1,0 +1,35 @@
+{% extends "panel/index.html" %}
+
+{% block content %}
+<h1>库存管理</h1>
+<a class="btn btn-default" href="{{ url_for('product_admin.create') }}" role="button">创建产品</a>
+<div class="table-responsive">
+    <table class="table table-striped">
+        <thead>
+            <tr>
+                <th>#</th>
+                <th>产品名称</th>
+                <th>价格</th>
+                <th>库存量</th>
+                <th>类别</th>
+                <th>更新时间</th>
+                <th>操作</th>
+            </tr>
+        </thead>
+    {% for product in products %}
+        <tbody>
+            <tr>
+                <td>{{ product.id }}</td>
+                <td>{{ product.name }}</td>
+                <td>{{ product.price }}</td>
+                <td>{{ product.quantity }}</td>
+                <td>{{ product.category }}</td>
+                <td>{{ product.date_updated }}</td>
+                <td>
+                    <a href="{{ url_for('product_admin.delete', id=product.id) }}">删除</a>
+                    <a href="{{ url_for('product_admin.detail', id=product.id) }}">查看</a>
+                </td>
+            </tr>
+        </tbody>
+    {% endfor %}  
+{% endblock %}
