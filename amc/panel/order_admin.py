@@ -1,6 +1,6 @@
 # -*- coding: utf-8 -*-
 
-from flask import Blueprint, views, render_template
+from flask import Blueprint, views, render_template, abort
 
 from amc.models import OrderModel
 
@@ -17,7 +17,7 @@ class OrderAdmin(views.MethodView):
         if id is not None:
             order = OrderModel.query.get(id)
             if not order:
-                return
+                abort(404) 
             return render_template(self.template_detail, order=order)
         orders = OrderModel.query.all()
         return render_template(self.template_list, orders=orders)
