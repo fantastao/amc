@@ -28,8 +28,6 @@ def create_app(config=DevConfig):
 
 def register_extensions(app):
     db.init_app(app)
-    with app.test_request_context():
-        db.create_all()
     migrate.init_app(app, db)
     login_manager.init_app(app)
     login_manager.login_view = 'auth.login'

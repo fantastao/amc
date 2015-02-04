@@ -3,7 +3,6 @@
 from flask import (Blueprint, render_template,
                    views, url_for, redirect, flash)
 
-from amc.utils import origin_pw_hash
 from amc.models import ProductModel
 
 from .forms import ProductInfoForm
@@ -102,5 +101,5 @@ bp.add_url_rule(
     '/admin/products/<int:id>/',
     view_func=ProductDetailAdmin.as_view('detail'))
 bp.add_url_rule(
-    '/admin/products/delete/<int:id>',
+    '/admin/products/delete/<int:id>/',
     view_func=ProductDeleteAdmin.as_view('delete'))
