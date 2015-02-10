@@ -49,5 +49,18 @@ class ProductInfoForm(Form):
         validators=[DataRequired(), Length(min=2, max=20)])
     price = FloatField(u'价格')
     quantity = IntegerField(u'库存量')
-    category = StringField(u'类别')
+    category = StringField(u'类别') # choose from GMS
     made_in = StringField(u'产地', validators=[DataRequired(), Length(min=2, max=20)])
+
+class PurchaseInfoForm(Form):
+    """后台创建采购事项，修改采购信息"""
+
+    product_id = IntegerField(u'产品编号')
+    product_quantity = IntegerField(u'采购数量')
+    status = StringField(u'采购状态') # choose from STATUS_BEGIN,STATUS_OVER
+
+class PayInfoForm(Form):
+    """后台创建账款事项，修改账款信息"""
+
+    order_id = IntegerField(u'订单编号')
+    status = StringField(u'账款状态') # choose from STATUS_PENDING,STATUS_RECEIVED

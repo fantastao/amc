@@ -15,6 +15,8 @@ bps = [
     'amc.panel.user_admin:bp',
     'amc.panel.order_admin:bp',
     'amc.panel.product_admin:bp',
+    'amc.panel.purchase_admin:bp',
+    'amc.panel.pay_admin:bp',
 ]
 
 
