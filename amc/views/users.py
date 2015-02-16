@@ -37,7 +37,7 @@ class UserProfileView(views.MethodView):
 
 class UserOrdersView(views.MethodView):
 
-    template = 'front/orders.html'
+    template = 'front/order_detail.html'
 
     @login_required
     def get(self):
@@ -48,3 +48,6 @@ class UserOrdersView(views.MethodView):
 bp.add_url_rule(
     '/profile/',
     view_func=UserProfileView.as_view('profile'))
+bp.add_url_rule(
+    '/order/',
+    view_func=UserOrdersView.as_view('order'))
