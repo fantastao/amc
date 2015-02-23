@@ -37,11 +37,12 @@ class TrolleyView(views.MethodView):
     def get(self):
         # 从购物车表中获取产品信息
         trolley = current_user.trolley
-        if not trolley:
+        # if not trolley:
             # 没有购物车的错误界面，不可能发生
-            return
+        #     return
         # forms add here
-        products = trolley.products
+        # products = trolley.products
+        products = {}
         return render_template(self.template, products=products)
 
     @login_required
