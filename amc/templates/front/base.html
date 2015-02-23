@@ -44,9 +44,28 @@
                         <a href="{{ url_for('product.list') }}">产品列表</a>
                     </li>
                 </ul>
-                <form class="navbar-form navbar-right" role="form">
-                	<button type="submit" class="btn btn-success" onclick="login();">登录</button>
-                </form>
+                {% if current_user.name %}
+                    <form class="nav navbar-nav navbar-form navbar-right" role="form">
+                        <div class="dropdown btn-group">
+                            <button type="button" class="btn dropdown-toggle" id="dropdownMenu1" data-toggle="dropdown" style="width:45px;height:35.25px;-moz-border-radius: 50%; -webkit-border-radius: 50%;border-radius:50%;">
+                                <img src="/static/imag/portrait.png" class="img-circle"></img>
+                            </button>
+                            <ul class="dropdown-menu" role="menu" aria-labelledby="dropdownMenu1">
+                                <li role="presentation"><a role="menuitem" tabindex="-1" href="{{ url_for('user.profile') }}">我的信息</a></li>
+                                <li role="presentation" class="divider"></li>
+                                <li role="presentation"><a role="menuitem" tabindex="-1" href="{{ url_for('user.order') }}">我的订单</a></li>
+                                <li role="presentation" class="divider"></li>
+                                <li role="presentation"><a role="menuitem" tabindex="-1" href="{{ url_for('auth.logout') }}">退出</a></li>
+                            </ul>
+                        </div>
+                        &nbsp;&nbsp;&nbsp;
+                        <a href="#" ><img src="/static/imag/cart.png" class="img-circle"></img></a>
+                    </form>
+                {% else %}
+                    <form class="navbar-form navbar-right" role="form">
+                        <button type="submit" class="btn btn-success" onclick="login();">登录</button>
+                    </form>
+                {% endif %}
             </div>
             <!-- /.navbar-collapse -->
         </div>
