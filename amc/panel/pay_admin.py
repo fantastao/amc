@@ -19,8 +19,10 @@ class PayListAdmin(views.MethodView):
         pays = PayModel.query.all()
         return render_template(self.template, pays=pays)
 
+
 class PayCreateAdmin(views.MethodView):
-    """`get`: 获取创建表单
+    """大多数情况: 订单完成后自动创建
+       `get`: 获取创建表单
        `post`: 创建账款事项"""
 
     template = 'panel/pay_detail.html'
@@ -41,6 +43,7 @@ class PayCreateAdmin(views.MethodView):
         pay.save()
         flash(u'账款创建成功')
         return redirect(url_for('.detail', id=pay.id))
+
 
 class PayDetailAdmin(views.MethodView):
     """`get`: 查询账款详情
@@ -69,6 +72,7 @@ class PayDetailAdmin(views.MethodView):
         pay.save()
         flash(u'账款更新成功')
         return redirect(url_for('.detail', id=pay.id))
+
 
 class PayDeleteAdmin(views.MethodView):
     """`get`: 删除账单清单"""

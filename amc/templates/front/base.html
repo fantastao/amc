@@ -15,15 +15,10 @@
     <link href="/static/bootstrap/css/bootstrap.min.css" rel="stylesheet">
     {% block css %}
     {% endblock %}
-    <!-- HTML5 Shim and Respond.js IE8 support of HTML5 elements and media queries -->
-    <!-- WARNING: Respond.js doesn't work if you view the page via file:// -->
-    <!--[if lt IE 9]>
-        <script src="https://oss.maxcdn.com/libs/html5shiv/3.7.0/html5shiv.js"></script>
-        <script src="https://oss.maxcdn.com/libs/respond.js/1.4.2/respond.min.js"></script>
-    <![endif]-->
     
 </head>
 <body>
+    {% block nav %}
     <!-- Navigation -->
     <nav class="navbar navbar-inverse navbar-fixed-top" role="navigation">
         <div class="container">
@@ -62,15 +57,16 @@
                         <a href="{{ url_for('order.trolley') }}" ><img src="/static/imag/cart.png" class="img-circle"></img></a>
                     </form>
                 {% else %}
-                    <form class="navbar-form navbar-right" role="form">
-                        <button type="submit" class="btn btn-success" onclick="login();">登录</button>
-                    </form>
+                    <div class="navbar-form navbar-right">
+                        <a href="{{ url_for('auth.login')}}" class="btn btn-default">登陆</a>
+                    </div>
                 {% endif %}
             </div>
             <!-- /.navbar-collapse -->
         </div>
         <!-- /.container -->
     </nav>
+    {% endblock %}
 
     <div class="container">
         {% block content %}
@@ -95,11 +91,7 @@
 
     <!-- Bootstrap Core JavaScript -->
     <script src="/static/bootstrap/js/bootstrap.min.js"></script>
-    <script>
-        function login(){
-            window.open("{{ url_for('auth.login') }}");
-        }
-    </script>
+
     {% endblock %}
     <!-- end scripts -->
 
