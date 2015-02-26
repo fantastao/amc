@@ -1,0 +1,31 @@
+{% extends "panel/index.html" %}
+
+{% block content %}
+<h1>财务管理</h1>
+<a class="btn btn-default" href="{{ url_for('pay_admin.create') }}" role="button">创建账款事项</a>
+<div class="table-responsive">
+    <table class="table table-striped">
+        <thead>
+            <tr>
+                <th>#</th>
+                <th>订单编号</th>
+                <th>账款状态</th>
+                <th>更新时间</th>
+                <th>操作</th>
+            </tr>
+        </thead>
+    {% for pay in pays %}
+        <tbody>
+            <tr>
+                <td>{{ pay.id }}</td>
+                <td>{{ pay.order_id }}</td>
+                <td>{{ pay.status }}</td>
+                <td>{{ pay.date_updated }}</td>
+                <td>
+                    <a href="{{ url_for('pay_admin.delete', id=pay.id) }}">删除</a>
+                    <a href="{{ url_for('pay_admin.detail', id=pay.id) }}">查看</a>
+                </td>
+            </tr>
+        </tbody>
+    {% endfor %}  
+{% endblock %}

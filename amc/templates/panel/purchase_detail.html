@@ -1,0 +1,39 @@
+{% extends "panel/index.html" %}
+
+{% block content %}
+<h1>采购管理</h1>
+{% with messages = get_flashed_messages() %}
+    {% if messages %}
+        <ul class=flashes>
+        {% for message in messages %}
+            <li>{{ message }}</li>
+        {% endfor %}
+        </ul>
+    {% endif %}
+{% endwith %}
+<form method="post">
+    {{ form.csrf_token }}
+    <div class="form-group">
+        {{ form.product_id.label }}
+        {% if form.product_id.errors %}
+        <p>{{ form.product_id.errors[0] }}</p>
+        {% endif %}
+        {{ form.product_id(class='form-control', placeholder='必填项') }}
+    </div>
+    <div class="form-group">
+        {{ form.product_quantity.label }}
+        {% if form.product_quantity.errors %}
+        <p>{{ form.product_quantity.errors[0] }}</p>
+        {% endif %}
+        {{ form.product_quantity(class='form-control', placeholder='必填项') }}
+    </div>
+    <div class="form-group">
+        {{ form.status.label }}
+        {% if form.status.errors %}
+        <p>{{ form.status.errors[0] }}</p>
+        {% endif %}
+        {{ form.status(class='form-control', placeholder='可选项') }}
+    </div>
+    <button type="submit">提交</button>
+</form>
+{% endblock %}

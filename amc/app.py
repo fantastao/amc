@@ -11,10 +11,13 @@ bps = [
     'amc.views.auth:bp',
     'amc.views.products:bp',
     'amc.views.orders:bp',
+    'amc.views.users:bp',
     'amc.panel.index:bp',
     'amc.panel.user_admin:bp',
     'amc.panel.order_admin:bp',
     'amc.panel.product_admin:bp',
+    'amc.panel.purchase_admin:bp',
+    'amc.panel.pay_admin:bp',
 ]
 
 

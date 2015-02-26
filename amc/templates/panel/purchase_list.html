@@ -1,0 +1,33 @@
+{% extends "panel/index.html" %}
+
+{% block content %}
+<h1>采购管理</h1>
+<a class="btn btn-default" href="{{ url_for('purchase_admin.create') }}" role="button">创建采购事项</a>
+<div class="table-responsive">
+    <table class="table table-striped">
+        <thead>
+            <tr>
+                <th>#</th>
+                <th>产品编号</th>
+                <th>采购数量</th>
+                <th>采购状态</th>
+                <th>更新时间</th>
+                <th>操作</th>
+            </tr>
+        </thead>
+    {% for purchase in purchases %}
+        <tbody>
+            <tr>
+                <td>{{ purchase.id }}</td>
+                <td>{{ purchase.product_id }}</td>
+                <td>{{ purchase.product_quantity }}</td>
+                <td>{{ purchase.status }}</td>
+                <td>{{ purchase.date_updated }}</td>
+                <td>
+                    <a href="{{ url_for('purchase_admin.delete', id=purchase.id) }}">删除</a>
+                    <a href="{{ url_for('purchase_admin.detail', id=purchase.id) }}">查看</a>
+                </td>
+            </tr>
+        </tbody>
+    {% endfor %}  
+{% endblock %}
