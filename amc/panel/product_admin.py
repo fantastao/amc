@@ -19,6 +19,7 @@ class ProductListAdmin(views.MethodView):
         products = ProductModel.query.all()
         return render_template(self.template, products=products)
 
+
 class ProductCreateAdmin(views.MethodView):
     """`get`: 获取创建表单
        `post`: 创建产品"""
@@ -33,17 +34,20 @@ class ProductCreateAdmin(views.MethodView):
         form = ProductInfoForm()
         if not form.validate_on_submit():
             return render_template(self.template, form=form)
-        product = ProductModel()
-        product.name = form.name.data
-        product.price = form.price.data
-        product.quantity = form.quantity.data
-        product.category = form.category.data
-        product.made_in = form.made_in.data
+        product = ProductModel(
+            name=form.name.data,
+            category=form.category.data,
+            description=form.description.data,
+            price=form.price.data,
+            quantity=form.quantity.data,
+            safe_quantity=form.safe_quantity.data,
+            made_in=form.made_in.data)
         # 在表单对数据进行校验不能完全保证数据库commit操作正常
         # 所以要加上异常处理
         product.save()
         flash(u'产品创建成功')
         return redirect(url_for('.detail', id=product.id))
+
 
 class ProductDetailAdmin(views.MethodView):
     """`get`: 查询单个产品详情
@@ -57,9 +61,11 @@ class ProductDetailAdmin(views.MethodView):
             return
         form = ProductInfoForm(
             name=product.name,
+            category=product.category,
+            description=product.description,
             price=product.price,
             quantity=product.quantity,
-            category=product.category,
+            safe_quantity=product.safe_quantity,
             made_in=product.made_in)
         return render_template(self.template, form=form)
 
@@ -71,13 +77,16 @@ class ProductDetailAdmin(views.MethodView):
         if not form.validate_on_submit():
             return render_template(self.template, form=form)
         product.name = form.name.data
+        product.category = form.category.data
+        product.description = form.description.data
         product.price = form.price.data
         product.quantity = form.quantity.data
-        product.category = form.category.data
+        product.safe_quantity = form.safe_quantity.data
         product.made_in = form.made_in.data
         product.save()
         flash(u'产品更新成功')
         return redirect(url_for('.detail', id=product.id))
+
 
 class ProductDeleteAdmin(views.MethodView):
     """`get`: 删除单个产品"""

@@ -6,7 +6,7 @@ from flask import request
 
 from flask.ext.wtf import Form
 from wtforms.validators import DataRequired, Optional, Length, Email
-from wtforms import StringField, FloatField, IntegerField
+from wtforms import StringField, FloatField, IntegerField, TextAreaField
 from wtforms.fields.html5 import EmailField
 from wtforms import ValidationError
 
@@ -41,26 +41,33 @@ class UserInfoForm(Form):
         if not re.match(re_mobile, field.data):
             raise ValidationError('Not a phone number')
 
+
 class ProductInfoForm(Form):
     """后台创建产品，修改产品信息"""
 
     name = StringField(
         u'产品名称',
         validators=[DataRequired(), Length(min=2, max=20)])
-    price = FloatField(u'价格')
-    quantity = IntegerField(u'库存量')
-    category = StringField(u'类别') # choose from GMS
-    made_in = StringField(u'产地', validators=[DataRequired(), Length(min=2, max=20)])
+    category = StringField(u'类别', validators=[DataRequired()], default='M')  # choose from GMS
+    description = TextAreaField(u'描述', validators=[Optional()])
+    price = FloatField(u'价格', validators=[DataRequired()])
+    quantity = IntegerField(u'库存量', validators=[DataRequired()])
+    safe_quantity = IntegerField(u'安全库存量', validators=[Optional()])
+    made_in = StringField(u'产地',
+                          validators=[DataRequired(),
+                                      Length(min=2, max=20)])
+
 
 class PurchaseInfoForm(Form):
     """后台创建采购事项，修改采购信息"""
 
     product_id = IntegerField(u'产品编号')
     product_quantity = IntegerField(u'采购数量')
-    status = StringField(u'采购状态') # choose from STATUS_BEGIN,STATUS_OVER
+    status = StringField(u'采购状态')  # choose from STATUS_BEGIN,STATUS_OVER
+
 
 class PayInfoForm(Form):
     """后台创建账款事项，修改账款信息"""
 
     order_id = IntegerField(u'订单编号')
-    status = StringField(u'账款状态') # choose from STATUS_PENDING,STATUS_RECEIVED
+    status = StringField(u'账款状态')  # choose from STATUS_PENDING,STATUS_RECEIVED

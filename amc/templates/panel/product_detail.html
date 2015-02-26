@@ -21,6 +21,20 @@
         {{ form.name(class='form-control', placeholder='必填项') }}
     </div>
     <div class="form-group">
+        {{ form.category.label }}
+        {% if form.category.errors %}
+        <p>{{ form.category.errors[0] }}</p>
+        {% endif %}
+        {{ form.category(class='form-control', placeholder='选填项，默认值M') }}
+    </div>
+    <div class="form-group">
+        {{ form.description.label }}
+        {% if form.description.errors %}
+        <p>{{ form.description.errors[0] }}</p>
+        {% endif %}
+        {{ form.description(class='form-control', placeholder='选填项') }}
+    </div>
+    <div class="form-group">
         {{ form.price.label }}
         {% if form.price.errors %}
         <p>{{ form.price.errors[0] }}</p>
@@ -35,11 +49,11 @@
         {{ form.quantity(class='form-control', placeholder='必填项') }}
     </div>
     <div class="form-group">
-        {{ form.category.label }}
-        {% if form.category.errors %}
-        <p>{{ form.category.errors[0] }}</p>
+        {{ form.safe_quantity.label }}
+        {% if form.safe_quantity.errors %}
+        <p>{{ form.safe_quantity.errors[0] }}</p>
         {% endif %}
-        {{ form.category(class='form-control', placeholder='可选项') }}
+        {{ form.safe_quantity(class='form-control', placeholder='选填项，默认值50') }}
     </div>
     <div class="form-group">
         {{ form.made_in.label }}

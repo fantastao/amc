@@ -69,18 +69,18 @@ class UserCreateAdmin(views.MethodView):
         form = UserInfoForm()
         if not form.validate_on_submit():
             return render_template(self.template, form=form)
-        user = UserModel()
-        user.name = form.name.data
-        user.phone = form.phone.data
-        user.address = form.address.data
+        user = UserModel(
+            name=form.name.data,
+            phone=form.phone.data,
+            address=form.address.data)
         # 在表单对数据进行校验不能完全保证数据库commit操作正常
         # 所以要加上异常处理
         user.save()
-        auth = AuthModel()
-        auth.user_id = user.id
-        auth.account = form.account.data
-        auth.pw_hash = origin_pw_hash
-        auth.is_verified = True
+        auth = AuthModel(
+            user_id=user.id,
+            account=form.account.data,
+            pw_hash=origin_pw_hash,
+            is_verified=True)
         auth.save()
         flash(u'用户创建成功')
         return redirect(url_for('.detail', id=user.id))
