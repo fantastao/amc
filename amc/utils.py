@@ -1,6 +1,15 @@
 # -*- coding: utf-8 -*-
 
+from datetime import datetime
+
 from werkzeug.security import generate_password_hash, check_password_hash
+
+
+def now():
+    import pytz
+    now = datetime.utcnow()
+    now = pytz.utc.localize(now)
+    return now
 
 
 def set_password(pw):

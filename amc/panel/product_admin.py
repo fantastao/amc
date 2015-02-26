@@ -4,6 +4,7 @@ from flask import (Blueprint, render_template,
                    views, url_for, redirect, flash)
 
 from amc.models import ProductModel
+from amc.utils import now
 
 from .forms import ProductInfoForm
 
@@ -83,6 +84,7 @@ class ProductDetailAdmin(views.MethodView):
         product.quantity = form.quantity.data
         product.safe_quantity = form.safe_quantity.data
         product.made_in = form.made_in.data
+        product.date_updated = now()
         product.save()
         flash(u'产品更新成功')
         return redirect(url_for('.detail', id=product.id))
