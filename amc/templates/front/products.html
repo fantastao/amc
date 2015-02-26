@@ -1,10 +1,8 @@
 {% extends "front/base.html" %}
-    {% block title %}产品列表{% endblock %} 
-    {% block css %}
-        <!--百度bootstrap-->
-        <link href="/static/bootstrap/css/baidubootstrap.min.css" rel="stylesheet">
 
-        <!-- Custom CSS -->
+    {% block title %}产品列表{% endblock %} 
+   
+    {% block css %}
         <link href="/static/bootstrap/css/3-col-portfolio.css" rel="stylesheet">
     {% endblock%}
 
@@ -19,52 +17,26 @@
         </div>
         <!-- /.row -->
 
-        <!-- Projects Row 1 -->
-        <div class="row">
-            <div class="col-md-3 portfolio-item">
-                <a href="{{ url_for('product.detail', id='1') }}">
-                    <img class="img-responsive" src="/static/imag/ExternalSupplies0.png" alt="">
-                </a>
-                <h3>
-                    <a href="#">雅尼路汽车装饰灯</a>
-                </h3>
-                <p><span style="font-size:0.5em">价格：</span><strong>￥289.00</strong>&nbsp;&nbsp;<span style="font-size:0.5em">库存：</span><strong>119</strong>件</p>
+        <div class="row text-center">
+            {% for product in products %}
+            <div class="col-md-3 col-sm-6 hero-feature">
+                <div class="thumbnail">
+                    <a href="#"><img src="/static/img/MaintenanceSupplies1.png" alt=""></a>
+                    <div class="caption">
+                        <h3>{{ product.name }}</h3>
+                        <p>
+                            <span style="font-size:0.8em">价格：</span><strong>￥{{ product.price }}</strong>
+                            &nbsp;&nbsp;
+                            <span style="font-size:0.8em">库存：</span><strong>{{ product.quantity }}</strong>
+                        </p>
+                        <p>
+                            <a href="#" class="btn btn-primary">立即购买</a>
+                        </p>
+                    </div>
+                </div>
             </div>
-            <div class="col-md-3 portfolio-item">
-                <a href="#">
-                    <img class="img-responsive" src="/static/imag/ExternalSupplies1.png" alt="">
-                </a>
-                <h3>
-                    <a href="#">专用带收音天线</a>
-                </h3>
-                <p><span style="font-size:0.5em">价格：</span><strong>￥59.00</strong>&nbsp;&nbsp;<span style="font-size:0.5em">库存：</span><strong>219</strong>件</p>
-            </div>
-            <div class="col-md-3 portfolio-item">
-                <a href="#">
-                    <img class="img-responsive" src="/static/imag/ExternalSupplies2.png" alt="">
-                </a>
-                <h3>
-                    <a href="#">小圆盲点反光镜</a>
-                </h3>
-                <p><span style="font-size:0.5em">价格：</span><strong>￥18.00</strong>&nbsp;&nbsp;<span style="font-size:0.5em">库存：</span><strong>653</strong>件</p>
-            </div>
-            <div class="col-md-3 portfolio-item">
-                <a href="#">
-                    <img class="img-responsive" src="/static/imag/ExternalSupplies3.png" alt="">
-                </a>
-                <h3>
-                    <a href="#">运动型静音轮胎</a>
-                </h3>
-                <p><span style="font-size:0.5em">价格：</span><strong>￥289.00</strong>&nbsp;&nbsp;<span style="font-size:0.5em">库存：</span><strong>119</strong>件</p>
-            </div>
+            {% endfor %}
         </div>
-        <!-- /.row -->
 
         <hr>
-    {% endblock %}
-
-    {% block js%}
-        {{ super() }}
-        <script src="/static/bootstrap/js/baidujquery.min.js"></script>
-        <script src="/static/bootstrap/js/baidubootstrap.min.js"></script>
     {% endblock %}

@@ -3,7 +3,6 @@
     {% block title %}AMC首页{% endblock %} 
 
     {% block css %}
-        <!-- Custom CSS -->
         <link href="/static/bootstrap/css/heroic-features.css" rel="stylesheet">
     {% endblock %}
 
@@ -27,56 +26,26 @@
         <!-- Page Features -->
         <div class="row text-center">
 
+            {% for product in products %}
             <div class="col-md-3 col-sm-6 hero-feature">
                 <div class="thumbnail">
-                    <a href="product10.html"><img src="/static/imag/ExternalSupplies3.png" alt=""></a>
+                    <a href="#"><img src="/static/img/ExternalSupplies3.png" alt=""></a>
                     <div class="caption">
-                        <a href="product10.html"><h3>运动型静音轮胎</h3></a>
-                        <p><span style="font-size:0.5em">价格：</span><strong>￥289.00</strong>&nbsp;&nbsp;<span style="font-size:0.5em">库存：</span><strong>119</strong>件</p>
+                        <h3>{{ product.name }}</h3>
+                        <p>
+                            <span style="font-size:0.8em">价格：</span><strong>￥{{ product.price }}</strong>
+                            &nbsp;&nbsp;
+                            <span style="font-size:0.8em">库存：</span><strong>{{ product.quantity }}</strong>
+                        </p>
+                        <p>
+                            <a href="#" class="btn btn-primary">立即购买</a>
+                        </p>
                     </div>
                 </div>
             </div>
-
-            <div class="col-md-3 col-sm-6 hero-feature">
-                <div class="thumbnail">
-                    <a href="product20.html"><img src="/static/imag/InternalSupplies0.png" alt=""></a>
-                    <div class="caption">
-                        <a href="product20.html"><h3>车之魂汽车坐垫</h3></a>
-                        <p><span style="font-size:0.5em">价格：</span><strong>￥297.80</strong>&nbsp;&nbsp;<span style="font-size:0.5em">库存：</span><strong>59</strong>件</p>
-                    </div>
-                </div>
-            </div>
-
-            <div class="col-md-3 col-sm-6 hero-feature">
-                <div class="thumbnail">
-                    <a href="product32.html"><img src="/static/imag/BeautySupplies2.png" alt=""></a>
-                    <div class="caption">
-                        <a href="product32.html"><h3>玻璃镀膜套装</h3></a>
-                        <p><span style="font-size:0.5em">价格：</span><strong>￥98.00</strong>&nbsp;&nbsp;<span style="font-size:0.5em">库存：</span><strong>331</strong>件</p>
-                    </div>
-                </div>
-            </div>
-
-            <div class="col-md-3 col-sm-6 hero-feature">
-                <div class="thumbnail">
-                    <a href="product41.html"><img src="/static/imag/MaintenanceSupplies1.png" alt=""></a>
-                    <div class="caption">
-                        <a href="product41.html"><h3>无线胎压监测器</h3></a>
-                        <p><span style="font-size:0.5em">价格：</span><strong>￥499.00</strong>&nbsp;&nbsp;<span style="font-size:0.5em">库存：</span><strong>201</strong>件</p>
-                    </div>
-                </div>
-            </div>
+            {% endfor %}
 
         </div>
-        <!-- /.row -->
 
         <hr>
-        <!--
-       {% if current_user.name %}
-       <p>{{ current_user.name }}</p>
-       <a href="{{ url_for('auth.logout') }}">退出</a>
-       {% else %}
-       <a href="{{ url_for('auth.login') }}">登陆</a>
-       {% endif %}
-       -->
     {% endblock %}

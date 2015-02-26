@@ -1,6 +1,8 @@
 <!DOCTYPE html>
-<html>
+<html lang="en">
+
 <head>
+
     {% block head_meta %}
         <meta charset="utf-8">
         <meta http-equiv="X-UA-Compatible" content="IE=edge">
@@ -13,11 +15,15 @@
     
     <!-- Bootstrap Core CSS -->
     <link href="/static/bootstrap/css/bootstrap.min.css" rel="stylesheet">
+
+    <!-- Custom CSS -->
     {% block css %}
     {% endblock %}
     
 </head>
+
 <body>
+
     {% block nav %}
     <!-- Navigation -->
     <nav class="navbar navbar-inverse navbar-fixed-top" role="navigation">
@@ -30,7 +36,7 @@
                     <span class="icon-bar"></span>
                     <span class="icon-bar"></span>
                 </button>
-                <a class="navbar-brand" href="#">AMC首页</a>
+                <a class="navbar-brand" href="{{ url_for('home.index') }}">AMC首页</a>
             </div>
             <!-- Collect the nav links, forms, and other content for toggling -->
             <div class="collapse navbar-collapse" id="bs-example-navbar-collapse-1">
@@ -43,7 +49,7 @@
                     <form class="nav navbar-nav navbar-form navbar-right" role="form">
                         <div class="dropdown btn-group">
                             <button type="button" class="btn dropdown-toggle" id="dropdownMenu1" data-toggle="dropdown" style="width:45px;height:35.25px;-moz-border-radius: 50%; -webkit-border-radius: 50%;border-radius:50%;">
-                                <img src="/static/imag/portrait.png" class="img-circle"></img>
+                                <img src="/static/img/portrait.png" class="img-circle"></img>
                             </button>
                             <ul class="dropdown-menu" role="menu" aria-labelledby="dropdownMenu1">
                                 <li role="presentation"><a role="menuitem" tabindex="-1" href="{{ url_for('user.profile') }}">我的信息</a></li>
@@ -54,7 +60,7 @@
                             </ul>
                         </div>
                         &nbsp;&nbsp;&nbsp;
-                        <a href="{{ url_for('order.trolley') }}" ><img src="/static/imag/cart.png" class="img-circle"></img></a>
+                        <a href="{{ url_for('order.trolley') }}" ><img src="/static/img/cart.png" class="img-circle"></img></a>
                     </form>
                 {% else %}
                     <div class="navbar-form navbar-right">
@@ -69,19 +75,10 @@
     {% endblock %}
 
     <div class="container">
+        
         {% block content %}
         {% endblock %}
          
-        {% block footer %}
-            <!-- Footer -->
-            <footer>
-                <div class="row">
-                    <div class="col-lg-12">
-                        <p>Copyright &copy; Your Website 2014</p>
-                    </div>
-                </div>
-            </footer>
-        {% endblock %} 
     </div>
     
     <!-- JavaScript at the bottom for fast page loading -->
@@ -96,4 +93,5 @@
     <!-- end scripts -->
 
 </body>
+
 </html>
