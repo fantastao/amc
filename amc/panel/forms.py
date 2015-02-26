@@ -61,9 +61,8 @@ class ProductInfoForm(Form):
 class PurchaseInfoForm(Form):
     """后台创建采购事项，修改采购信息"""
 
-    product_id = IntegerField(u'产品编号')
-    product_quantity = IntegerField(u'采购数量')
-    status = StringField(u'采购状态')  # choose from STATUS_BEGIN,STATUS_OVER
+    product_id = IntegerField(u'产品编号', validators=[DataRequired()])
+    product_quantity = IntegerField(u'采购数量', validators=[DataRequired()])
 
 
 class PayInfoForm(Form):

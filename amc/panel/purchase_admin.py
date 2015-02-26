@@ -3,7 +3,7 @@
 from flask import (Blueprint, render_template,
                    views, url_for, redirect, flash)
 
-from amc.models import PurchaseModel
+from amc.models import PurchaseModel, ProductModel
 
 from .forms import PurchaseInfoForm
 
@@ -19,6 +19,7 @@ class PurchaseListAdmin(views.MethodView):
         purchases = PurchaseModel.query.all()
         return render_template(self.template, purchases=purchases)
 
+
 class PurchaseCreateAdmin(views.MethodView):
     """`get`: 获取创建表单
        `post`: 创建采购事项"""
@@ -33,19 +34,35 @@ class PurchaseCreateAdmin(views.MethodView):
         form = PurchaseInfoForm()
         if not form.validate_on_submit():
             return render_template(self.template, form=form)
-        purchase = PurchaseModel()
-        purchase.product_id = form.product_id.data
-        purchase.product_quantity = form.product_quantity.data
-        purchase.status = form.status.data
-        # 在表单对数据进行校验不能完全保证数据库commit操作正常
-        # 所以要加上异常处理
+        purchase = PurchaseModel(
+            product_id=form.product_id.data,
+            product_quantity=form.product_quantity.data)
         purchase.save()
         flash(u'采购创建成功')
-        return redirect(url_for('.detail', id=purchase.id))
+        return redirect(url_for('.list'))
+
+
+class PurchaseConfirmAdmin(views.MethodView):
+    """`get`: 采购入库确认，修改库存"""
+
+    def get(self, id):
+        purchase = PurchaseModel.query.get(id)
+        if not purchase:
+            return
+        product = ProductModel.query.get(purchase.product_id)
+        if not product:
+            return
+        product.quantity += purchase.product_quantity
+        product.save()
+        purchase.status = PurchaseModel.STATUS_OVER
+        purchase.save()
+        flash(u'采购成功')
+        return redirect(url_for('.list'))
+
 
 class PurchaseDetailAdmin(views.MethodView):
     """`get`: 查询采购详情
-       `post`: 更新采购信息"""
+       `post`: 更新采购信息,一旦下单，不允许更新"""
 
     template = 'panel/purchase_detail.html'
 
@@ -55,8 +72,7 @@ class PurchaseDetailAdmin(views.MethodView):
             return
         form = PurchaseInfoForm(
             product_id=purchase.product_id,
-            product_quantity=purchase.product_quantity,
-            status=purchase.status)
+            product_quantity=purchase.product_quantity)
         return render_template(self.template, form=form)
 
     def post(self, id):
@@ -68,10 +84,10 @@ class PurchaseDetailAdmin(views.MethodView):
             return render_template(self.template, form=form)
         purchase.product_id = form.product_id.data
         purchase.product_quantity = form.product_quantity.data
-        purchase.status = form.status.data
         purchase.save()
         flash(u'采购更新成功')
         return redirect(url_for('.detail', id=purchase.id))
+
 
 class PurchaseDeleteAdmin(views.MethodView):
     """`get`: 删除采购清单"""
@@ -92,8 +108,13 @@ bp.add_url_rule(
     '/admin/purchases/create/',
     view_func=PurchaseCreateAdmin.as_view('create'))
 bp.add_url_rule(
-    '/admin/purchases/<int:id>/',
-    view_func=PurchaseDetailAdmin.as_view('detail'))
+    '/admin/purchases/confirm/<int:id>/',
+    view_func=PurchaseConfirmAdmin.as_view('confirm'))
 bp.add_url_rule(
     '/admin/purchases/delete/<int:id>/',
     view_func=PurchaseDeleteAdmin.as_view('delete'))
+"""
+bp.add_url_rule(
+    '/admin/purchases/<int:id>/',
+    view_func=PurchaseDetailAdmin.as_view('detail'))
+"""

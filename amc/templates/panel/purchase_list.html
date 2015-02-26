@@ -24,8 +24,8 @@
                 <td>{{ purchase.status }}</td>
                 <td>{{ purchase.date_updated }}</td>
                 <td>
+                    <a href="{{ url_for('purchase_admin.confirm', id=purchase.id) }}">到货确认</a>
                     <a href="{{ url_for('purchase_admin.delete', id=purchase.id) }}">删除</a>
-                    <a href="{{ url_for('purchase_admin.detail', id=purchase.id) }}">查看</a>
                 </td>
             </tr>
         </tbody>
