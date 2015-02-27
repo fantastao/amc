@@ -125,3 +125,11 @@ class TrolleyProductModel(ModelBase):
         primaryjoin='ProductModel.id==TrolleyProductModel.product_id',
         foreign_keys='TrolleyProductModel.product_id',
         uselist=False)
+
+    def as_dict(self):
+        result = {
+            'trolley_id': self.trolley_id,
+            'product_id': self.product_id,
+            'product_quantity': self.product_quantity,
+        }
+        return result

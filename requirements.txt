@@ -1,4 +1,6 @@
 pytz
+cerberus
+WebTest
 
 alembic==0.7.0
 WTForms==2.0.1
