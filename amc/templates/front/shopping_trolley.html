@@ -11,7 +11,7 @@
         <div class="row" style="background-color:#eee;">
             <div class="col-sm-12"><h2>购物车</h2></div>
             <p>&nbsp;</p>
-            <div class="col-sm-8">
+            <div id="message" class="col-sm-8">
                 <table class="table table-striped">
                     <thead>
                         <tr>
@@ -37,7 +37,7 @@
                     <tbody id="items_total">
                     </tbody>
                 </table>
-                <a href="#" class="text-center"><h3><b>结账</b></h3></a>
+                <a href="{{ url_for('order.order_trolley') }}" class="text-center"><h3><b>结账</b></h3></a>
             </div>
             </div>
     {% endblock %}

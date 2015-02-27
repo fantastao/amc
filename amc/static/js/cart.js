@@ -11,13 +11,15 @@ function drawItems(data){
     $("#items_list").empty();
     var html = '';
     if (data.length == 0){
-        // html += '<tr><td></td><td></td><td></td><td></td><td></td></tr>';
+        //html += '<tr><td></td><td></td><td></td><td></td><td></td><td></td></tr>';
         html += '您还没有添加产品到购物车!';
+        $("#message").prepend(html);
     }
     else{
         for (var i=0;i<data.length;i++){
             var product = data[i];
             html += '<tr>'
+            html += '<td><a href="/product/' + product["product_id"] +'">' + product["product_id"] + '</a></td>';
             html += '<td><a href="/product/' + product["product_id"] +'">' + product["name"] + '</a></td>';
             html += '<td>' + product["price"] + '</td>';
             html += '<td class="text-center vert-align"><input onchange="itemsUpdate(' + product["product_id"] + ',this.value);" type="number" min="1" style="width:50px;" value="' + product["quantity"] +'"></td>';
@@ -25,8 +27,8 @@ function drawItems(data){
             html += '<td class="text-center vert-align"><a><span class="glyphicon glyphicon-remove" onclick="itemsDelete(' + product["product_id"] + ');"></span></a></td>';
             html += '</tr>';
         }
+        $("#items_list").html(html);
     }
-    $("#items_list").html(html);
     products2total(data);
 }
 
