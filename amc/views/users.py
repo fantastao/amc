@@ -21,13 +21,14 @@ class UserProfileView(views.MethodView):
             name=user.name,
             phone=user.phone,
             address=user.address)
-        return render_template(self.template, form=form)
+        return render_template(self.template, form=form, user=user)
 
     @login_required
     def post(self):
+        user = current_user
         form = UserProfileForm()
         if not form.validate_on_submit():
-            return render_template(self.template, form=form)
+            return render_template(self.template, form=form, user=user)
         user = current_user
         form.populate_obj(user)
         user.save()
@@ -49,5 +50,5 @@ bp.add_url_rule(
     '/profile/',
     view_func=UserProfileView.as_view('profile'))
 bp.add_url_rule(
-    '/order/',
+    '/orders/',
     view_func=UserOrdersView.as_view('order'))
