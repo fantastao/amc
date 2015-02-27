@@ -48,7 +48,7 @@ function drawTotal(total){
     if (total == 0){
         transport = 0;
     }else{
-        transport = 20;
+        transport = 0;
     }
     var fax = 0;
     var cost = total + transport - fax;
