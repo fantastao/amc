@@ -66,6 +66,10 @@
         <script src="/static/bootstrap/js/baidubootstrap.min.js"></script>
         <script>
             function add_trolley(){
+                user = "{{ current_user.name }}";
+                if (!user){
+                    window.location.href="{{ url_for('auth.login') }}";
+                }
                 id = {{ product.id }};
                 quantity = $("#quantity").val();
                 $.ajax({
