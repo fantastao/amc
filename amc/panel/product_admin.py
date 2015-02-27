@@ -38,6 +38,7 @@ class ProductCreateAdmin(views.MethodView):
         product = ProductModel(
             name=form.name.data,
             category=form.category.data,
+            img=form.img.data,
             description=form.description.data,
             price=form.price.data,
             quantity=form.quantity.data,
@@ -63,6 +64,7 @@ class ProductDetailAdmin(views.MethodView):
         form = ProductInfoForm(
             name=product.name,
             category=product.category,
+            img=product.img,
             description=product.description,
             price=product.price,
             quantity=product.quantity,
@@ -79,6 +81,7 @@ class ProductDetailAdmin(views.MethodView):
             return render_template(self.template, form=form)
         product.name = form.name.data
         product.category = form.category.data
+        product.img = form.img.data
         product.description = form.description.data
         product.price = form.price.data
         product.quantity = form.quantity.data

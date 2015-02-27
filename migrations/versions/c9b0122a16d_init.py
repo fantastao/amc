@@ -88,6 +88,7 @@ def upgrade():
         'product',
         sa.Column('id', sa.Integer(), primary_key=True),
         sa.Column('name', sa.String(64), nullable=False, index=True),
+        sa.Column('img', sa.String(256), nullable=False),
         sa.Column('category', sa.String(64), nullable=False),
         sa.Column('description', sa.UnicodeText(), nullable=True),
         sa.Column('price', sa.Float(), nullable=False, index=True),

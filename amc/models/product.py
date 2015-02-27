@@ -12,6 +12,7 @@ class ProductModel(SurrogatePK, ModelBase):
     __tablename__ = 'product'
 
     name = db.Column(db.String(64), nullable=False, index=True)
+    img = db.Column(db.String(256), nullable=False, default='/static/img/common.png')
     category = db.Column(db.String(64), nullable=False, default='M')
     description = db.Column(db.UnicodeText(), nullable=True)
     price = db.Column(db.Float(), nullable=False, index=True)

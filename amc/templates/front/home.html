@@ -29,7 +29,7 @@
             {% for product in products %}
             <div class="col-md-3 col-sm-6 hero-feature">
                 <div class="thumbnail">
-                    <a href="#"><img src="/static/img/ExternalSupplies3.png" alt=""></a>
+                    <a href="{{ url_for('product.detail', id=product.id) }}"><img src="{{ product.img }}" alt=""></a>
                     <div class="caption">
                         <h3>{{ product.name }}</h3>
                         <p>
@@ -38,7 +38,7 @@
                             <span style="font-size:0.8em">库存：</span><strong>{{ product.quantity }}</strong>
                         </p>
                         <p>
-                            <a href="#" class="btn btn-primary">立即购买</a>
+                            <a href="{{ url_for('product.detail', id=product.id) }}" class="btn btn-primary">立即购买</a>
                         </p>
                     </div>
                 </div>

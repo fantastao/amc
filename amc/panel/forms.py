@@ -48,7 +48,9 @@ class ProductInfoForm(Form):
     name = StringField(
         u'产品名称',
         validators=[DataRequired(), Length(min=2, max=20)])
-    category = StringField(u'类别', validators=[DataRequired()], default='M')  # choose from GMS
+    img = StringField(u'图片链接', validators=[DataRequired()],
+                      default='/static/img/common.png')
+    category = StringField(u'类别', validators=[DataRequired()], default='M')
     description = TextAreaField(u'描述', validators=[Optional()])
     price = FloatField(u'价格', validators=[DataRequired()])
     quantity = IntegerField(u'库存量', validators=[DataRequired()])

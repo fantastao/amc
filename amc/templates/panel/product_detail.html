@@ -21,11 +21,18 @@
         {{ form.name(class='form-control', placeholder='必填项') }}
     </div>
     <div class="form-group">
+        {{ form.img.label }}
+        {% if form.img.errors %}
+        <p>{{ form.img.errors[0] }}</p>
+        {% endif %}
+        {{ form.img(class='form-control') }}
+    </div>
+    <div class="form-group">
         {{ form.category.label }}
         {% if form.category.errors %}
         <p>{{ form.category.errors[0] }}</p>
         {% endif %}
-        {{ form.category(class='form-control', placeholder='选填项，默认值M') }}
+        {{ form.category(class='form-control') }}
     </div>
     <div class="form-group">
         {{ form.description.label }}
