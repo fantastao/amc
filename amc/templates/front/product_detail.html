@@ -48,7 +48,7 @@
 						</tbody>
 					</table>
 					<p>价格：<b style="color:red;">￥{{ product.price }}</b>&nbsp;&nbsp;&nbsp;&nbsp;库存：<span class="span" style="color:red">{{ product.quantity }}</span>件&nbsp;&nbsp;&nbsp;&nbsp;
-						<input type="number" min="1" style="width:50px;">
+						<input value="1" type="number" min="1" max="{{ product.quantity }}" style="width:50px;">
 						<a href="#" class="btn btn-default" role="button">加购物车</a></p>
             </div>
         </div>
