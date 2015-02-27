@@ -15,6 +15,7 @@
                 <table class="table table-striped">
                     <thead>
                         <tr>
+                            <th>#</th>
                             <th>商品</th>
                             <th>单价（元）</th>
                             <th class="text-center">数量</th>
@@ -23,27 +24,15 @@
                         </tr>
                     </thead>
                     <tbody>
+                        {% for item in products %}
                         <tr>
-                            <td><a href="product10.html">雅尼路汽车装饰灯</a></td>
-                            <td>13.00</td>
-                            <td class="text-center vert-align"><input type="number" min="1" style="width:50px;"></td>
-                            <td class="text-right vert-align">13.00</td>
+                            <td><a href="{{ url_for('product.detail', id=item.product_id) }}">{{ item.product.name }}</a></td>
+                            <td>{{ item.product.price }}</td>
+                            <td class="text-center vert-align"><input value="{{ item.product_quantity }}" type="number" min="1" style="width:50px;"></td>
+                            <td class="text-right vert-align">js算出来</td>
                             <td class="text-center vert-align"><a href="#"><span class="glyphicon glyphicon-remove"></span></a></td>
                         </tr>
-                        <tr>
-                            <td><a href="product10.html">专用带收音天线</a></td>
-                            <td>59.00</td>
-                            <td class="text-center vert-align"><input type="number" min="1" style="width:50px;"></td>
-                            <td class="text-right vert-align">59.00</td>
-                            <td class="text-center vert-align"><a href="#"><span class="glyphicon glyphicon-remove"></span></a></td>
-                        </tr>
-                        <tr>
-                            <td><a href="product10.html">凯美瑞后轴头</a></td>
-                            <td>988.00</td>
-                            <td class="text-center vert-align"><input type="number" min="1" style="width:50px;"></td>
-                            <td class="text-right vert-align">988.00</td>
-                            <td class="text-center vert-align"><a href="#"><span class="glyphicon glyphicon-remove"></span></a></td>
-                        </tr>
+                        {% endfor %}
                         <!--<tr><td></td><td></td><td></td><td></td><td></td></tr> -->
                         <!--当购物车没有产品时，记得提醒用户，如“您还没有添加产品到购物车”-->
                     </tbody>

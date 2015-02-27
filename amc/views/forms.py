@@ -47,7 +47,3 @@ class UserProfileForm(Form):
         re_mobile = re.compile(r'^((\+86)|(86))?(1)[3|4|5|7|8|]\d{9}$')
         if not re.match(re_mobile, field.data):
             raise ValidationError('Not a phone number')
-
-
-class TrolleyForm(Form):
-    product_id = FieldList(BooleanField('', validators=[Optional()]))

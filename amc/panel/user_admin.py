@@ -4,7 +4,7 @@ from flask import (Blueprint, render_template,
                    views, url_for, redirect, flash)
 
 from amc.utils import origin_pw_hash
-from amc.models import UserModel, AuthModel
+from amc.models import UserModel, AuthModel, ShoppingTrolleyModel
 
 from .forms import UserInfoForm
 
@@ -82,8 +82,12 @@ class UserCreateAdmin(views.MethodView):
             pw_hash=origin_pw_hash,
             is_verified=True)
         auth.save()
-        flash(u'用户创建成功')
-        return redirect(url_for('.detail', id=user.id))
+
+        # 顺便创建购物车
+        trolley = ShoppingTrolleyModel(user_id=user.id)
+        trolley.save()
+
+        return redirect(url_for('.list'))
 
 
 class UserDeleteAdmin(views.MethodView):
@@ -94,6 +98,7 @@ class UserDeleteAdmin(views.MethodView):
         if not user:
             return
         user.auth.delete()
+        user.trolley.delete()
         user.delete()
         flash(u'用户删除成功')
         return redirect(url_for('.list'))
