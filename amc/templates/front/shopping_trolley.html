@@ -22,30 +22,7 @@
                             <th></th>
                         </tr>
                     </thead>
-                    <tbody>
-                        <tr>
-                            <td><a href="product10.html">雅尼路汽车装饰灯</a></td>
-                            <td>13.00</td>
-                            <td class="text-center vert-align"><input type="number" min="1" style="width:50px;"></td>
-                            <td class="text-right vert-align">13.00</td>
-                            <td class="text-center vert-align"><a href="#"><span class="glyphicon glyphicon-remove"></span></a></td>
-                        </tr>
-                        <tr>
-                            <td><a href="product10.html">专用带收音天线</a></td>
-                            <td>59.00</td>
-                            <td class="text-center vert-align"><input type="number" min="1" style="width:50px;"></td>
-                            <td class="text-right vert-align">59.00</td>
-                            <td class="text-center vert-align"><a href="#"><span class="glyphicon glyphicon-remove"></span></a></td>
-                        </tr>
-                        <tr>
-                            <td><a href="product10.html">凯美瑞后轴头</a></td>
-                            <td>988.00</td>
-                            <td class="text-center vert-align"><input type="number" min="1" style="width:50px;"></td>
-                            <td class="text-right vert-align">988.00</td>
-                            <td class="text-center vert-align"><a href="#"><span class="glyphicon glyphicon-remove"></span></a></td>
-                        </tr>
-                        <!--<tr><td></td><td></td><td></td><td></td><td></td></tr> -->
-                        <!--当购物车没有产品时，记得提醒用户，如“您还没有添加产品到购物车”-->
+                    <tbody id="items_list">
                     </tbody>
                 </table>
             </div>
@@ -56,27 +33,7 @@
                             <th colspan="3" class="text-center">订单信息（单位：元）</th>
                         </tr>
                     </thead>
-                    <tbody>
-                        <tr>
-                            <td>商品总额：</td>
-                            <td></td>
-                            <td class="text-right"><b class="ng-binding">90</b></td>
-                        </tr>
-                        <tr>
-                            <td>运费：</td>
-                            <td></td>
-                            <td class="text-right ng-binding">25</td>
-                        </tr>
-                        <tr>
-                            <td>税费：</td>
-                            <td></td>
-                            <td class="text-right ng-binding">0</td>
-                        </tr>
-                        <tr>
-                            <td>合计：</td>
-                            <td></td>
-                            <td class="text-right ng-binding">115</td>
-                        </tr>
+                    <tbody id="items_total">
                     </tbody>
                 </table>
                 <a href="#" class="text-center"><h3><b>结账</b></h3></a>
@@ -87,4 +44,5 @@
     {% block js %}
         <script src="/static/bootstrap/js/baidujquery.min.js"></script>
         <script src="/static/bootstrap/js/baidubootstrap.min.js"></script>
+        <script src="/static/js/cart.js"></script>
     {% endblock %}
