@@ -12,7 +12,6 @@
         <div class="row">
             <div class="col-lg-12">
                 <h1 class="page-header">产品详情
-                    <small>产品1</small>
                 </h1>
             </div>
         </div>
@@ -21,10 +20,10 @@
         <!-- Project One -->
         <div class="row">
             <div class="col-md-5">
-                <img class="img-responsive" src="/static/imag/ExternalSupplies0.png" alt="">
+                <img class="img-responsive" src="{{ product.img }}" alt="">
             </div>
             <div class="col-md-7">
-                <h3>雅尼路汽车装饰灯</h3>
+                <h3>{{ product.name }}</h3>
                 &nbsp;
                 <h4>详情介绍</h4>
                 <table class="table" style="width:350px;">
@@ -32,23 +31,23 @@
 						<tbody>
 							<tr>
 								<td>商品名称</td>
-								<td>雅尼路汽车装饰灯</td>
+								<td>{{ product.name }}</td>
 							</tr>
 							<tr>
 								<td>商品编号</td>
-								<td>00</td>
+								<td>{{ product.id }}</td>
 							</tr>
 							<tr>
 								<td>商品类型</td>
-								<td>辅助车灯</td>
+								<td>{{ product.category }}</td>
 							</tr>
 							<tr>
 								<td>商品来源</td>
-								<td>中国大陆</td>
+								<td>{{ product.made_in }}</td>
 							</tr>
 						</tbody>
 					</table>
-					<p>价格：<b style="color:red;">￥13.00</b>&nbsp;&nbsp;&nbsp;&nbsp;库存：<span class="span" style="color:red">119</span>件&nbsp;&nbsp;&nbsp;&nbsp;
+					<p>价格：<b style="color:red;">￥{{ product.price }}</b>&nbsp;&nbsp;&nbsp;&nbsp;库存：<span class="span" style="color:red">{{ product.quantity }}</span>件&nbsp;&nbsp;&nbsp;&nbsp;
 						<input type="number" min="1" style="width:50px;">
 						<a href="#" class="btn btn-default" role="button">加购物车</a></p>
             </div>
@@ -58,10 +57,4 @@
         <hr>
 
         <hr>
-    {% endblock %}
-
-    {% block js%}
-        {{ super() }}
-        <script src="/static/bootstrap/js/baidujquery.min.js"></script>
-        <script src="/static/bootstrap/js/baidubootstrap.min.js"></script>
     {% endblock %}
