@@ -1,8 +1,7 @@
 # -*- coding: utf-8 -*-
 
 from .order import (OrderModel, OrderProductModel,
-                    OrderHistoryModel, ShoppingTrolleyModel,
-                    TrolleyProductModel)
+                    OrderHistoryModel, ShoppingTrolleyModel, TrolleyProductModel)
 from .pay import PayModel
 from .product import ProductModel, LackedProductHistoryModel
 from .user import UserModel, AdminModel
