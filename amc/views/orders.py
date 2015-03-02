@@ -7,7 +7,8 @@ from flask import (Blueprint, views, render_template, request,
 
 from flask.ext.login import current_user, login_required
 
-from amc.models import OrderModel, OrderProductModel, ShoppingTrolleyModel, TrolleyProductModel
+from amc.models import (OrderModel, OrderProductModel,
+                        ShoppingTrolleyModel, TrolleyProductModel)
 
 bp = Blueprint('order', __name__)
 
@@ -52,7 +53,7 @@ class TrolleyOrderView(views.MethodView):
                 product_quantity=item.product_quantity,
                 product_price=item.product.price)
             item.delete()
-        
+
         return redirect(url_for('user.order'))
 
 
@@ -89,12 +90,12 @@ class TrolleyAddView(views.MethodView):
         for item in trolley.products:
             if (product_id == item.product_id):
                 if (product_quantity == item.product_quantity):
-                    return json.dumps({"status":"exists"})
+                    return json.dumps({"status": "exists"})
                 else:
                     item.update(product_quantity=product_quantity)
                     return json.dumps({"status":"updated"})
         # 不存在该产品
-        trolley_product =TrolleyProductModel(
+        trolley_product = TrolleyProductModel(
             trolley_id=trolley.id,
             product_id=product_id,
             product_quantity=product_quantity)

@@ -7,7 +7,7 @@ from amc.extensions import db, migrate, login_manager
 from amc._settings import DevConfig
 
 bps = [
-    # 'amc.apis.open:bp',
+    'amc.apis.open:bp',
     # 'amc.apis.panel:bp',
     'amc.views.home:bp',
     'amc.views.auth:bp',

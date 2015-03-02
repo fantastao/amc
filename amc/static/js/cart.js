@@ -1,12 +1,12 @@
-
 function call_ajax_request(url, callback){
     $.ajax({
-        url:url,
-        dataType:"json",
-        method:"get",
+        url: url,
+        dataType: "json",
+        method: "get",
         success: callback
     });
 }
+
 function drawItems(data){
     $("#items_list").empty();
     var html = '';
@@ -73,10 +73,27 @@ function drawTotal(total){
     $("#items_total").html(html);
 }
 function itemsUpdate(product_id, product_quantity){
-    call_ajax_request("/trolley/update?product_id=" + product_id + "&product_quantity=" + product_quantity, drawItems);
+    data = {"product_quantity": parseInt(product_quantity)}
+    url = "/apis/open/trolley/" + product_id + "/"
+    $.ajax({
+        url: url,
+        type: "put",
+        data: JSON.stringify(data),
+        contentType: "application/json",
+        dataType:"json",
+        async: true,
+        success: drawItems
+    });
 }
 function itemsDelete(product_id){
-    call_ajax_request("/trolley/delete?product_id=" + product_id, drawItems);
+    url = "/apis/open/trolley/" + product_id + "/"
+    $.ajax({
+        url: url,
+        type: "delete",
+        dataType:"json",
+        async: true,
+        success: drawItems
+    });
 }
 
-call_ajax_request('/trolley/items', drawItems);
+call_ajax_request('/trolley/items/', drawItems);
