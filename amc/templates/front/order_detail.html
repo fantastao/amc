@@ -35,7 +35,15 @@
                                     <td>{{ order.order_price }}</td>
                                     <td>{{ order.date_created }}</td>
                                     <td>{{ order.status }}</td>
-                                    <td><a href="#display{{ order.id }}" data-toggle="modal">查看详情</a></td>
+                                    <td>
+                                        <a href="#display{{ order.id }}" data-toggle="modal">查看详情</a>
+                                        {% if order.status in ['launch', 'confirm'] %}
+                                        <a href="{{ url_for('order.order_cancel', id=order.id) }}">取消订单</a>
+                                        {% elif order.status == 'dispatch' %}
+                                        <a href="{{ url_for('order.order_success', id=order.id) }}">确认收货</a>
+                                        <a href="{{ url_for('order.order_return', id=order.id) }}">申请退货</a>
+                                        {% endif %}
+                                    </td>
                                 </tr>
                             </tbody>
                         </table>
@@ -55,12 +63,12 @@
                                                 <th>产品数量</th>
                                                 <th>金额（元）</th>
                                             </tr>
-                                            {% for product in order.products %}
+                                            {% for item in order.products %}
                                                 <tr>
-                                                    <td>{{ product.product.name }}</td>
-                                                    <td>{{ product.product_price }}</td>
-                                                    <td>{{ product.product_quantity }}</td>
-                                                    <td>{{ product.product_price * product.product_quantity }}</td>
+                                                    <td>{{ item.product.name }}</td>
+                                                    <td>{{ item.product_price }}</td>
+                                                    <td>{{ item.product_quantity }}</td>
+                                                    <td>{{ item.product_price * item.product_quantity }}</td>
                                                 </tr>
                                             {% endfor %}
                                         </thead>

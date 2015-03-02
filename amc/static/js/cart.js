@@ -82,7 +82,6 @@ function itemsUpdate(product_id, product_quantity){
         contentType: "application/json",
         dataType:"json",
         async: true,
-        success: drawItems
     });
 }
 function itemsDelete(product_id){
@@ -92,7 +91,6 @@ function itemsDelete(product_id){
         type: "delete",
         dataType:"json",
         async: true,
-        success: drawItems
     });
 }
 

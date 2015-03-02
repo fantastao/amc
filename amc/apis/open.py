@@ -29,6 +29,7 @@ class TrolleyOpenAPI(views.MethodView):
         v = AmcValidator(schema)
         if not v(trolley_info):
             abort(422)
+        # 购物车在创建用户时已经创建
         trolley_id = current_user.trolley.id
         trolley_info['trolley_id'] = trolley_id
         # 有一种情况，之前添加过又来添加一遍，会报错

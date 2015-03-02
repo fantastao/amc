@@ -76,6 +76,7 @@ def upgrade():
         'pay',
         sa.Column('id', sa.Integer(), primary_key=True),
         sa.Column('order_id', sa.Integer(), nullable=False, index=True),
+        sa.Column('amount', sa.Float(), nullable=False),
         sa.Column('status', sa.String(64), nullable=False, index=True),
         sa.Column('date_created', sa.DateTime(timezone=True),
                   nullable=False, index=True,
