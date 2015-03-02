@@ -88,7 +88,7 @@ class TrolleyItemsView(views.MethodView):
                 product = {}
                 product["product_id"] = item.product_id
                 product["quantity"] = item.product_quantity
-                product["price"] = item.product_price
+                product["price"] = item.product.price
                 product["name"] = item.product.name
                 products_list.append(product)
         return json.dumps(products_list)
