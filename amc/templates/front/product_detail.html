@@ -1,12 +1,11 @@
 {% extends "front/base.html" %}
     {% block title %}产品{{ product.id }}：{{ product.name }}{% endblock %} 
+    
     {% block css %}
-        <!--百度bootstrap-->
-        <link href="/static/bootstrap/css/baidubootstrap.min.css" rel="stylesheet">
-
-        <!-- Custom CSS -->
-        <link href="/static/bootstrap/css/1-col-portfolio.css" rel="stylesheet">
+        {{ super() }}
+        <link href="/static/css/1-col-portfolio.css" rel="stylesheet">
     {% endblock %}
+
     {% block content %}
         <!-- Page Heading -->
         <div class="row">
@@ -62,8 +61,6 @@
 
     {% block js%}
         {{ super() }}
-        <script src="/static/bootstrap/js/baidujquery.min.js"></script>
-        <script src="/static/bootstrap/js/baidubootstrap.min.js"></script>
         <script>
             function add_trolley(){
                 user = "{{ current_user.name }}";

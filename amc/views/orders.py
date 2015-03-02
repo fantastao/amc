@@ -1,6 +1,5 @@
 # -*- coding: utf-8 -*-
 
-import pickle
 import json
 
 from flask import (Blueprint, views, render_template, request,
@@ -26,7 +25,7 @@ class TrolleyView(views.MethodView):
         trolley = current_user.trolley
         if not trolley:
             # 没有购物车的错误界面，不可能发生
-            products = {}
+            return
         # forms add here
         else:
             products = trolley.products
@@ -34,7 +33,9 @@ class TrolleyView(views.MethodView):
         '''
         return render_template(self.template)
 
+
 class TrolleyOrderView(views.MethodView):
+
     @login_required
     def get(self):
         # 点击提交，生成订单后清空购物车
@@ -54,6 +55,7 @@ class TrolleyOrderView(views.MethodView):
         
         return redirect(url_for('user.order'))
 
+
 class TrolleyItemsView(views.MethodView):
 
     @login_required
@@ -70,6 +72,7 @@ class TrolleyItemsView(views.MethodView):
                 product["name"] = item.product.name
                 products_list.append(product)
         return json.dumps(products_list)
+
 
 class TrolleyAddView(views.MethodView):
 
@@ -98,6 +101,7 @@ class TrolleyAddView(views.MethodView):
         trolley_product.save()
         return json.dumps({"status":"created"})
 
+
 class TrolleyUpdateView(views.MethodView):
 
     @login_required
@@ -125,6 +129,7 @@ class TrolleyUpdateView(views.MethodView):
             products_list.append(product)
         return json.dumps(products_list)
 
+
 class TrolleyDeleteView(views.MethodView):
 
     @login_required
@@ -146,6 +151,7 @@ class TrolleyDeleteView(views.MethodView):
             product["name"] = item.product.name
             products_list.append(product)
         return json.dumps(products_list)
+
 
 bp.add_url_rule(
     '/trolley/',
