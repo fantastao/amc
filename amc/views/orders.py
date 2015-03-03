@@ -20,18 +20,20 @@ class TrolleyView(views.MethodView):
 
     @login_required
     def get(self):
-        '''
-        # 从购物车表中获取产品信息
         trolley = current_user.trolley
-        if not trolley:
-            # 没有购物车的错误界面，不可能发生
-            return
-        # forms add here
-        else:
+        products_list = []
+        total = 0
+        if trolley:
             products = trolley.products
-        return render_template(self.template, products=products)
-        '''
-        return render_template(self.template)
+            for item in products:
+                product = {}
+                product["product_id"] = item.product_id
+                product["quantity"] = item.product_quantity
+                product["price"] = item.product.price
+                product["name"] = item.product.name
+                products_list.append(product)
+                total += product["quantity"] * product["price"]
+        return render_template(self.template, products=products_list, total=total)
 
 
 class TrolleyCommitView(views.MethodView):
@@ -74,24 +76,6 @@ class TrolleyCommitView(views.MethodView):
             item.delete()
 
         return redirect(url_for('user.order'))
-
-
-class TrolleyItemsView(views.MethodView):
-
-    @login_required
-    def get(self):
-        trolley = current_user.trolley
-        products_list = []
-        if trolley:
-            products = trolley.products
-            for item in products:
-                product = {}
-                product["product_id"] = item.product_id
-                product["quantity"] = item.product_quantity
-                product["price"] = item.product.price
-                product["name"] = item.product.name
-                products_list.append(product)
-        return json.dumps(products_list)
 
 
 class OrderCancelView(views.MethodView):
@@ -178,9 +162,6 @@ bp.add_url_rule(
 bp.add_url_rule(
     '/trolley/commit/',
     view_func=TrolleyCommitView.as_view('trolley_commit'))
-bp.add_url_rule(
-    '/trolley/items/',
-    view_func=TrolleyItemsView.as_view('items_trolley'))
 bp.add_url_rule(
     '/order/cancel/<int:id>/',
     view_func=OrderCancelView.as_view('order_cancel'))

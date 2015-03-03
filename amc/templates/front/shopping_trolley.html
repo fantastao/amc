@@ -13,6 +13,9 @@
             <p>&nbsp;</p>
             <div id="message" class="col-sm-8">
                 <table class="table table-striped">
+                    {% if not products %}
+                        您还没有添加产品到购物车!
+                    {% endif %}
                     <thead>
                         <tr>
                             <th>#</th>
@@ -24,6 +27,16 @@
                         </tr>
                     </thead>
                     <tbody id="items_list">
+                    {% for product in products %}
+                        <tr>
+                            <td><a href="/product/{{ product.product_id }}">{{ product.product_id }}</a></td>
+                            <td><a href="/product/{{ product.product_id }}">{{ product.name }}</a></td>
+                            <td>{{ product.price }}</td>
+                            <td class="text-center vert-align"><input onchange="itemsUpdate({{ product.product_id }}, this.value);" type="number" min="1" style="width:50px;" value='{{ product["quantity"] }}'></td>
+                            <td class="text-right vert-align">{{ product.price * product.quantity }}</td>
+                            <td class="text-center vert-align"><a><span class="glyphicon glyphicon-remove" onclick="itemsDelete({{ product.product_id }});"></span></a></td>
+                        </tr>
+                    {% endfor %}
                     </tbody>
                 </table>
             </div>
@@ -35,14 +48,60 @@
                         </tr>
                     </thead>
                     <tbody id="items_total">
+                        <tr>
+                            <td>商品总额：</td>
+                            <td></td>
+                            <td class="text-right"><b class="ng-binding">{{ total }}</b></td>';
+                            </tr><tr>
+                            <td>运费：</td>
+                            <td></td>
+                            <td class="text-right ng-binding">0</td>
+                            </tr><tr>
+                            <td>税费：</td>
+                            <td></td>
+                            <td class="text-right ng-binding">0</td>
+                            </tr><tr>
+                            <td>合计：</td>
+                            <td></td>
+                            <td class="text-right ng-binding">{{ total }}</td>
+                        </tr>
                     </tbody>
                 </table>
                 <a href="{{ url_for('order.trolley_commit') }}" class="text-center"><h3><b>结账</b></h3></a>
             </div>
-            </div>
+        </div>
     {% endblock %}
 
     {% block js %}
         {{ super() }}
-        <script src="/static/js/cart.js"></script>
+        <script>
+            function itemsUpdate(product_id, product_quantity){
+                data = {"product_quantity": parseInt(product_quantity)}
+                url = "/apis/open/trolley/" + product_id + "/"
+                $.ajax({
+                    url: url,
+                    type: "put",
+                    data: JSON.stringify(data),
+                    contentType: "application/json",
+                    dataType:"json",
+                    async: true,
+                    success: function callback(data){
+                        window.location.reload();
+                    }
+                });
+            }
+            function itemsDelete(product_id){
+                var url = "/apis/open/trolley/" + product_id + "/";
+                $.ajax({
+                    url: url,
+                    type: "delete",
+                    dataType:"json",
+                    async: true,
+                    success: function callback(data){
+                        window.location.reload();
+                    }
+                });
+            }
+
+        </script>
     {% endblock %}
