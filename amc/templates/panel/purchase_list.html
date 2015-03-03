@@ -8,26 +8,26 @@
         <thead>
             <tr>
                 <th>#</th>
-                <th>产品编号</th>
-                <th>采购数量</th>
-                <th>采购状态</th>
-                <th>更新时间</th>
-                <th>操作</th>
+                <th class="text-center">产品编号</th>
+                <th class="text-center">采购数量</th>
+                <th class="text-center">采购状态</th>
+                <th class="text-center">更新时间</th>
+                <th class="text-center">操作</th>
             </tr>
         </thead>
-    {% for purchase in purchases %}
         <tbody>
+            {% for purchase in purchases %}
             <tr>
                 <td>{{ purchase.id }}</td>
-                <td>{{ purchase.product_id }}</td>
-                <td>{{ purchase.product_quantity }}</td>
-                <td>{{ purchase.status }}</td>
-                <td>{{ purchase.date_updated }}</td>
-                <td>
+                <td class="text-center">{{ purchase.product_id }}</td>
+                <td class="text-center">{{ purchase.product_quantity }}</td>
+                <td class="text-center">{{ purchase.status }}</td>
+                <td class="text-center">{{ purchase.date_updated }}</td>
+                <td class="text-center">
                     <a href="{{ url_for('purchase_admin.confirm', id=purchase.id) }}">到货确认</a>
                     <a href="{{ url_for('purchase_admin.delete', id=purchase.id) }}">删除</a>
                 </td>
             </tr>
+            {% endfor %}
         </tbody>
-    {% endfor %}  
 {% endblock %}

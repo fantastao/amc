@@ -2,5 +2,33 @@
 
 {% block content %}
 <h1>订单管理</h1>
+<div class="panel panel-default">
+    <!-- Default panel contents -->
+    <div class="panel-heading">订单编号: {{ order.id }}  订单状态: {{ order.status }}  订单金额: {{ order.order_price }}</div>
 
+    <!-- Table -->
+    <table class="table">
+	    <thead>
+	        <tr>
+	            <th class="text-center">商品编号</th>
+	            <th class="text-center">商品名称</th>
+	            <th class="text-center">单价（元）</th>
+	            <th class="text-center">数量</th>
+	            <th class="text-center">金额</th>
+	            <th></th>
+	        </tr>
+	    </thead>
+	    <tbody>
+	    	{% for item in products %}
+	    	<tr>
+	    		<td class="text-center">{{ item.product_id }}</td>
+	    		<td class="text-center">{{ item.product.name }}</td>
+                <td class="text-center">{{ item.product_price }}</td>
+                <td class="text-center">{{ item.product_quantity }}</td>
+                <td class="text-center">{{ item.total_price }}</td>
+	    	</tr>
+	    	{% endfor %}
+	    </tbody>
+    </table>
+</div>
 {% endblock %}

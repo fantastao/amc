@@ -1,19 +1,16 @@
 {% extends "front/base.html" %}
     {% block title %}产品{{ product.id }}：{{ product.name }}{% endblock %} 
+    
     {% block css %}
-        <!--百度bootstrap-->
-        <link href="/static/bootstrap/css/baidubootstrap.min.css" rel="stylesheet">
-
-        <!-- Custom CSS -->
-        <link href="/static/bootstrap/css/1-col-portfolio.css" rel="stylesheet">
+        {{ super() }}
+        <link href="/static/css/1-col-portfolio.css" rel="stylesheet">
     {% endblock %}
+
     {% block content %}
         <!-- Page Heading -->
         <div class="row">
             <div class="col-lg-12">
-                <h1 class="page-header">产品详情
-                    <!--<small>产品{{ product.id }}</small>--!>
-                </h1>
+                <h1 class="page-header">产品详情</h1>
             </div>
         </div>
         <!-- /.row -->
@@ -50,7 +47,7 @@
 					</table>
 					<p>价格：<b style="color:red;">￥{{ product.price }}</b>&nbsp;&nbsp;&nbsp;&nbsp;库存：<span class="span" style="color:red">{{ product.quantity }}</span>件&nbsp;&nbsp;&nbsp;&nbsp;
 						<input id="quantity" type="number" min="1" max="{{ product.quantity }}" style="width:50px;" value="1">
-						<button onclick="add_trolley();" class="btn btn-default" role="button">加购物车</button></p>
+						<button onclick="addToTrolley();" class="btn btn-default" role="button">加购物车</button></p>
             </div>
         </div>
         <!-- /.row -->
@@ -64,20 +61,23 @@
         <script src="/static/bootstrap/js/baidujquery.min.js"></script>
         <script src="/static/bootstrap/js/baidubootstrap.min.js"></script>
         <script>
-            function add_trolley(){
+            function addToTrolley(){
                 user = "{{ current_user.name }}";
                 if (!user){
                     window.location.href="{{ url_for('auth.login') }}";
                 }
                 id = {{ product.id }};
                 quantity = $("#quantity").val();
+                data = {"product_id": id, "product_quantity": parseInt(quantity)}
                 $.ajax({
-                    url:"/trolley/add?product_id=" + id + "&product_quantity=" + quantity,
-                    type:"get",
+                    url: "/apis/open/trolley/",
+                    type: "post",
+                    data: JSON.stringify(data),
+                    contentType: "application/json",
                     dataType:"json",
                     async: true,
                     success: function callback(data){
-                        alert(data['status']);
+                        alert("加入购物车成功");
                     }
                 });
             }

@@ -12,12 +12,10 @@
     {% endblock head_meta %}
     
     <title>{% block title %}base{% endblock %}</title>
-    
+   
+    {% block css %} 
     <!-- Bootstrap Core CSS -->
-    <link href="/static/bootstrap/css/bootstrap.min.css" rel="stylesheet">
-
-    <!-- Custom CSS -->
-    {% block css %}
+    <link href="/static/css/bootstrap.min.css" rel="stylesheet">
     {% endblock %}
     
 </head>
@@ -84,10 +82,10 @@
     <!-- JavaScript at the bottom for fast page loading -->
     {% block js %}
     <!-- jQuery -->
-    <script src="/static/bootstrap/js/jquery.js"></script>
+    <script src="/static/js/jquery.js"></script>
 
     <!-- Bootstrap Core JavaScript -->
-    <script src="/static/bootstrap/js/bootstrap.min.js"></script>
+    <script src="/static/js/bootstrap.min.js"></script>
 
     {% endblock %}
     <!-- end scripts -->

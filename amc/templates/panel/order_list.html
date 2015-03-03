@@ -6,28 +6,28 @@
     <table class="table table-striped">
         <thead>
             <tr>
-                <th>#</th>
-                <th>用户名</th>
-                <th>订单状态</th>
-                <th>成交金额</th>
-                <th>创建时间</th>
-                <th>更新时间</th>
-                <th>操作</th>
+                <th class="text-center">订单编号</th>
+                <th class="text-center">用户名</th>
+                <th class="text-center">订单状态</th>
+                <th class="text-center">成交金额</th>
+                <th class="text-center">创建时间</th>
+                <th class="text-center">更新时间</th>
+                <th class="text-center">操作</th>
             </tr>
         </thead>
-    {% for order in orders %}
         <tbody>
+            {% for order in orders %}
             <tr>
-                <td>{{ order.id }}</td>
-                <td>{{ order.user.name }}</td>
-                <td>{{ order.status }}</td>
-                <td>{{ order.order_price }}</td>
-                <td>{{ order.date_created }}</td>
-                <td>{{ order.date_updated }}</td>
-                <td>
+                <td class="text-center">{{ order.id }}</td>
+                <td class="text-center">{{ order.user.name }}</td>
+                <td class="text-center">{{ order.status }}</td>
+                <td class="text-center">{{ order.order_price }}</td>
+                <td class="text-center">{{ order.date_created }}</td>
+                <td class="text-center">{{ order.date_updated }}</td>
+                <td class="text-center">
                     <a href="{{ url_for('order_admin.detail', id=order.id) }}">查看详情</a>
                 </td>
             </tr>
+            {% endfor %}
         </tbody>
-    {% endfor %}  
 {% endblock %}

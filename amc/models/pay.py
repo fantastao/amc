@@ -14,6 +14,7 @@ class PayModel(SurrogatePK, ModelBase):
     order_id = db.Column(db.Integer(), nullable=False, index=True)
     status = db.Column(db.String(64), nullable=False,
                        index=True, default=STATUS_PENDING)
+    amount = db.Column(db.Float(), nullable=False)
     date_created = db.Column(db.DateTime(timezone=True),
                              nullable=False, index=True,
                              server_default=db.func.current_timestamp())

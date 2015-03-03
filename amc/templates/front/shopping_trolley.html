@@ -1,11 +1,11 @@
 {% extends "front/base.html" %}
     {% block title %}购物车{% endblock %} 
+
     {% block css %}
-        <!--百度bootstrap-->
-        <link href="/static/bootstrap/css/baidubootstrap.min.css" rel="stylesheet">
-        <!-- Custom CSS -->
-        <link href="/static/bootstrap/css/1-col-portfolio.css" rel="stylesheet">
+        {{ super() }}
+        <link href="/static/css/1-col-portfolio.css" rel="stylesheet">
     {% endblock %}
+
     {% block content %}
         <p>&nbsp;</p>
         <div class="row" style="background-color:#eee;">
@@ -37,13 +37,12 @@
                     <tbody id="items_total">
                     </tbody>
                 </table>
-                <a href="{{ url_for('order.order_trolley') }}" class="text-center"><h3><b>结账</b></h3></a>
+                <a href="{{ url_for('order.trolley_commit') }}" class="text-center"><h3><b>结账</b></h3></a>
             </div>
             </div>
     {% endblock %}
 
     {% block js %}
-        <script src="/static/bootstrap/js/baidujquery.min.js"></script>
-        <script src="/static/bootstrap/js/baidubootstrap.min.js"></script>
+        {{ super() }}
         <script src="/static/js/cart.js"></script>
     {% endblock %}

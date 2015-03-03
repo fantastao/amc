@@ -42,8 +42,8 @@ class OrderModel(SurrogatePK, ModelBase):
     @hybrid_property
     def order_price(self):
         order_fee = 0
-        for product in self.products:
-            order_fee += product.total_price
+        for item in self.products:
+            order_fee += item.total_price
         return order_fee
 
     @hybrid_property
@@ -125,6 +125,12 @@ class TrolleyProductModel(ModelBase):
         primaryjoin='ProductModel.id==TrolleyProductModel.product_id',
         foreign_keys='TrolleyProductModel.product_id',
         uselist=False)
+
+    @hybrid_property
+    def is_supplied(self):
+        if self.product_quantity > self.product.quantity:
+            return False
+        return True
 
     def as_dict(self):
         result = {

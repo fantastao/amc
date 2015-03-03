@@ -8,24 +8,24 @@
         <thead>
             <tr>
                 <th>#</th>
-                <th>订单编号</th>
-                <th>账款状态</th>
-                <th>更新时间</th>
-                <th>操作</th>
+                <th class="text-center">订单编号</th>
+                <th class="text-center">账款状态</th>
+                <th class="text-center">更新时间</th>
+                <th class="text-center">操作</th>
             </tr>
         </thead>
-    {% for pay in pays %}
         <tbody>
+        {% for pay in pays %}
             <tr>
                 <td>{{ pay.id }}</td>
-                <td>{{ pay.order_id }}</td>
-                <td>{{ pay.status }}</td>
-                <td>{{ pay.date_updated }}</td>
-                <td>
+                <td class="text-center">{{ pay.order_id }}</td>
+                <td class="text-center">{{ pay.status }}</td>
+                <td class="text-center">{{ pay.date_updated }}</td>
+                <td class="text-center">
                     <a href="{{ url_for('pay_admin.delete', id=pay.id) }}">删除</a>
                     <a href="{{ url_for('pay_admin.detail', id=pay.id) }}">查看</a>
                 </td>
             </tr>
+        {% endfor %}
         </tbody>
-    {% endfor %}  
 {% endblock %}

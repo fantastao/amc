@@ -3,7 +3,8 @@
     {% block title %}AMC首页{% endblock %} 
 
     {% block css %}
-        <link href="/static/bootstrap/css/heroic-features.css" rel="stylesheet">
+        {{ super() }}
+        <link href="/static/css/heroic-features.css" rel="stylesheet">
     {% endblock %}
 
     {% block content %}
