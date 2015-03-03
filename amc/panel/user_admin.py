@@ -1,7 +1,7 @@
 # -*- coding: utf-8 -*-
 
 from flask import (Blueprint, render_template,
-                   views, url_for, redirect, flash)
+                   views, url_for, redirect)
 
 from amc.utils import origin_pw_hash
 from amc.models import UserModel, AuthModel, ShoppingTrolleyModel
@@ -17,7 +17,7 @@ class UserListAdmin(views.MethodView):
     template = 'panel/user_list.html'
 
     def get(self):
-        users = UserModel.query.all()
+        users = UserModel.query.order_by(UserModel.id).all()
         return render_template(self.template, users=users)
 
 
@@ -51,7 +51,6 @@ class UserDetailAdmin(views.MethodView):
         # 暂时不允许更新登录名
         # user.auth.account = form.account.data
         user.save()
-        flash(u'用户更新成功')
         return redirect(url_for('.detail', id=user.id))
 
 
@@ -100,7 +99,6 @@ class UserDeleteAdmin(views.MethodView):
         user.auth.delete()
         user.trolley.delete()
         user.delete()
-        flash(u'用户删除成功')
         return redirect(url_for('.list'))
 
 

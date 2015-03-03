@@ -20,7 +20,7 @@
                 <td>{{ pay.id }}</td>
                 <td class="text-center">{{ pay.order_id }}</td>
                 <td class="text-center">{{ pay.status }}</td>
-                <td class="text-center">{{ pay.date_updated }}</td>
+                <td class="text-center">{{ fmt_time(pay.date_updated) }}</td>
                 <td class="text-center">
                     <a href="{{ url_for('pay_admin.delete', id=pay.id) }}">删除</a>
                     <a href="{{ url_for('pay_admin.detail', id=pay.id) }}">查看</a>

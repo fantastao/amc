@@ -53,6 +53,7 @@ class UserModel(SurrogatePK, ModelBase, UserMixin):
         backref='user',
         primaryjoin='UserModel.id==OrderModel.user_id',
         foreign_keys='OrderModel.user_id',
+        order_by='OrderModel.date_created.desc()',
         uselist=True)
 
     @hybrid_property

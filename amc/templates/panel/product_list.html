@@ -26,7 +26,7 @@
                 <td class="text-center">{{ product.quantity }}</td>
                 <td class="text-center">{{ product.safe_quantity }}</td>
                 <td class="text-center">{{ product.category }}</td>
-                <td class="text-center">{{ product.date_updated }}</td>
+                <td class="text-center">{{ fmt_time(product.date_updated) }}</td>
                 <td class="text-center">
                     <a href="{{ url_for('product_admin.delete', id=product.id) }}">删除</a>
                     <a href="{{ url_for('product_admin.detail', id=product.id) }}">查看</a>

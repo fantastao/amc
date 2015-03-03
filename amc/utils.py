@@ -12,6 +12,22 @@ def now():
     return now
 
 
+def localtime(dt):
+    """convert pql datetime to local datetime"""
+    from dateutil import tz
+    local_tz = tz.gettz('Asia/Shanghai')
+    dt = dt.astimezone(local_tz)
+    return dt 
+
+
+def fmt_time(dt):
+    """精确到分"""
+    dt = localtime(dt)
+    fmt = "%Y-%m-%d %H:%M"
+    dt = dt.strftime(fmt)
+    return dt
+
+
 def set_password(pw):
     return generate_password_hash(pw)
 

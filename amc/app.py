@@ -5,6 +5,7 @@ from werkzeug.utils import import_string
 
 from amc.extensions import db, migrate, login_manager
 from amc._settings import DevConfig
+from amc.utils import fmt_time
 
 bps = [
     'amc.apis.open:bp',
@@ -28,6 +29,7 @@ def create_app(config=DevConfig):
     app.config.from_object(config)
     register_blueprints(app)
     register_extensions(app)
+    register_jinja_funcs(app)
     return app
 
 
@@ -41,3 +43,8 @@ def register_extensions(app):
 def register_blueprints(app):
     for bp in bps:
         app.register_blueprint(import_string(bp))
+
+
+def register_jinja_funcs(app):
+    funcs = dict(fmt_time=fmt_time)
+    app.jinja_env.globals.update(funcs)

@@ -13,7 +13,9 @@ class OrderListAdmin(views.MethodView):
     template = 'panel/order_list.html'
 
     def get(self):
-        orders = OrderModel.query.all()
+        orders = (OrderModel.query
+                  .order_by(OrderModel.date_updated.desc())
+                  .all())
         return render_template(self.template, orders=orders)
 
 
