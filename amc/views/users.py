@@ -1,7 +1,7 @@
 # -*- coding: utf-8 -*-
 
 from flask import (Blueprint, render_template,
-                   views, url_for, redirect, flash)
+                   views, url_for, redirect)
 
 from flask.ext.login import login_required, current_user
 
@@ -32,7 +32,6 @@ class UserProfileView(views.MethodView):
         user = current_user
         form.populate_obj(user)
         user.save()
-        flash(u'用户信息修改成功')
         return redirect(url_for('.profile'))
 
 

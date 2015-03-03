@@ -1,7 +1,7 @@
 # -*- coding: utf-8 -*-
 
 from flask import (Blueprint, render_template,
-                   views, url_for, redirect, flash)
+                   views, url_for, redirect)
 
 from amc.models import PayModel
 
@@ -16,7 +16,9 @@ class PayListAdmin(views.MethodView):
     template = 'panel/pay_list.html'
 
     def get(self):
-        pays = PayModel.query.all()
+        pays = (PayModel.query
+                .order_by(PayModel.date_created.desc())
+                .all())
         return render_template(self.template, pays=pays)
 
 
@@ -41,7 +43,6 @@ class PayCreateAdmin(views.MethodView):
         # 在表单对数据进行校验不能完全保证数据库commit操作正常
         # 所以要加上异常处理
         pay.save()
-        flash(u'账款创建成功')
         return redirect(url_for('.detail', id=pay.id))
 
 
@@ -70,7 +71,6 @@ class PayDetailAdmin(views.MethodView):
         pay.order_id = form.order_id.data
         pay.status = form.status.data
         pay.save()
-        flash(u'账款更新成功')
         return redirect(url_for('.detail', id=pay.id))
 
 
@@ -82,7 +82,6 @@ class PayDeleteAdmin(views.MethodView):
         if not pay:
             return
         pay.delete()
-        flash(u'账款事项删除成功')
         return redirect(url_for('.list'))
 
 
