@@ -22,8 +22,8 @@
                 <td class="text-center">{{ order.user.name }}</td>
                 <td class="text-center">{{ order.status }}</td>
                 <td class="text-center">{{ order.order_price }}</td>
-                <td class="text-center">{{ order.date_created }}</td>
-                <td class="text-center">{{ order.date_updated }}</td>
+                <td class="text-center">{{ fmt_time(order.date_created) }}</td>
+                <td class="text-center">{{ fmt_time(order.date_updated) }}</td>
                 <td class="text-center">
                     <a href="{{ url_for('order_admin.detail', id=order.id) }}">查看详情</a>
                 </td>
