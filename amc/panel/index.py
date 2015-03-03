@@ -8,7 +8,7 @@ bp = Blueprint('admin_index', __name__)
 class AdminIndex(views.MethodView):
     """后台管理首页"""
 
-    template = 'panel/index.html'
+    template = 'panel/admin_index.html'
 
     def get(self):
         return render_template(self.template)
