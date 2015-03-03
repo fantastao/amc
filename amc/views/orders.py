@@ -21,19 +21,11 @@ class TrolleyView(views.MethodView):
     @login_required
     def get(self):
         trolley = current_user.trolley
-        products_list = []
         total = 0
-        if trolley:
-            products = trolley.products
-            for item in products:
-                product = {}
-                product["product_id"] = item.product_id
-                product["quantity"] = item.product_quantity
-                product["price"] = item.product.price
-                product["name"] = item.product.name
-                products_list.append(product)
-                total += product["quantity"] * product["price"]
-        return render_template(self.template, products=products_list, total=total)
+        products = trolley.products
+        for item in products:
+            total += item.product.price * item.product_quantity
+        return render_template(self.template, products=products, total=total)
 
 
 class TrolleyCommitView(views.MethodView):
