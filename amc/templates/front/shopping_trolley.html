@@ -51,7 +51,7 @@
                         <tr>
                             <td>商品总额：</td>
                             <td></td>
-                            <td class="text-right"><b class="ng-binding">{{ total }}</b></td>';
+                            <td class="text-right"><b class="ng-binding">{{ total }}</b></td>
                             </tr><tr>
                             <td>运费：</td>
                             <td></td>
@@ -76,14 +76,14 @@
         {{ super() }}
         <script>
             function itemsUpdate(product_id, product_quantity){
-                data = {"product_quantity": parseInt(product_quantity)}
-                url = "/apis/open/trolley/" + product_id + "/";
+                var data = {"product_quantity": parseInt(product_quantity)};
+                var url = "/apis/open/trolley/" + product_id + "/";
                 $.ajax({
                     url: url,
                     type: "put",
                     data: JSON.stringify(data),
                     contentType: "application/json",
-                    dataType:"json",
+                    dataType: "json",
                     async: true,
                     success: window.location.reload()
                 });

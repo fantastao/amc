@@ -45,7 +45,8 @@ class OrderPanelAPI(views.MethodView):
             abort(422)
         if (status == OrderModel.STATUS_CANCEL and
                 order.status in [OrderModel.STATUS_DISPATCH,
-                                 OrderModel.STATUS_SUCCESS]):
+                                 OrderModel.STATUS_SUCCESS,
+                                 OrderModel.STATUS_CANCEL]):
             abort(422)
 
         order_info['date_updated'] = now()

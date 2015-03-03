@@ -29,10 +29,19 @@ class TrolleyOpenAPI(views.MethodView):
         v = AmcValidator(schema)
         if not v(trolley_info):
             abort(422)
+
         # 购物车在创建用户时已经创建
-        trolley_id = current_user.trolley.id
-        trolley_info['trolley_id'] = trolley_id
+        if not current_user.trolley:
+            abort(404)
+
         # 有一种情况，之前添加过又来添加一遍，会报错
+        trolley_id = current_user.trolley.id
+        product_id = trolley_info.get('product_id')
+        if TrolleyProductModel.query.get((trolley_id, product_id)):
+            # conflict
+            abort(409)
+
+        trolley_info['trolley_id'] = trolley_id
         item = TrolleyProductModel.create(**trolley_info)
         return jsonify(item.as_dict()), 201
 

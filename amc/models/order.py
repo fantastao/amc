@@ -53,6 +53,16 @@ class OrderModel(SurrogatePK, ModelBase):
                 return False
         return True
 
+    def as_dict(self):
+        result = {
+            'id': self.id,
+            'user_id': self.user_id,
+            'status': self.status,
+            'date_created': self.date_created,
+            'date_updated': self.date_updated,
+        }
+        return result
+
 
 class OrderProductModel(ModelBase):
 

@@ -75,8 +75,19 @@
                     contentType: "application/json",
                     dataType:"json",
                     async: true,
-                    success: function callback(data){
-                        alert("加入购物车成功");
+                    statusCode: {
+                        422: function() {
+                            alert("参数传递错误");
+                        },
+                        404: function() {
+                            alert("用户购物车不存在");
+                        },
+                        409: function() {
+                            alert("当前商品已经添加到购物车，请直接在购物车中修改");
+                        },
+                        201: function() {
+                            alert("添加至购物车成功");
+                        },
                     }
                 });
             }

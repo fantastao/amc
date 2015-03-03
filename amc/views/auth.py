@@ -1,7 +1,7 @@
 # -*- coding: utf-8 -*-
 
 from flask import (request, Blueprint, render_template,
-                   redirect, url_for, flash)
+                   redirect, url_for)
 from flask.ext.login import login_required, logout_user
 
 from .forms import LoginForm
@@ -20,10 +20,9 @@ def login():
         if not form.validate_on_submit():
             # return form.errors rendered in templates
             return render_template('login.html', form=form)
-        flash(u'登陆成功')
         # after form validate finish,login_user directly
         # login_user(auth.user)
-        return redirect(url_for('home.index'))
+        return redirect(request.args.get('next') or url_for('home.index'))
 
 
 @bp.route('/logout', methods=['GET'])

@@ -1,7 +1,5 @@
 # -*- coding: utf-8 -*-
 
-import json
-
 from flask import (Blueprint, views, render_template,
                    redirect, url_for)
 
