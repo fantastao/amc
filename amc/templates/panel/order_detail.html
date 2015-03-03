@@ -49,7 +49,21 @@
                 contentType: "application/json",
                 dataType:"json",
                 async: true,
-                success: window.location.reload()
+                statusCode: {
+                	422: function() {
+                		alert("传递参数错误");
+                	},
+                	404: function() {
+                		alert("订单不存在");
+                	},
+                	403: function() {
+                		alert("不被允许的修改");
+                	},
+                	200: function() {
+                		alert("订单状态修改成功")
+                		window.location.reload();
+                	}
+                }
             });
         }
     </script>

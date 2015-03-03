@@ -35,19 +35,19 @@ class OrderPanelAPI(views.MethodView):
         if not order:
             abort(404)
 
-        # 不被允许的情况
+        # 不被允许的情况,403
         status = order_info.get('status')
         if (status == OrderModel.STATUS_CONFIRM and
                 order.status != OrderModel.STATUS_LAUNCH):
-            abort(422)
+            abort(403)
         if (status == OrderModel.STATUS_DISPATCH and
                 order.status != OrderModel.STATUS_CONFIRM):
-            abort(422)
+            abort(403)
         if (status == OrderModel.STATUS_CANCEL and
                 order.status in [OrderModel.STATUS_DISPATCH,
                                  OrderModel.STATUS_SUCCESS,
                                  OrderModel.STATUS_CANCEL]):
-            abort(422)
+            abort(403)
 
         order_info['date_updated'] = now()
         order.update(**order_info)
