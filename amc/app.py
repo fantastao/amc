@@ -8,7 +8,7 @@ from amc._settings import DevConfig
 
 bps = [
     'amc.apis.open:bp',
-    # 'amc.apis.panel:bp',
+    'amc.apis.panel:bp',
     'amc.views.home:bp',
     'amc.views.auth:bp',
     'amc.views.products:bp',

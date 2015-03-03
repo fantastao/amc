@@ -1,7 +1,7 @@
 # -*- coding: utf-8 -*-
 
 from flask import (Blueprint, render_template,
-                   views, url_for, redirect, flash)
+                   views, url_for, redirect)
 
 from amc.models import PurchaseModel, ProductModel
 
@@ -38,7 +38,6 @@ class PurchaseCreateAdmin(views.MethodView):
             product_id=form.product_id.data,
             product_quantity=form.product_quantity.data)
         purchase.save()
-        flash(u'采购创建成功')
         return redirect(url_for('.list'))
 
 
@@ -47,16 +46,16 @@ class PurchaseConfirmAdmin(views.MethodView):
 
     def get(self, id):
         purchase = PurchaseModel.query.get(id)
-        if not purchase:
+        if not purchase or purchase.status == PurchaseModel.STATUS_OVER:
+            # 采购不存在或者已经结束
             return
         product = ProductModel.query.get(purchase.product_id)
         if not product:
             return
-        product.quantity += purchase.product_quantity
-        product.save()
         purchase.status = PurchaseModel.STATUS_OVER
         purchase.save()
-        flash(u'采购成功')
+        product.quantity += purchase.product_quantity
+        product.save()
         return redirect(url_for('.list'))
 
 
@@ -85,7 +84,6 @@ class PurchaseDetailAdmin(views.MethodView):
         purchase.product_id = form.product_id.data
         purchase.product_quantity = form.product_quantity.data
         purchase.save()
-        flash(u'采购更新成功')
         return redirect(url_for('.detail', id=purchase.id))
 
 
@@ -97,7 +95,6 @@ class PurchaseDeleteAdmin(views.MethodView):
         if not purchase:
             return
         purchase.delete()
-        flash(u'采购事项删除成功')
         return redirect(url_for('.list'))
 
 
