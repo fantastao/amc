@@ -9,14 +9,14 @@ from amc.utils import now
 
 from .rest import AmcValidator
 
-bp = Blueprint('panel', __name__)
+bp = Blueprint('panel', __name__, url_prefix='/apis/panel')
 
 
 STATUS_ALLOW = [OrderModel.STATUS_CONFIRM, OrderModel.STATUS_DISPATCH,
                 OrderModel.STATUS_CANCEL]
 
 schema_dict = {
-    'status': {'type': 'string', 'allowed': STATUS_ALLOW},
+    'status': {'type': 'string', 'allowed': STATUS_ALLOW, 'required': True},
 }
 
 
@@ -49,13 +49,18 @@ class OrderPanelAPI(views.MethodView):
             abort(422)
 
         order_info['date_updated'] = now()
-        order = OrderModel.update(**order_info)
+        order.update(**order_info)
 
-        # 没有权限管理时用1
-        current_user_id = 1
+        # 没有权限管理时用2
+        current_user_id = 2 
         OrderHistoryModel.create(
             order_id=order.id,
             status=order.status,
             operator_id=current_user_id)
 
         return jsonify(order.as_dict()), 200
+
+
+bp.add_url_rule(
+    '/order/<int:id>/',
+    view_func=OrderPanelAPI.as_view('order'))

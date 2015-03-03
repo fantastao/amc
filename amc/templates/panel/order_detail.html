@@ -31,4 +31,26 @@
 	    </tbody>
     </table>
 </div>
+<button onclick="orderUpdate('confirm');" type="button" class="btn btn-primary">确认订单</button>
+<button onclick="orderUpdate('dispatch');" type="button" class="btn btn-success">已经发货</button>
+<button onclick="orderUpdate('cancel');" type="button" class="btn btn-danger">取消订单</button>
+{% endblock %}
+
+{% block js%}
+    {{ super() }}
+    <script>
+        function orderUpdate(status){
+            var id = {{ order.id }};
+            var data = {"status": status};
+            $.ajax({
+                url: "/apis/panel/order/" + id + "/",
+                type: "put",
+                data: JSON.stringify(data),
+                contentType: "application/json",
+                dataType:"json",
+                async: true,
+                success: window.location.reload()
+            });
+        }
+    </script>
 {% endblock %}
