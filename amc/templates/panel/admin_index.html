@@ -1,0 +1,14 @@
+{% extends "panel/index.html" %}
+
+{% block content %}
+    <h1>欢迎来到AMC后台管理系统</h1>
+    <div style="height:400px;width:1000px;">
+        <div id="bar" style="float:left;width:50%;height:100%;"></div>
+        <div id="pie" style="float:left;width:50%;height:100%;"></div>
+    </div>
+{% endblock %}
+{% block js %}
+    {{ super() }}
+    <script src="/static/echarts/echarts-all.js"></script>
+    <script src="/static/js/index.js"></script>
+{% endblock %}
