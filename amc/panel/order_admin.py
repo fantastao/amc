@@ -26,7 +26,9 @@ class OrderDetailAdmin(views.MethodView):
         order = OrderModel.query.get(id)
         if not order:
             return
-        return render_template(self.template, order=order)
+        products = order.products
+        return render_template(self.template,
+                               order=order, products=products)
 
 
 bp.add_url_rule(

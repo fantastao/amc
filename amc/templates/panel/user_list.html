@@ -8,26 +8,26 @@
         <thead>
             <tr>
                 <th>#</th>
-                <th>用户名</th>
-                <th>联系方式</th>
-                <th>地址</th>
-                <th>信用情况</th>
-                <th>操作</th>
+                <th class="text-center">用户名</th>
+                <th class="text-center">联系方式</th>
+                <th class="text-center">地址</th>
+                <th class="text-center">信用情况</th>
+                <th class="text-center">操作</th>
             </tr>
         </thead>
-    {% for user in users %}
         <tbody>
+            {% for user in users %}
             <tr>
                 <td>{{ user.id }}</td>
-                <td>{{ user.name }}</td>
-                <td>{{ user.phone }}</td>
-                <td>{{ user.address }}</td>
-                <td>{{ user.credit }}</td>
-                <td>
+                <td class="text-center">{{ user.name }}</td>
+                <td class="text-center">{{ user.phone }}</td>
+                <td class="text-center">{{ user.address }}</td>
+                <td class="text-center">{{ user.credit }}</td>
+                <td class="text-center">
                     <a href="{{ url_for('user_admin.delete', id=user.id) }}">删除</a>
                     <a href="{{ url_for('user_admin.detail', id=user.id) }}">查看</a>
                 </td>
             </tr>
+            {% endfor %}
         </tbody>
-    {% endfor %}  
 {% endblock %}
