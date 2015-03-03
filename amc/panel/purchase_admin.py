@@ -4,6 +4,7 @@ from flask import (Blueprint, render_template,
                    views, url_for, redirect)
 
 from amc.models import PurchaseModel, ProductModel
+from amc.utils import now
 
 from .forms import PurchaseInfoForm
 
@@ -16,7 +17,9 @@ class PurchaseListAdmin(views.MethodView):
     template = 'panel/purchase_list.html'
 
     def get(self):
-        purchases = PurchaseModel.query.all()
+        purchases = (PurchaseModel.query
+                     .order_by(PurchaseModel.date_created.desc())
+                     .all())
         return render_template(self.template, purchases=purchases)
 
 
@@ -55,6 +58,7 @@ class PurchaseConfirmAdmin(views.MethodView):
         purchase.status = PurchaseModel.STATUS_OVER
         purchase.save()
         product.quantity += purchase.product_quantity
+        product.date_updated = now()
         product.save()
         return redirect(url_for('.list'))
 

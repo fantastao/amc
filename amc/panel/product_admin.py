@@ -1,7 +1,7 @@
 # -*- coding: utf-8 -*-
 
 from flask import (Blueprint, render_template,
-                   views, url_for, redirect, flash)
+                   views, url_for, redirect)
 
 from amc.models import ProductModel
 from amc.utils import now
@@ -17,7 +17,7 @@ class ProductListAdmin(views.MethodView):
     template = 'panel/product_list.html'
 
     def get(self):
-        products = ProductModel.query.all()
+        products = ProductModel.query.order_by(ProductModel.id).all()
         return render_template(self.template, products=products)
 
 
@@ -47,7 +47,6 @@ class ProductCreateAdmin(views.MethodView):
         # 在表单对数据进行校验不能完全保证数据库commit操作正常
         # 所以要加上异常处理
         product.save()
-        flash(u'产品创建成功')
         return redirect(url_for('.detail', id=product.id))
 
 
@@ -89,7 +88,6 @@ class ProductDetailAdmin(views.MethodView):
         product.made_in = form.made_in.data
         product.date_updated = now()
         product.save()
-        flash(u'产品更新成功')
         return redirect(url_for('.detail', id=product.id))
 
 
@@ -101,7 +99,6 @@ class ProductDeleteAdmin(views.MethodView):
         if not product:
             return
         product.delete()
-        flash(u'产品删除成功')
         return redirect(url_for('.list'))
 
 
