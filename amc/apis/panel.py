@@ -52,6 +52,14 @@ class OrderPanelAPI(views.MethodView):
         order_info['date_updated'] = now()
         order.update(**order_info)
 
+        # 若管理员取消订单，则修改库存
+        if (status == OrderModel.STATUS_CANCEL):
+            for item in order.products:
+                product = item.product
+                product.quantity += item.product_quantity
+                product.date_updated = now()
+                product.save()
+
         # 没有权限管理时用2
         current_user_id = 2 
         OrderHistoryModel.create(
