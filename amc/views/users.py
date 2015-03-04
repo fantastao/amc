@@ -42,6 +42,7 @@ class UserOrdersView(views.MethodView):
     @login_required
     def get(self):
         orders = current_user.orders
+        orders.sort(key=lambda k:k.date_updated, reverse=True)
         return render_template(self.template, orders=orders)
 
 
