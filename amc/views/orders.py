@@ -139,11 +139,30 @@ class OrderSuccessView(views.MethodView):
 
 
 class OrderReturnView(views.MethodView):
-    """申请退货，暂时不处理"""
+    """申请退货"""
 
     @login_required
     def get(self, id):
-        pass
+        order = OrderModel.query.get(id)
+        if not order:
+            return
+        if order.user_id != current_user.id:
+            # 非当前用户的订单
+            return
+        if order.status != OrderModel.STATUS_DISPATCH:
+            # 订单处不处于货物发出状态
+            return
+
+        # 更新状态，载入历史
+        order.update(
+            status=OrderModel.STATUS_RETURN,
+            date_updated=now())
+        OrderHistoryModel.create(
+            order_id=id,
+            status=order.status,
+            operator_id=current_user.id)
+
+        return redirect(url_for('user.order'))
 
 
 bp.add_url_rule(

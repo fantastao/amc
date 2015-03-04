@@ -81,8 +81,8 @@ function drawPie(){
         options : [
             {
                 title : {
-                    text: '浏览器占比变化',
-                    subtext: '纯属虚构'
+                    text: '',
+                    subtext: ''
                 },
                 tooltip : {
                     trigger: 'item',
