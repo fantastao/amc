@@ -111,10 +111,10 @@ bp.add_url_rule(
 bp.add_url_rule(
     '/admin/purchases/confirm/<int:id>/',
     view_func=PurchaseConfirmAdmin.as_view('confirm'))
+"""
 bp.add_url_rule(
     '/admin/purchases/delete/<int:id>/',
     view_func=PurchaseDeleteAdmin.as_view('delete'))
-"""
 bp.add_url_rule(
     '/admin/purchases/<int:id>/',
     view_func=PurchaseDetailAdmin.as_view('detail'))

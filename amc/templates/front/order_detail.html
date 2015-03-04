@@ -2,6 +2,21 @@
     {% block title %}我的订单{% endblock %}
 
     {% block content %}
+    {% macro render_status(status) %}
+        {% if status == 'launch' %}
+            待确认
+        {% elif status == 'confirm' %}
+            已确认
+        {% elif status == 'dispatch' %}
+            已发货
+        {% elif status == 'success' %}
+            交易成功
+        {% elif status == 'return' %}
+            退货中
+        {% elif status == 'cancel' %}
+            已取消
+        {% endif %}
+    {% endmacro %}
     	<p>&nbsp;</p> 	
     	<div class="row">
     		<!--左侧导航栏开始-->
@@ -26,7 +41,7 @@
                                     <th class="text-center">订单金额（元）</th>
                                     <th class="text-center">提交日期</th>
                                     <th class="text-center">订单状态</th>
-                                    <th class="text-center">操作</th>
+                                    <th class="text-center" style="width: 200px">操作</th>
                                 </tr>
                             </thead>
                             <tbody>
@@ -34,7 +49,7 @@
                                     <td class="text-center">{{ order.user.name }}</td>
                                     <td class="text-center">{{ order.order_price }}</td>
                                     <td class="text-center">{{ fmt_time(order.date_created) }}</td>
-                                    <td class="text-center">{{ order.status }}</td>
+                                    <td class="text-center">{{ render_status(order.status) }}</td>
                                     <td class="text-center">
                                         <a href="#display{{ order.id }}" data-toggle="modal">查看详情</a>
                                         {% if order.status in ['launch', 'confirm'] %}

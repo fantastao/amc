@@ -1,10 +1,25 @@
 {% extends "panel/index.html" %}
 
 {% block content %}
+{% macro render_status(status) %}
+    {% if status == 'launch' %}
+        待确认
+    {% elif status == 'confirm' %}
+        已确认
+    {% elif status == 'dispatch' %}
+        已发货
+    {% elif status == 'success' %}
+        交易成功
+    {% elif status == 'return' %}
+        退货中
+    {% elif status == 'cancel' %}
+        已取消
+    {% endif %}
+{% endmacro %}
 <h1>订单管理</h1>
 <div class="panel panel-default">
     <!-- Default panel contents -->
-    <div class="panel-heading">订单编号: {{ order.id }}  订单状态: {{ order.status }}  订单金额: {{ order.order_price }}</div>
+    <div class="panel-heading"><h4>订单编号:&nbsp;{{ order.id }}&nbsp;&nbsp;&nbsp;&nbsp;订单状态:&nbsp;{{ render_status(order.status) }}&nbsp;&nbsp;&nbsp;&nbsp;订单金额:&nbsp;{{ order.order_price }}</h2></div>
 
     <!-- Table -->
     <table class="table">

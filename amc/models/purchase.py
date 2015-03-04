@@ -22,3 +22,9 @@ class PurchaseModel(SurrogatePK, ModelBase):
     date_updated = db.Column(db.DateTime(timezone=True),
                              nullable=False, index=True,
                              server_default=db.func.current_timestamp())
+
+    product = db.relationship(
+            'ProductModel',
+            foreign_keys='PurchaseModel.product_id',
+            primaryjoin='ProductModel.id==PurchaseModel.product_id',
+            uselist=False)

@@ -1,6 +1,13 @@
 {% extends "panel/index.html" %}
 
 {% block content %}
+{% macro render_status(status) %}
+    {% if status == 'pending' %}
+        待收款
+    {% elif status == 'received' %}
+        已到账
+    {% endif %}
+{% endmacro %}
 <h1>财务管理</h1>
 <a class="btn btn-default" href="{{ url_for('pay_admin.create') }}" role="button">创建账款事项</a>
 <div class="table-responsive">
@@ -22,7 +29,7 @@
             <tr>
                 <td>{{ pay.id }}</td>
                 <td class="text-center">{{ pay.order_id }}</td>
-                <td class="text-center">{{ pay.status }}</td>
+                <td class="text-center">{{ render_status(pay.status) }}</td>
                 <td class="text-center">{{ pay.amount }}</td>
                 <td class="text-center">{{ pay.order.user.name }}</td>
                 <td class="text-center">{{ fmt_time(pay.date_created) }}</td>
