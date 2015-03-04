@@ -445,7 +445,7 @@ function drawDynamicBar(){
             data:['最新成交价', '预购队列']
         },
         toolbox: {
-            show : true,
+            show : false,
             feature : {
                 mark : {show: true},
                 dataView : {show: true, readOnly: false},
