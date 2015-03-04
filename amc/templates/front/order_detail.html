@@ -19,24 +19,24 @@
     		<p>&nbsp;</p><p>&nbsp;</p>
                 {% for order in orders %}
                     <div id="myOrder" class="panel panel-default">
-                        <div class="panel-heading">{{ order.id }}</div> 				
+                        <div class="panel-heading">编号-{{ order.id }}</div> 				
                         <table class="table">
                             <thead>
                                 <tr>
-                                    <th>收货人</th>
-                                    <th>订单金额（元）</th>
-                                    <th>提交日期</th>
-                                    <th>订单状态</th>
-                                    <th>操作</th>
+                                    <th class="text-center">收货人</th>
+                                    <th class="text-center">订单金额（元）</th>
+                                    <th class="text-center">提交日期</th>
+                                    <th class="text-center">订单状态</th>
+                                    <th class="text-center">操作</th>
                                 </tr>
                             </thead>
                             <tbody>
                                 <tr>
-                                    <td>{{ order.user.name }}</td>
-                                    <td>{{ order.order_price }}</td>
-                                    <td>{{ fmt_time(order.date_created) }}</td>
-                                    <td>{{ order.status }}</td>
-                                    <td>
+                                    <td class="text-center">{{ order.user.name }}</td>
+                                    <td class="text-center">{{ order.order_price }}</td>
+                                    <td class="text-center">{{ fmt_time(order.date_created) }}</td>
+                                    <td class="text-center">{{ order.status }}</td>
+                                    <td class="text-center">
                                         <a href="#display{{ order.id }}" data-toggle="modal">查看详情</a>
                                         {% if order.status in ['launch', 'confirm'] %}
                                         <a href="{{ url_for('order.order_cancel', id=order.id) }}">取消订单</a>
