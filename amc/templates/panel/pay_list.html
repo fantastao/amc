@@ -9,6 +9,12 @@
     {% endif %}
 {% endmacro %}
 <h1>财务管理</h1>
+<p>&nbsp;</p>
+<ul class="nav nav-pills" role="tablist">
+  <li role="presentation" class="active"><a href="{{ url_for('pay_admin.pay_list') }}">应收帐款</a></li>
+  <li role="presentation"><a href="{{ url_for('pay_admin.due_list') }}">应付账款</a></li>
+</ul>
+<p>&nbsp;</p>
 <div class="table-responsive">
     <table class="table table-striped">
         <thead>
