@@ -40,9 +40,45 @@
                 <td class="text-center">{{ fmt_time(pay.date_created) }}</td>
                 <td class="text-center">{{ fmt_time(pay.date_updated) }}</td>
                 <td class="text-center">
-                    <a href="#">查看</a>
+                {% if pay.status == 'pending' %}
+                    <a href="#" onclick = "payUpdate('received', {{ pay.id }})">确认收款</a>
+                {% elif pay.status == 'received' %}
+                    <a href="{{ url_for('pay_admin.detail', id=pay.id) }}">查看详情</a>
+                    <a href="{{ url_for('pay_admin.delete', id=pay.id) }}">删除</a>
+                {% endif%}
                 </td>
             </tr>
         {% endfor %}
         </tbody>
+{% endblock %}
+{% block js%}
+    {{ super() }}
+    <script>
+        function payUpdate(status, id){
+            var data = {"status": status};
+            $.ajax({
+                url: "/apis/panel/pay/" + id + "/",
+                type: "put",
+                data: JSON.stringify(data),
+                contentType: "application/json",
+                dataType:"json",
+                async: true,
+                statusCode: {
+                    422: function() {
+                        alert("传递参数错误");
+                    },
+                    404: function() {
+                        alert("账款不存在");
+                    },
+                    403: function() {
+                        alert("不被允许的修改");
+                    },
+                    200: function() {
+                        alert("账款状态修改成功");
+                        window.location.reload();
+                    }
+                }
+            });
+        }
+    </script>
 {% endblock %}
