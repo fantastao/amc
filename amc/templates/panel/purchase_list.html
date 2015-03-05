@@ -17,7 +17,9 @@
                 <th>#</th>
                 <th class="text-center">产品编号</th>
                 <th class="text-center">产品名称</th>
+                <th class="text-center">采购单价</th>
                 <th class="text-center">采购数量</th>
+                <th class="text-center">采购金额</th>
                 <th class="text-center">采购状态</th>
                 <th class="text-center">创建时间</th>
                 <th class="text-center">操作</th>
@@ -29,7 +31,9 @@
                 <td>{{ purchase.id }}</td>
                 <td class="text-center">{{ purchase.product_id }}</td>
                 <td class="text-center">{{ purchase.product.name }}</td>
+                <td class="text-center">{{ purchase.cost }}</td>
                 <td class="text-center">{{ purchase.product_quantity }}</td>
+                <td class="text-center">{{ purchase.total_cost }}</td>
                 <td class="text-center">{{ render_status(purchase.status) }}</td>
                 <td class="text-center">{{ fmt_time(purchase.date_created) }}</td>
                 <td class="text-center">
