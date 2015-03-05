@@ -21,3 +21,22 @@ class PayModel(SurrogatePK, ModelBase):
     date_updated = db.Column(db.DateTime(timezone=True),
                              nullable=False, index=True,
                              server_default=db.func.current_timestamp())
+
+
+class DueModel(SurrogatePK, ModelBase):
+
+    STATUS_PENDING = 'pending'
+    STATUS_PAID = 'paid'
+
+    __tablename__ = 'due'
+
+    purchase_id = db.Column(db.Integer(), nullable=False, index=True)
+    status = db.Column(db.String(64), nullable=False,
+                       index=True, default=STATUS_PENDING)
+    amount = db.Column(db.Float(), nullable=False)
+    date_created = db.Column(db.DateTime(timezone=True),
+                             nullable=False, index=True,
+                             server_default=db.func.current_timestamp())
+    date_updated = db.Column(db.DateTime(timezone=True),
+                             nullable=False, index=True,
+                             server_default=db.func.current_timestamp())

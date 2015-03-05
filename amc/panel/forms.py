@@ -64,6 +64,7 @@ class PurchaseInfoForm(Form):
     """后台创建采购事项，修改采购信息"""
 
     product_id = IntegerField(u'产品编号', validators=[DataRequired()])
+    cost = FloatField(u'采购单价', validators=[DataRequired()])
     product_quantity = IntegerField(u'采购数量', validators=[DataRequired()])
 
 

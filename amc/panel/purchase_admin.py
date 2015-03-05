@@ -3,7 +3,7 @@
 from flask import (Blueprint, render_template,
                    views, url_for, redirect)
 
-from amc.models import PurchaseModel, ProductModel
+from amc.models import PurchaseModel, ProductModel, DueModel
 from amc.utils import now
 
 from .forms import PurchaseInfoForm
@@ -39,6 +39,7 @@ class PurchaseCreateAdmin(views.MethodView):
             return render_template(self.template, form=form)
         purchase = PurchaseModel(
             product_id=form.product_id.data,
+            cost=form.cost.data,
             product_quantity=form.product_quantity.data)
         purchase.save()
         return redirect(url_for('.list'))
@@ -60,6 +61,12 @@ class PurchaseConfirmAdmin(views.MethodView):
         product.quantity += purchase.product_quantity
         product.date_updated = now()
         product.save()
+
+        # 生成应付款账单
+        DueModel.create(
+            purchase_id=id,
+            amount=purchase.total_cost)
+
         return redirect(url_for('.list'))
 
 
@@ -75,6 +82,7 @@ class PurchaseDetailAdmin(views.MethodView):
             return
         form = PurchaseInfoForm(
             product_id=purchase.product_id,
+            cost=purchase.cost,
             product_quantity=purchase.product_quantity)
         return render_template(self.template, form=form)
 
@@ -86,6 +94,7 @@ class PurchaseDetailAdmin(views.MethodView):
         if not form.validate_on_submit():
             return render_template(self.template, form=form)
         purchase.product_id = form.product_id.data
+        purchase.cost = form.cost.data
         purchase.product_quantity = form.product_quantity.data
         purchase.save()
         return redirect(url_for('.detail', id=purchase.id))

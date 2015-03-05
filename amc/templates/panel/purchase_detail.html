@@ -12,6 +12,13 @@
         {{ form.product_id(class='form-control', placeholder='必填项') }}
     </div>
     <div class="form-group">
+        {{ form.cost.label }}
+        {% if form.cost.errors %}
+        <p>{{ form.cost.errors[0] }}</p>
+        {% endif %}
+        {{ form.cost(class='form-control', placeholder='必填项') }}
+    </div>
+    <div class="form-group">
         {{ form.product_quantity.label }}
         {% if form.product_quantity.errors %}
         <p>{{ form.product_quantity.errors[0] }}</p>
