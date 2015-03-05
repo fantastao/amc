@@ -3,7 +3,7 @@
 from flask import (Blueprint, render_template,
                    views, url_for, redirect)
 
-from amc.models import PayModel
+from amc.models import PayModel, DueModel
 
 from .forms import PayInfoForm
 
@@ -20,6 +20,18 @@ class PayListAdmin(views.MethodView):
                 .order_by(PayModel.date_created.desc())
                 .all())
         return render_template(self.template, pays=pays)
+
+
+class DueListAdmin(views.MethodView):
+    """`get`: 查询应付款列表"""
+
+    template = 'panel/due_list.html'
+
+    def get(self):
+        dues = (DueModel.query
+                .order_by(DueModel.date_created.desc())
+                .all())
+        return render_template(self.template, dues=dues)
 
 
 class PayCreateAdmin(views.MethodView):
@@ -87,7 +99,11 @@ class PayDeleteAdmin(views.MethodView):
 
 bp.add_url_rule(
     '/admin/pays/',
-    view_func=PayListAdmin.as_view('list'))
+    view_func=PayListAdmin.as_view('pay_list'))
+bp.add_url_rule(
+    '/admin/dues/',
+    view_func=DueListAdmin.as_view('due_list'))
+"""
 bp.add_url_rule(
     '/admin/pays/create/',
     view_func=PayCreateAdmin.as_view('create'))
@@ -97,3 +113,4 @@ bp.add_url_rule(
 bp.add_url_rule(
     '/admin/pays/delete/<int:id>/',
     view_func=PayDeleteAdmin.as_view('delete'))
+"""

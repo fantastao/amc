@@ -3,16 +3,16 @@
 {% block content %}
 {% macro render_status(status) %}
     {% if status == 'pending' %}
-        待收款
-    {% elif status == 'received' %}
-        已到账
+        待付款
+    {% elif status == 'paid' %}
+        已付款
     {% endif %}
 {% endmacro %}
 <h1>财务管理</h1>
 <p>&nbsp;</p>
 <ul class="nav nav-pills" role="tablist">
-  <li role="presentation" class="active"><a href="{{ url_for('pay_admin.pay_list') }}">应收帐款</a></li>
-  <li role="presentation"><a href="{{ url_for('pay_admin.due_list') }}">应付账款</a></li>
+  <li role="presentation"><a href="{{ url_for('pay_admin.pay_list') }}">应收帐款</a></li>
+  <li role="presentation" class="active"><a href="{{ url_for('pay_admin.due_list') }}">应付账款</a></li>
 </ul>
 <p>&nbsp;</p>
 <div class="table-responsive">
@@ -20,25 +20,23 @@
         <thead>
             <tr>
                 <th>#</th>
-                <th class="text-center">订单编号</th>
+                <th class="text-center">采购编号</th>
                 <th class="text-center">账单状态</th>
                 <th class="text-center">账单金额</th>
-                <th class="text-center">付款人</th>
                 <th class="text-center">创建时间</th>
                 <th class="text-center">更新时间</th>
                 <th class="text-center">操作</th>
             </tr>
         </thead>
         <tbody>
-        {% for pay in pays %}
+        {% for due in dues %}
             <tr>
-                <td>{{ pay.id }}</td>
-                <td class="text-center">{{ pay.order_id }}</td>
-                <td class="text-center">{{ render_status(pay.status) }}</td>
-                <td class="text-center">{{ pay.amount }}</td>
-                <td class="text-center">{{ pay.order.user.name }}</td>
-                <td class="text-center">{{ fmt_time(pay.date_created) }}</td>
-                <td class="text-center">{{ fmt_time(pay.date_updated) }}</td>
+                <td>{{ due.id }}</td>
+                <td class="text-center">{{ due.purchase_id }}</td>
+                <td class="text-center">{{ render_status(due.status) }}</td>
+                <td class="text-center">{{ due.amount }}</td>
+                <td class="text-center">{{ fmt_time(due.date_created) }}</td>
+                <td class="text-center">{{ fmt_time(due.date_updated) }}</td>
                 <td class="text-center">
                     <a href="#">查看</a>
                 </td>
