@@ -88,9 +88,11 @@ class PayDeleteAdmin(views.MethodView):
 bp.add_url_rule(
     '/admin/pays/',
     view_func=PayListAdmin.as_view('list'))
+'''
 bp.add_url_rule(
     '/admin/pays/create/',
     view_func=PayCreateAdmin.as_view('create'))
+'''
 bp.add_url_rule(
     '/admin/pays/<int:id>/',
     view_func=PayDetailAdmin.as_view('detail'))
