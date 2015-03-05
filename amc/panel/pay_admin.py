@@ -78,11 +78,9 @@ bp.add_url_rule(
 bp.add_url_rule(
     '/admin/dues/',
     view_func=DueListAdmin.as_view('due_list'))
-"""
 bp.add_url_rule(
     '/admin/pays/<int:id>/',
     view_func=PayDetailAdmin.as_view('detail'))
 bp.add_url_rule(
     '/admin/pays/delete/<int:id>/',
     view_func=PayDeleteAdmin.as_view('delete'))
-"""
