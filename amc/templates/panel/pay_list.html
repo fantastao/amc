@@ -40,7 +40,7 @@
                 <td class="text-center">{{ fmt_time(pay.date_created) }}</td>
                 <td class="text-center">{{ fmt_time(pay.date_updated) }}</td>
                 <td class="text-center">
-                    <a href="#">查看</a>
+                    <a href="{{ url_for('pay_admin.pay_confirm', id=pay.id) }}">确认已收款</a>
                 </td>
             </tr>
         {% endfor %}

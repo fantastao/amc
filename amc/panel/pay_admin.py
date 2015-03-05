@@ -4,6 +4,7 @@ from flask import (Blueprint, render_template,
                    views, url_for, redirect)
 
 from amc.models import PayModel, DueModel
+from amc.utils import now
 
 from .forms import PayInfoForm
 
@@ -22,6 +23,18 @@ class PayListAdmin(views.MethodView):
         return render_template(self.template, pays=pays)
 
 
+class PayConfirmAdmin(views.MethodView):
+
+    def get(self, id):
+        pay = PayModel.query.get(id)
+        if not pay:
+            return
+        pay.status = PayModel.STATUS_RECEIVED
+        pay.date_updated = now()
+        pay.save()
+        return redirect(url_for('.pay_list'))
+
+
 class DueListAdmin(views.MethodView):
     """`get`: 查询应付款列表"""
 
@@ -32,6 +45,18 @@ class DueListAdmin(views.MethodView):
                 .order_by(DueModel.date_created.desc())
                 .all())
         return render_template(self.template, dues=dues)
+
+
+class DueConfirmAdmin(views.MethodView):
+
+    def get(self, id):
+        due = DueModel.query.get(id)
+        if not due:
+            return
+        due.status = DueModel.STATUS_PAID
+        due.date_updated = now()
+        due.save()
+        return redirect(url_for('.due_list'))
 
 
 class PayCreateAdmin(views.MethodView):
@@ -101,8 +126,14 @@ bp.add_url_rule(
     '/admin/pays/',
     view_func=PayListAdmin.as_view('pay_list'))
 bp.add_url_rule(
+    '/admin/pays/<int:id>/',
+    view_func=PayConfirmAdmin.as_view('pay_confirm'))
+bp.add_url_rule(
     '/admin/dues/',
     view_func=DueListAdmin.as_view('due_list'))
+bp.add_url_rule(
+    '/admin/dues/<int:id>/',
+    view_func=DueConfirmAdmin.as_view('due_confirm'))
 """
 bp.add_url_rule(
     '/admin/pays/create/',
