@@ -38,7 +38,9 @@
                 <td class="text-center">{{ fmt_time(due.date_created) }}</td>
                 <td class="text-center">{{ fmt_time(due.date_updated) }}</td>
                 <td class="text-center">
+                    {% if due.status == 'pending' %}
                     <a href="{{ url_for('pay_admin.due_confirm', id=due.id) }}">确认已付款</a>
+                    {% endif %}
                 </td>
             </tr>
         {% endfor %}

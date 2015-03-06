@@ -1,7 +1,7 @@
 # -*- coding: utf-8 -*-
 
 from flask import (Blueprint, render_template,
-                   views, url_for, redirect)
+                   views, url_for, redirect, abort)
 
 from amc.models import PayModel, DueModel
 from amc.utils import now
@@ -28,7 +28,9 @@ class PayConfirmAdmin(views.MethodView):
     def get(self, id):
         pay = PayModel.query.get(id)
         if not pay:
-            return
+            abort(404) 
+        if pay.status == PayModel.STATUS_RECEIVED:
+            abort(422)
         pay.status = PayModel.STATUS_RECEIVED
         pay.date_updated = now()
         pay.save()
@@ -52,7 +54,9 @@ class DueConfirmAdmin(views.MethodView):
     def get(self, id):
         due = DueModel.query.get(id)
         if not due:
-            return
+            abort(404)
+        if due.status == DueModel.STATUS_PAID:
+            abort(422)
         due.status = DueModel.STATUS_PAID
         due.date_updated = now()
         due.save()
