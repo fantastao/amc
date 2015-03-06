@@ -134,13 +134,13 @@ bp.add_url_rule(
 bp.add_url_rule(
     '/admin/dues/<int:id>/',
     view_func=DueConfirmAdmin.as_view('due_confirm'))
+bp.add_url_rule(
+    '/admin/pays_detail/<int:id>/',
+    view_func=PayDetailAdmin.as_view('detail'))
 """
 bp.add_url_rule(
     '/admin/pays/create/',
     view_func=PayCreateAdmin.as_view('create'))
-bp.add_url_rule(
-    '/admin/pays/<int:id>/',
-    view_func=PayDetailAdmin.as_view('detail'))
 bp.add_url_rule(
     '/admin/pays/delete/<int:id>/',
     view_func=PayDeleteAdmin.as_view('delete'))

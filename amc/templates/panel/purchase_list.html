@@ -39,6 +39,9 @@
                 <td class="text-center">
                     {% if purchase.status == 'begin' %}
                     <a href="{{ url_for('purchase_admin.confirm', id=purchase.id) }}">到货确认</a>
+                    <a href="{{ url_for('purchase_admin.detail', id=purchase.id) }}">查看详情</a>
+                    {% elif purchase.status == 'over'%}
+                    <a href="{{ url_for('purchase_admin.detail', id=purchase.id) }}">查看详情</a>
                     {% endif %}
                 </td>
             </tr>
