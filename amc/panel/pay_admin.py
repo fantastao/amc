@@ -28,9 +28,9 @@ class PayConfirmAdmin(views.MethodView):
     def get(self, id):
         pay = PayModel.query.get(id)
         if not pay:
-            abort(404) 
+            abort(404, u'收款单未找到')
         if pay.status == PayModel.STATUS_RECEIVED:
-            abort(422)
+            abort(422, u'收款单不被允许修改')
         pay.status = PayModel.STATUS_RECEIVED
         pay.date_updated = now()
         pay.save()
@@ -54,9 +54,9 @@ class DueConfirmAdmin(views.MethodView):
     def get(self, id):
         due = DueModel.query.get(id)
         if not due:
-            abort(404)
+            abort(404, u'付款单未找到')
         if due.status == DueModel.STATUS_PAID:
-            abort(422)
+            abort(422, u'付款单不被允许修改')
         due.status = DueModel.STATUS_PAID
         due.date_updated = now()
         due.save()

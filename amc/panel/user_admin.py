@@ -1,7 +1,7 @@
 # -*- coding: utf-8 -*-
 
 from flask import (Blueprint, render_template,
-                   views, url_for, redirect)
+                   views, url_for, redirect, abort)
 
 from amc.utils import origin_pw_hash
 from amc.models import UserModel, AuthModel, ShoppingTrolleyModel
@@ -30,7 +30,7 @@ class UserDetailAdmin(views.MethodView):
     def get(self, id):
         user = UserModel.query.get(id)
         if not user:
-            return
+            abort(404, u'用户未找到')
         form = UserInfoForm(
             name=user.name,
             phone=user.phone,
@@ -41,7 +41,7 @@ class UserDetailAdmin(views.MethodView):
     def post(self, id):
         user = UserModel.query.get(id)
         if not user:
-            return
+            abort(404, u'用户未找到')
         form = UserInfoForm()
         if not form.validate_on_submit():
             return render_template(self.template, form=form)
@@ -95,7 +95,7 @@ class UserDeleteAdmin(views.MethodView):
     def get(self, id):
         user = UserModel.query.get(id)
         if not user:
-            return
+            abort(404, u'用户未找到')
         user.auth.delete()
         user.trolley.delete()
         user.delete()

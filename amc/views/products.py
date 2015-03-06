@@ -1,6 +1,6 @@
 # -*- coding: utf-8 -*-
 
-from flask import Blueprint, views, render_template
+from flask import Blueprint, views, render_template, abort
 
 from amc.models import ProductModel
 
@@ -25,7 +25,7 @@ class ProductDetailView(views.MethodView):
         product = ProductModel.query.get(id)
         if not product:
             # 没有这个产品的错误界面
-            return
+            abort(404, u'该产品不存在')
         return render_template(self.template, product=product)
 
 
