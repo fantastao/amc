@@ -42,9 +42,9 @@
                 <td class="text-center">
                 {% if pay.status == 'pending' %}
                     <a href="{{ url_for('pay_admin.pay_confirm', id=pay.id) }}">确认已收款</a>
-                    <a href="{{ url_for('pay_admin.detail', id=pay.id) }}">查看详情</a>
+                    <a href="{{ url_for('pay_admin.pay_detail', id=pay.id) }}">查看详情</a>
                 {% elif pay.status == 'received' %}
-                    <a href="{{ url_for('pay_admin.detail', id=pay.id) }}">查看详情</a>
+                    <a href="{{ url_for('pay_admin.pay_detail', id=pay.id) }}">查看详情</a>
                 {% endif%}
                 </td>
             </tr>

@@ -78,3 +78,9 @@ class PayInfoForm(Form):
 
     order_id = IntegerField(u'订单编号')
     status = StringField(u'账款状态')  # choose from STATUS_PENDING,STATUS_RECEIVED
+
+class DueInfoForm(Form):
+    """后台创建账款事项，修改账款信息"""
+
+    purchase_id = IntegerField(u'采购编号')
+    status = StringField(u'账款状态')  # choose from STATUS_PENDING,STATUS_PAID
