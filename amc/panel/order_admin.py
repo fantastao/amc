@@ -2,7 +2,7 @@
 
 from flask import Blueprint, views, render_template
 
-from amc.models import OrderModel
+from amc.models import OrderModel, OrderHistoryModel
 
 bp = Blueprint('order_admin', __name__)
 
@@ -20,7 +20,7 @@ class OrderListAdmin(views.MethodView):
 
 
 class OrderDetailAdmin(views.MethodView):
-    """`get`: 获取单个订单详情"""
+    """`get`: 获取单个订单详情,订单历史"""
 
     template = 'panel/order_detail.html'
 
@@ -29,8 +29,10 @@ class OrderDetailAdmin(views.MethodView):
         if not order:
             return
         products = order.products
+        history = OrderHistoryModel.query.filter_by(order_id=id).all()
+        history.sort(key=lambda k:k.date_created, reverse=False)
         return render_template(self.template,
-                               order=order, products=products)
+                               order=order, products=products, history=history)
 
 
 bp.add_url_rule(

@@ -1,5 +1,9 @@
 {% extends "panel/index.html" %}
 
+{% block css %}
+<link href="/static/css/timeline.css" rel="stylesheet" type="text/css" />
+{% endblock %}
+
 {% block content %}
 {% macro render_status(status) %}
     {% if status == 'launch' %}
@@ -49,6 +53,24 @@
 <button onclick="orderUpdate('confirm');" type="button" class="btn btn-primary">确认订单</button>
 <button onclick="orderUpdate('dispatch');" type="button" class="btn btn-success">已经发货</button>
 <button onclick="orderUpdate('cancel');" type="button" class="btn btn-danger">取消订单</button>
+
+<div class="course">
+    <div class="clearfix web_widht course_nr">
+        <ul class="course_nr2">
+        {% for item in history %}
+            <li>{{ fmt_time(item.date_created) }}
+                <div class="shiji">
+                    <h1>{{ fmt_time(item.date_created) }}</h1>
+                    <p>
+                        <p>{{ item.status }}</p>
+                    </p>
+                </div>
+            </li>
+        {% endfor %}
+        </ul>
+    </div>
+</div>
+
 {% endblock %}
 
 {% block js%}
@@ -81,5 +103,13 @@
                 }
             });
         }
+        $(function(){
+            //首页大事记
+            $('.course_nr2 li').hover(function(){
+                $(this).find('.shiji').slideDown(600);
+            },function(){
+                $(this).find('.shiji').slideUp(400);
+            });
+        });
     </script>
 {% endblock %}
