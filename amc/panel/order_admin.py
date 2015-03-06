@@ -29,8 +29,10 @@ class OrderDetailAdmin(views.MethodView):
         if not order:
             return
         products = order.products
-        history = OrderHistoryModel.query.filter_by(order_id=id).all()
-        history.sort(key=lambda k:k.date_created, reverse=False)
+        history = (OrderHistoryModel.query
+                   .filter_by(order_id=id)
+                   .order_by(OrderHistoryModel.date_created)
+                   .all())
         return render_template(self.template,
                                order=order, products=products, history=history)
 
