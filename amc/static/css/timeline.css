@@ -23,7 +23,7 @@ input:focus{ }
 
 .course{font-family:"Microsoft yahei";height:162px; background:#FFF;}
 .course_nr{height:162px; background:url(/static/img/ico9.gif) repeat-x center;}
-.course_nr li{float:left; background:url(/static/img/ico10.gif) no-repeat center top; padding-top:30px; width:180px; text-align:center; position:relative; margin-top:65px;}
+.course_nr li{float:left; padding-top:30px; width:180px; text-align:center; position:relative; margin-top:42px;}
 .shiji{ position:absolute; width:100%; left:0; top:-20px; display:none;}
 .shiji h1{font-size:15px; height:67px; line-height:67px; color:#518dbb; font-weight:bold; background:url(/static/img/ico11.gif) no-repeat center top; margin-bottom:8px;}
 .shiji p{font-size:15px;line-height:14px; color:#999;}
