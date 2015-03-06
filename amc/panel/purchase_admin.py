@@ -27,7 +27,7 @@ class PurchaseCreateAdmin(views.MethodView):
     """`get`: 获取创建表单
        `post`: 创建采购事项"""
 
-    template = 'panel/purchase_detail.html'
+    template = 'panel/purchase_create.html'
 
     def get(self):
         form = PurchaseInfoForm()
@@ -87,6 +87,7 @@ class PurchaseDetailAdmin(views.MethodView):
         return render_template(self.template, form=form)
 
     def post(self, id):
+        """
         purchase = PurchaseModel.query.get(id)
         if not purchase:
             return
@@ -97,6 +98,7 @@ class PurchaseDetailAdmin(views.MethodView):
         purchase.cost = form.cost.data
         purchase.product_quantity = form.product_quantity.data
         purchase.save()
+        """
         return redirect(url_for('.detail', id=purchase.id))
 
 
@@ -120,11 +122,11 @@ bp.add_url_rule(
 bp.add_url_rule(
     '/admin/purchases/confirm/<int:id>/',
     view_func=PurchaseConfirmAdmin.as_view('confirm'))
+bp.add_url_rule(
+    '/admin/purchases/<int:id>/',
+    view_func=PurchaseDetailAdmin.as_view('detail'))
 """
 bp.add_url_rule(
     '/admin/purchases/delete/<int:id>/',
     view_func=PurchaseDeleteAdmin.as_view('delete'))
-bp.add_url_rule(
-    '/admin/purchases/<int:id>/',
-    view_func=PurchaseDetailAdmin.as_view('detail'))
 """

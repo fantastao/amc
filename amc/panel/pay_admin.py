@@ -6,7 +6,7 @@ from flask import (Blueprint, render_template,
 from amc.models import PayModel, DueModel
 from amc.utils import now
 
-from .forms import PayInfoForm
+from .forms import PayInfoForm, DueInfoForm
 
 bp = Blueprint('pay_admin', __name__)
 
@@ -34,6 +34,34 @@ class PayConfirmAdmin(views.MethodView):
         pay.save()
         return redirect(url_for('.pay_list'))
 
+class PayDetailAdmin(views.MethodView):
+    """`get`: 查询账款详情
+       `post`: 更新账款信息"""
+
+    template = 'panel/pay_detail.html'
+
+    def get(self, id):
+        pay = PayModel.query.get(id)
+        if not pay:
+            return
+        form = PayInfoForm(
+            order_id=pay.order_id,
+            status=pay.status)
+        return render_template(self.template, form=form)
+
+    """
+    def post(self, id):
+        pay = PayModel.query.get(id)
+        if not pay:
+            return
+        form = PayInfoForm()
+        if not form.validate_on_submit():
+            return render_template(self.template, form=form)
+        pay.order_id = form.order_id.data
+        pay.status = form.status.data
+        pay.save()
+        return redirect(url_for('.pay_detail', id=pay.id))
+    """
 
 class DueListAdmin(views.MethodView):
     """`get`: 查询应付款列表"""
@@ -59,6 +87,35 @@ class DueConfirmAdmin(views.MethodView):
         return redirect(url_for('.due_list'))
 
 
+class DueDetailAdmin(views.MethodView):
+    """`get`: 查询账款详情
+       `post`: 更新账款信息"""
+
+    template = 'panel/due_detail.html'
+
+    def get(self, id):
+        due = DueModel.query.get(id)
+        if not due:
+            return
+        form = DueInfoForm(
+            purchase_id=due.purchase_id,
+            status=due.status)
+        return render_template(self.template, form=form)
+
+    """
+    def post(self, id):
+        due = DueModel.query.get(id)
+        if not due:
+            return
+        form = DueInfoForm()
+        if not form.validate_on_submit():
+            return render_template(self.template, form=form)
+        due.purchase_id = form.purchase_id.data
+        due.status = form.status.data
+        due.save()
+        return redirect(url_for('.due_detail', id=due.id))
+    """
+
 class PayCreateAdmin(views.MethodView):
     """大多数情况: 订单完成后自动创建
        `get`: 获取创建表单
@@ -81,35 +138,6 @@ class PayCreateAdmin(views.MethodView):
         # 所以要加上异常处理
         pay.save()
         return redirect(url_for('.detail', id=pay.id))
-
-
-class PayDetailAdmin(views.MethodView):
-    """`get`: 查询账款详情
-       `post`: 更新账款信息"""
-
-    template = 'panel/pay_detail.html'
-
-    def get(self, id):
-        pay = PayModel.query.get(id)
-        if not pay:
-            return
-        form = PayInfoForm(
-            order_id=pay.order_id,
-            status=pay.status)
-        return render_template(self.template, form=form)
-
-    def post(self, id):
-        pay = PayModel.query.get(id)
-        if not pay:
-            return
-        form = PayInfoForm()
-        if not form.validate_on_submit():
-            return render_template(self.template, form=form)
-        pay.order_id = form.order_id.data
-        pay.status = form.status.data
-        pay.save()
-        return redirect(url_for('.detail', id=pay.id))
-
 
 class PayDeleteAdmin(views.MethodView):
     """`get`: 删除账单清单"""
@@ -134,13 +162,16 @@ bp.add_url_rule(
 bp.add_url_rule(
     '/admin/dues/<int:id>/',
     view_func=DueConfirmAdmin.as_view('due_confirm'))
+bp.add_url_rule(
+    '/admin/pays_detail/<int:id>/',
+    view_func=PayDetailAdmin.as_view('pay_detail'))
+bp.add_url_rule(
+    '/admin/dues_detail/<int:id>/',
+    view_func=DueDetailAdmin.as_view('due_detail'))
 """
 bp.add_url_rule(
     '/admin/pays/create/',
     view_func=PayCreateAdmin.as_view('create'))
-bp.add_url_rule(
-    '/admin/pays/<int:id>/',
-    view_func=PayDetailAdmin.as_view('detail'))
 bp.add_url_rule(
     '/admin/pays/delete/<int:id>/',
     view_func=PayDeleteAdmin.as_view('delete'))
