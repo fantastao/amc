@@ -58,7 +58,7 @@
     <div class="clearfix web_widht course_nr">
         <ul class="course_nr2">
         {% for item in history %}
-            <li>{{ fmt_time(item.date_created) }}
+            <li>
                 <div class="shiji">
                     <h1>{{ fmt_time(item.date_created) }}</h1>
                     <p>
@@ -105,10 +105,8 @@
         }
         $(function(){
             //首页大事记
-            $('.course_nr2 li').hover(function(){
+            $('.course_nr2 li').each(function(){
                 $(this).find('.shiji').slideDown(600);
-            },function(){
-                $(this).find('.shiji').slideUp(400);
             });
         });
     </script>
