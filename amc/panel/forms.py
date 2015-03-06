@@ -10,7 +10,7 @@ from wtforms import StringField, FloatField, IntegerField, TextAreaField
 from wtforms.fields.html5 import EmailField
 from wtforms import ValidationError
 
-from amc.models import AuthModel, UserModel
+from amc.models import AuthModel, UserModel, ProductModel
 
 
 class UserInfoForm(Form):
@@ -67,6 +67,10 @@ class PurchaseInfoForm(Form):
     cost = FloatField(u'采购单价', validators=[DataRequired()])
     product_quantity = IntegerField(u'采购数量', validators=[DataRequired()])
 
+    def validate_product_id(form, field):
+        product = ProductModel.query.get(field.data)
+        if not product:
+            raise ValidationError('Product does not exist')
 
 class PayInfoForm(Form):
     """后台创建账款事项，修改账款信息"""
