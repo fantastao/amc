@@ -85,7 +85,7 @@
                     contentType: "application/json",
                     dataType: "json",
                     async: true,
-                    success: window.location.reload()
+                    success: window.location.href="{{ url_for('order.trolley') }}"
                 });
             }
             function itemsDelete(product_id){
