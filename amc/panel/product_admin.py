@@ -3,8 +3,11 @@
 from flask import (Blueprint, render_template,
                    views, url_for, redirect, abort)
 
+from flask.ext.login import login_required
+
 from amc.models import ProductModel
 from amc.utils import now
+from amc.permissions import panel_permission
 
 from .forms import ProductInfoForm
 
@@ -16,6 +19,8 @@ class ProductListAdmin(views.MethodView):
 
     template = 'panel/product_list.html'
 
+    @login_required
+    @panel_permission.require(401)
     def get(self):
         products = ProductModel.query.order_by(ProductModel.id).all()
         return render_template(self.template, products=products)
@@ -27,10 +32,14 @@ class ProductCreateAdmin(views.MethodView):
 
     template = 'panel/product_detail.html'
 
+    @login_required
+    @panel_permission.require(401)
     def get(self):
         form = ProductInfoForm()
         return render_template(self.template, form=form)
 
+    @login_required
+    @panel_permission.require(401)
     def post(self):
         form = ProductInfoForm()
         if not form.validate_on_submit():
@@ -56,6 +65,8 @@ class ProductDetailAdmin(views.MethodView):
 
     template = 'panel/product_detail.html'
 
+    @login_required
+    @panel_permission.require(401)
     def get(self, id):
         product = ProductModel.query.get(id)
         if not product:
@@ -71,6 +82,8 @@ class ProductDetailAdmin(views.MethodView):
             made_in=product.made_in)
         return render_template(self.template, form=form)
 
+    @login_required
+    @panel_permission.require(401)
     def post(self, id):
         product = ProductModel.query.get(id)
         if not product:
@@ -94,6 +107,8 @@ class ProductDetailAdmin(views.MethodView):
 class ProductDeleteAdmin(views.MethodView):
     """`get`: 删除单个产品"""
 
+    @login_required
+    @panel_permission.require(401)
     def get(self, id):
         product = ProductModel.query.get(id)
         if not product:

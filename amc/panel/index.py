@@ -2,6 +2,10 @@
 
 from flask import Blueprint, render_template, views
 
+from flask.ext.login import login_required
+
+from amc.permissions import panel_permission
+
 bp = Blueprint('admin_index', __name__)
 
 
@@ -10,6 +14,8 @@ class AdminIndex(views.MethodView):
 
     template = 'panel/admin_index.html'
 
+    @login_required
+    @panel_permission.require(401)
     def get(self):
         return render_template(self.template)
 

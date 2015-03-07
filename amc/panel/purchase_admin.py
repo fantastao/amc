@@ -3,8 +3,11 @@
 from flask import (Blueprint, render_template,
                    views, url_for, redirect, abort)
 
+from flask.ext.login import login_required
+
 from amc.models import PurchaseModel, ProductModel, DueModel
 from amc.utils import now
+from amc.permissions import panel_permission
 
 from .forms import PurchaseInfoForm
 
@@ -16,6 +19,8 @@ class PurchaseListAdmin(views.MethodView):
 
     template = 'panel/purchase_list.html'
 
+    @login_required
+    @panel_permission.require(401)
     def get(self):
         purchases = (PurchaseModel.query
                      .order_by(PurchaseModel.date_created.desc())
@@ -29,10 +34,14 @@ class PurchaseCreateAdmin(views.MethodView):
 
     template = 'panel/purchase_detail.html'
 
+    @login_required
+    @panel_permission.require(401)
     def get(self):
         form = PurchaseInfoForm()
         return render_template(self.template, form=form)
 
+    @login_required
+    @panel_permission.require(401)
     def post(self):
         form = PurchaseInfoForm()
         if not form.validate_on_submit():
@@ -48,6 +57,8 @@ class PurchaseCreateAdmin(views.MethodView):
 class PurchaseConfirmAdmin(views.MethodView):
     """`get`: 采购入库确认，修改库存"""
 
+    @login_required
+    @panel_permission.require(401)
     def get(self, id):
         purchase = PurchaseModel.query.get(id)
         if not purchase:
@@ -77,6 +88,8 @@ class PurchaseDetailAdmin(views.MethodView):
 
     template = 'panel/purchase_detail.html'
 
+    @login_required
+    @panel_permission.require(401)
     def get(self, id):
         purchase = PurchaseModel.query.get(id)
         if not purchase:
@@ -87,6 +100,8 @@ class PurchaseDetailAdmin(views.MethodView):
             product_quantity=purchase.product_quantity)
         return render_template(self.template, form=form)
 
+    @login_required
+    @panel_permission.require(401)
     def post(self, id):
         purchase = PurchaseModel.query.get(id)
         if not purchase:
@@ -104,6 +119,8 @@ class PurchaseDetailAdmin(views.MethodView):
 class PurchaseDeleteAdmin(views.MethodView):
     """`get`: 删除采购清单"""
 
+    @login_required
+    @panel_permission.require(401)
     def get(self, id):
         purchase = PurchaseModel.query.get(id)
         if not purchase:

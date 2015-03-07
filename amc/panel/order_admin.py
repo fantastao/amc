@@ -2,7 +2,10 @@
 
 from flask import Blueprint, views, render_template, abort
 
+from flask.ext.login import login_required
+
 from amc.models import OrderModel, OrderHistoryModel
+from amc.permissions import panel_permission
 
 bp = Blueprint('order_admin', __name__)
 
@@ -12,6 +15,8 @@ class OrderListAdmin(views.MethodView):
 
     template = 'panel/order_list.html'
 
+    @login_required
+    @panel_permission.require(401)
     def get(self):
         orders = (OrderModel.query
                   .order_by(OrderModel.date_updated.desc())
@@ -24,6 +29,8 @@ class OrderDetailAdmin(views.MethodView):
 
     template = 'panel/order_detail.html'
 
+    @login_required
+    @panel_permission.require(401)
     def get(self, id):
         order = OrderModel.query.get(id)
         if not order:

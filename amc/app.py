@@ -4,6 +4,7 @@ from flask import Flask
 from werkzeug.utils import import_string
 
 from amc.extensions import db, migrate, login_manager
+from amc.permissions import principal
 from amc._settings import DevConfig
 from amc.utils import fmt_time
 
@@ -38,6 +39,7 @@ def register_extensions(app):
     migrate.init_app(app, db)
     login_manager.init_app(app)
     login_manager.login_view = 'auth.login'
+    principal.init_app(app)
 
 
 def register_blueprints(app):

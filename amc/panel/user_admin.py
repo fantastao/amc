@@ -3,8 +3,11 @@
 from flask import (Blueprint, render_template,
                    views, url_for, redirect, abort)
 
+from flask.ext.login import login_required
+
 from amc.utils import origin_pw_hash
 from amc.models import UserModel, AuthModel, ShoppingTrolleyModel
+from amc.permissions import panel_permission
 
 from .forms import UserInfoForm
 
@@ -16,6 +19,8 @@ class UserListAdmin(views.MethodView):
 
     template = 'panel/user_list.html'
 
+    @login_required
+    @panel_permission.require(401)
     def get(self):
         users = UserModel.query.order_by(UserModel.id).all()
         return render_template(self.template, users=users)
@@ -27,6 +32,8 @@ class UserDetailAdmin(views.MethodView):
 
     template = 'panel/user_detail.html'
 
+    @login_required
+    @panel_permission.require(401)
     def get(self, id):
         user = UserModel.query.get(id)
         if not user:
@@ -38,6 +45,8 @@ class UserDetailAdmin(views.MethodView):
             account=user.auth.account)
         return render_template(self.template, form=form)
 
+    @login_required
+    @panel_permission.require(401)
     def post(self, id):
         user = UserModel.query.get(id)
         if not user:
@@ -60,10 +69,14 @@ class UserCreateAdmin(views.MethodView):
 
     template = 'panel/user_detail.html'
 
+    @login_required
+    @panel_permission.require(401)
     def get(self):
         form = UserInfoForm()
         return render_template(self.template, form=form)
 
+    @login_required
+    @panel_permission.require(401)
     def post(self):
         form = UserInfoForm()
         if not form.validate_on_submit():
@@ -92,6 +105,8 @@ class UserCreateAdmin(views.MethodView):
 class UserDeleteAdmin(views.MethodView):
     """`get`: 删除单个用户"""
 
+    @login_required
+    @panel_permission.require(401)
     def get(self, id):
         user = UserModel.query.get(id)
         if not user:

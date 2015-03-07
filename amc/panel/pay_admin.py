@@ -3,8 +3,11 @@
 from flask import (Blueprint, render_template,
                    views, url_for, redirect, abort)
 
+from flask.ext.login import login_required
+
 from amc.models import PayModel, DueModel
 from amc.utils import now
+from amc.permissions import panel_permission
 
 from .forms import PayInfoForm
 
@@ -16,6 +19,8 @@ class PayListAdmin(views.MethodView):
 
     template = 'panel/pay_list.html'
 
+    @login_required
+    @panel_permission.require(401)
     def get(self):
         pays = (PayModel.query
                 .order_by(PayModel.date_created.desc())
@@ -25,6 +30,8 @@ class PayListAdmin(views.MethodView):
 
 class PayConfirmAdmin(views.MethodView):
 
+    @login_required
+    @panel_permission.require(401)
     def get(self, id):
         pay = PayModel.query.get(id)
         if not pay:
@@ -42,6 +49,8 @@ class DueListAdmin(views.MethodView):
 
     template = 'panel/due_list.html'
 
+    @login_required
+    @panel_permission.require(401)
     def get(self):
         dues = (DueModel.query
                 .order_by(DueModel.date_created.desc())
@@ -51,6 +60,8 @@ class DueListAdmin(views.MethodView):
 
 class DueConfirmAdmin(views.MethodView):
 
+    @login_required
+    @panel_permission.require(401)
     def get(self, id):
         due = DueModel.query.get(id)
         if not due:
