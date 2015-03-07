@@ -44,22 +44,27 @@
                     </li>
                 </ul>
                 {% if current_user.name %}
-                    <form class="nav navbar-nav navbar-form navbar-right" role="form">
-                        <div class="dropdown btn-group">
-                            <button type="button" class="btn dropdown-toggle" id="dropdownMenu1" data-toggle="dropdown" style="width:45px;height:35.25px;-moz-border-radius: 50%; -webkit-border-radius: 50%;border-radius:50%;">
-                                <img src="/static/img/portrait.png" class="img-circle"></img>
+                    <div class="navbar-form navbar-right">
+                        <div class="btn-group">
+                            <button type="button" class="btn btn-default dropdown-toggle" data-toggle="dropdown" aria-expanded="false">
+                            <span class="glyphicon glyphicon-user" aria-hidden="true"></span>
+                            {{ current_user.name }}
+                            <span class="caret"></span>
                             </button>
-                            <ul class="dropdown-menu" role="menu" aria-labelledby="dropdownMenu1">
-                                <li role="presentation"><a role="menuitem" tabindex="-1" href="{{ url_for('user.profile') }}">我的信息</a></li>
-                                <li role="presentation" class="divider"></li>
-                                <li role="presentation"><a role="menuitem" tabindex="-1" href="{{ url_for('user.order') }}">我的订单</a></li>
-                                <li role="presentation" class="divider"></li>
-                                <li role="presentation"><a role="menuitem" tabindex="-1" href="{{ url_for('auth.logout') }}">退出</a></li>
+                            <ul class="dropdown-menu" role="menu">
+                                <li><a href="{{ url_for('user.profile') }}">我的信息</a></li>
+                                <li><a href="{{ url_for('user.order') }}">我的订单</a></li>
+                                <li class="divider"></li>
+                                <li><a href="{{ url_for('auth.logout') }}">退出登录</a></li>
                             </ul>
                         </div>
-                        &nbsp;&nbsp;&nbsp;
-                        <a href="{{ url_for('order.trolley') }}" ><img src="/static/img/cart.jpg" class="img-circle"></img></a>
-                    </form>
+                        &nbsp;
+                        <a href="{{ url_for('order.trolley') }}">
+                            <button type="button" class="btn btn-default">
+                                <span class="glyphicon glyphicon-shopping-cart" aria-hidden="true"></span> 购物车
+                            </button>
+                        </a>
+                    </div>
                 {% else %}
                     <div class="navbar-form navbar-right">
                         <a href="{{ url_for('auth.login')}}" class="btn btn-default">登陆</a>
