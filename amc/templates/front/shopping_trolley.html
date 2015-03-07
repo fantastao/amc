@@ -31,7 +31,7 @@
                                     <a href="{{ url_for('product.detail', id=item.product_id) }}">{{ item.product.name }}</a>
                                 </td>
                                 <td class="text-center">{{ item.product.price }}</td>
-                                <td class="text-center"><input onchange="itemsUpdate({{ item.product_id }}, this.value);" type="number" min="1" style="width:50px;" value='{{ item.product_quantity }}'></td>
+                                <td class="text-center" style="width:100px"><input onchange="itemsUpdate({{ item.product_id }}, this.value);" type="number" min="1" style="width:50px;" value='{{ item.product_quantity }}'></td>
                                 <td class="text-center">{{ item.product.price * item.product_quantity }}</td>
                                 <td class="text-center"><a><span class="glyphicon glyphicon-remove" onclick="itemsDelete({{ item.product_id }});"></span></a></td>
                             </tr>
