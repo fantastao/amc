@@ -21,32 +21,36 @@
                 <img class="img-responsive" src="{{ product.img }}" alt="">
             </div>
             <div class="col-md-7">
-                <h3>{{ product.name }}</h3>
-                &nbsp;
-                <h4>详情介绍</h4>
-                <table class="table" style="width:350px;">
-						<tbody>
-							<tr>
-								<td>商品名称</td>
-								<td>{{ product.name }}</td>
-							</tr>
-							<tr>
-								<td>商品编号</td>
-								<td>{{ product.id }}</td>
-							</tr>
-							<tr>
-								<td>商品类型</td>
-								<td>{{ product.category }}</td>
-							</tr>
-							<tr>
-								<td>商品来源</td>
-								<td>{{ product.made_in }}</td>
-							</tr>
-						</tbody>
-					</table>
+                <div class="thumbnail">
+                    <div class="caption">
+                    <h3 class="text-center">{{ product.name }}</h3>
+                    &nbsp;
+                    <table class="table" style="width:350px;">
+    					<tbody>
+    						<tr>
+    							<td>商品名称</td>
+    							<td class="text-center">{{ product.name }}</td>
+    						</tr>
+    						<tr>
+    							<td>商品编号</td>
+    							<td class="text-center">{{ product.id }}</td>
+    						</tr>
+    						<tr>
+    							<td>商品类型</td>
+    							<td class="text-center">{{ product.category }}</td>
+    						</tr>
+    						<tr>
+    							<td>商品来源</td>
+    							<td class="text-center">{{ product.made_in }}</td>
+    						</tr>
+    					</tbody>
+    				</table>
 					<p>价格：<b style="color:red;">￥{{ product.price }}</b>&nbsp;&nbsp;&nbsp;&nbsp;库存：<span class="span" style="color:red">{{ product.quantity }}</span>件&nbsp;&nbsp;&nbsp;&nbsp;
 						<input id="quantity" type="number" min="1" max="{{ product.quantity }}" style="width:50px;" value="1">
-						<button onclick="addToTrolley();" class="btn btn-default" role="button">加购物车</button></p>
+						<button onclick="addToTrolley();" class="btn btn-default" role="button">加购物车</button>
+                    </p>
+                    </div>
+                </div>
             </div>
         </div>
         <!-- /.row -->
