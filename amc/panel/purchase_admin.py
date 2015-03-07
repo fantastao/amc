@@ -1,7 +1,7 @@
 # -*- coding: utf-8 -*-
 
 from flask import (Blueprint, render_template,
-                   views, url_for, redirect)
+                   views, url_for, redirect, abort)
 
 from amc.models import PurchaseModel, ProductModel, DueModel
 from amc.utils import now
@@ -50,12 +50,13 @@ class PurchaseConfirmAdmin(views.MethodView):
 
     def get(self, id):
         purchase = PurchaseModel.query.get(id)
-        if not purchase or purchase.status == PurchaseModel.STATUS_OVER:
-            # 采购不存在或者已经结束
-            return
+        if not purchase:
+            abort(404, u'采购单未找到')
+        if purchase.status == PurchaseModel.STATUS_OVER:
+            abort(403, u'采购已结束')
         product = ProductModel.query.get(purchase.product_id)
         if not product:
-            return
+            abort(404, u'产品未找到')
         purchase.status = PurchaseModel.STATUS_OVER
         purchase.save()
         product.quantity += purchase.product_quantity

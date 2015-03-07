@@ -72,6 +72,7 @@ class PurchaseInfoForm(Form):
         if not product:
             raise ValidationError('Product does not exist')
 
+
 class PayInfoForm(Form):
     """后台创建账款事项，修改账款信息"""
 

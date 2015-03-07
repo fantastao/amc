@@ -1,7 +1,7 @@
 # -*- coding: utf-8 -*-
 
 from flask import (Blueprint, render_template,
-                   views, url_for, redirect)
+                   views, url_for, redirect, abort)
 
 from amc.models import ProductModel
 from amc.utils import now
@@ -59,7 +59,7 @@ class ProductDetailAdmin(views.MethodView):
     def get(self, id):
         product = ProductModel.query.get(id)
         if not product:
-            return
+            abort(404, u'产品未找到')
         form = ProductInfoForm(
             name=product.name,
             category=product.category,
@@ -74,7 +74,7 @@ class ProductDetailAdmin(views.MethodView):
     def post(self, id):
         product = ProductModel.query.get(id)
         if not product:
-            return
+            abort(404, u'产品未找到')
         form = ProductInfoForm()
         if not form.validate_on_submit():
             return render_template(self.template, form=form)
@@ -97,7 +97,7 @@ class ProductDeleteAdmin(views.MethodView):
     def get(self, id):
         product = ProductModel.query.get(id)
         if not product:
-            return
+            abort(404, u'产品未找到')
         product.delete()
         return redirect(url_for('.list'))
 

@@ -4,7 +4,7 @@ import re
 
 from flask.ext.wtf import Form
 from wtforms.validators import DataRequired, Optional, Length
-from wtforms import PasswordField, StringField, BooleanField, FieldList
+from wtforms import PasswordField, StringField
 from wtforms import ValidationError
 from flask.ext.login import login_user
 

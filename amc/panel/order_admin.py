@@ -1,6 +1,6 @@
 # -*- coding: utf-8 -*-
 
-from flask import Blueprint, views, render_template
+from flask import Blueprint, views, render_template, abort
 
 from amc.models import OrderModel, OrderHistoryModel
 
@@ -27,14 +27,14 @@ class OrderDetailAdmin(views.MethodView):
     def get(self, id):
         order = OrderModel.query.get(id)
         if not order:
-            return
+            abort(404, u'订单未找到')
         products = order.products
         history = (OrderHistoryModel.query
                    .filter_by(order_id=id)
                    .order_by(OrderHistoryModel.date_created)
                    .all())
-        return render_template(self.template,
-                               order=order, products=products, history=history)
+        return render_template(self.template, order=order,
+                               products=products, history=history)
 
 
 bp.add_url_rule(

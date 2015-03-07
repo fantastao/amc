@@ -1,7 +1,7 @@
 # -*- coding: utf-8 -*-
 
 from flask import (Blueprint, views, render_template,
-                   redirect, url_for)
+                   redirect, url_for, abort)
 
 from flask.ext.login import current_user, login_required
 
@@ -35,7 +35,7 @@ class TrolleyCommitView(views.MethodView):
     def get(self):
         items = current_user.trolley.products
         if not items:
-            return
+            abort(404, u'购物车为空')
 
         # 创建订单，载入历史
         order = OrderModel.create(user_id=current_user.id)
@@ -48,7 +48,7 @@ class TrolleyCommitView(views.MethodView):
         for item in items:
             if not item.is_supplied:
                 # 某件产品库存不足
-                return
+                abort(409, u'产品库存不足')
 
             product = item.product
             OrderProductModel.create(
@@ -77,13 +77,13 @@ class OrderCancelView(views.MethodView):
     def get(self, id):
         order = OrderModel.query.get(id)
         if not order:
-            return
+            abort(404, u'订单不存在')
         if order.user_id != current_user.id:
             # 非当前用户的订单
-            return
+            abort(403, u'非当前用户订单')
         if order.status not in self.STATUS_ALLOW:
             # 订单处于不被允许取消的状态
-            return
+            abort(403, u'订单不允许取消')
 
         # 修改库存
         for item in order.products:
@@ -113,13 +113,13 @@ class OrderSuccessView(views.MethodView):
     def get(self, id):
         order = OrderModel.query.get(id)
         if not order:
-            return
+            abort(404, u'订单不存在')
         if order.user_id != current_user.id:
             # 非当前用户的订单
-            return
+            abort(403, u'非当前用户订单')
         if order.status != OrderModel.STATUS_DISPATCH:
             # 订单处不处于货物发出状态
-            return
+            abort(403, u'订单未发货')
 
         # 更新状态，载入历史
         order.update(
@@ -145,13 +145,13 @@ class OrderReturnView(views.MethodView):
     def get(self, id):
         order = OrderModel.query.get(id)
         if not order:
-            return
+            abort(404, u'订单不存在')
         if order.user_id != current_user.id:
             # 非当前用户的订单
-            return
+            abort(403, u'非当前用户订单')
         if order.status != OrderModel.STATUS_DISPATCH:
             # 订单处不处于货物发出状态
-            return
+            abort(403, u'订单未发货')
 
         # 更新状态，载入历史
         order.update(
