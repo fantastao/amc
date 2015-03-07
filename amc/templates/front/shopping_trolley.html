@@ -33,7 +33,7 @@
                             <td><a href="/product/{{ item.product_id }}">{{ item.product.name }}</a></td>
                             <td>{{ item.product.price }}</td>
                             <td class="text-center vert-align"><input onchange="itemsUpdate({{ item.product_id }}, this.value);" type="number" min="1" style="width:50px;" value='{{ item.product_quantity }}'></td>
-                            <td class="text-right vert-align">{{ item.product.price * item.product_quantity }}</td>
+                            <td class="text-right vert-align" style="width:140px;">{{ item.product.price * item.product_quantity }}</td>
                             <td class="text-center vert-align"><a><span class="glyphicon glyphicon-remove" onclick="itemsDelete({{ item.product_id }});"></span></a></td>
                         </tr>
                     {% endfor %}
@@ -95,7 +95,7 @@
                     type: "delete",
                     dataType:"json",
                     async: true,
-                    success: window.location.reload()
+                    success: window.location.href="{{ url_for('order.trolley') }}"
                 });
             }
 

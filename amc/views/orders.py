@@ -21,6 +21,7 @@ class TrolleyView(views.MethodView):
         trolley = current_user.trolley
         total = 0
         products = trolley.products
+        products.sort(key=lambda k:k.product_id, reverse=False)
         for item in products:
             total += item.product.price * item.product_quantity
         return render_template(self.template, products=products, total=total)
