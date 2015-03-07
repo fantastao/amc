@@ -119,13 +119,25 @@ function drawBar(bar){
         ],
         yAxis : [
             {
-                type : 'value'
-            }
+                type : 'value',
+                name : '销售额',
+                axisLabel :{
+                    formatter : '{value} 元'
+                }
+            },
+            {
+                type : 'value',
+                name : '订单量',
+                axisLabel :{
+                    formatter : '{value} 件'
+                }
+            },
         ],
         series : [
             {
                 name:'最高',
                 type:'line',
+                yAxisIndex: 1,
                 data:function (){
                     var list = [];
                     for (var i = 1; i <= 30; i++) {
@@ -148,6 +160,7 @@ function drawBar(bar){
             {
                 name:'最低',
                 type:'bar',
+                yAxisIndex: 1,
                 data:function (){
                     var list = [];
                     for (var i = 1; i <= 30; i++) {
