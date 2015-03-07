@@ -119,6 +119,7 @@ class ShoppingTrolleyModel(SurrogatePK, ModelBase):
         'TrolleyProductModel',
         primaryjoin='ShoppingTrolleyModel.id==TrolleyProductModel.trolley_id',
         foreign_keys='TrolleyProductModel.trolley_id',
+        order_by='TrolleyProductModel.product_id',
         uselist=True)
 
 

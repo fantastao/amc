@@ -8,66 +8,69 @@
 
     {% block content %}
         <p>&nbsp;</p>
-        <div class="row" style="background-color:#eee;">
-            <div class="col-sm-12"><h2>购物车</h2></div>
-            <p>&nbsp;</p>
-            <div id="message" class="col-sm-8">
-                <table class="table table-striped">
-                    {% if not products %}
-                        您还没有添加产品到购物车!
-                    {% endif %}
-                    <thead>
-                        <tr>
-                            <th>#</th>
-                            <th>商品</th>
-                            <th>单价（元）</th>
-                            <th class="text-center">数量</th>
-                            <th class="text-right">金额</th>
-                            <th></th>
-                        </tr>
-                    </thead>
-                    <tbody id="items_list">
-                    {% for item in products %}
-                        <tr>
-                            <td><a href="/product/{{ item.product_id }}">{{ item.product_id }}</a></td>
-                            <td><a href="/product/{{ item.product_id }}">{{ item.product.name }}</a></td>
-                            <td>{{ item.product.price }}</td>
-                            <td class="text-center vert-align"><input onchange="itemsUpdate({{ item.product_id }}, this.value);" type="number" min="1" style="width:50px;" value='{{ item.product_quantity }}'></td>
-                            <td class="text-right vert-align" style="width:140px;">{{ item.product.price * item.product_quantity }}</td>
-                            <td class="text-center vert-align"><a><span class="glyphicon glyphicon-remove" onclick="itemsDelete({{ item.product_id }});"></span></a></td>
-                        </tr>
-                    {% endfor %}
-                    </tbody>
-                </table>
-            </div>
-            <div class="col-sm-4 ng-scope">
-                <table class="table">
-                    <thead>
-                        <tr>
-                            <th colspan="3" class="text-center">订单信息（单位：元）</th>
-                        </tr>
-                    </thead>
-                    <tbody id="items_total">
-                        <tr>
-                            <td>商品总额：</td>
-                            <td></td>
-                            <td class="text-right"><b class="ng-binding">{{ total }}</b></td>
-                            </tr><tr>
-                            <td>运费：</td>
-                            <td></td>
-                            <td class="text-right ng-binding">0</td>
-                            </tr><tr>
-                            <td>税费：</td>
-                            <td></td>
-                            <td class="text-right ng-binding">0</td>
-                            </tr><tr>
-                            <td>合计：</td>
-                            <td></td>
-                            <td class="text-right ng-binding">{{ total }}</td>
-                        </tr>
-                    </tbody>
-                </table>
-                <a href="{{ url_for('order.trolley_commit') }}" class="text-center"><h3><b>结账</b></h3></a>
+        <div class="panel panel-default">
+            <div class="panel-heading"><h2>购物车</h2></div>
+            <div class="panel-body">
+                <div id="message" class="col-sm-8">
+                    <table class="table table-striped">
+                        <thead>
+                            <tr>
+                                <th>#</th>
+                                <th class="text-center">商品</th>
+                                <th class="text-center">单价（元）</th>
+                                <th class="text-center">数量</th>
+                                <th class="text-center">金额</th>
+                                <th class="text-center">操作</th>
+                            </tr>
+                        </thead>
+                        <tbody id="items_list">
+                        {% for item in products %}
+                            <tr>
+                                <td>{{ item.product_id }}</td>
+                                <td class="text-center">
+                                    <a href="{{ url_for('product.detail', id=item.product_id) }}">{{ item.product.name }}</a>
+                                </td>
+                                <td class="text-center">{{ item.product.price }}</td>
+                                <td class="text-center"><input onchange="itemsUpdate({{ item.product_id }}, this.value);" type="number" min="1" style="width:50px;" value='{{ item.product_quantity }}'></td>
+                                <td class="text-center">{{ item.product.price * item.product_quantity }}</td>
+                                <td class="text-center"><a><span class="glyphicon glyphicon-remove" onclick="itemsDelete({{ item.product_id }});"></span></a></td>
+                            </tr>
+                        {% endfor %}
+                        </tbody>
+                    </table>
+                </div>
+                <div class="col-sm-4 ng-scope">
+                    <table class="table">
+                        <thead>
+                            <tr>
+                                <th colspan="3" class="text-center">订单信息（单位：元）</th>
+                            </tr>
+                        </thead>
+                        <tbody id="items_total">
+                            <tr>
+                                <td>商品总额：</td>
+                                <td></td>
+                                <td class="text-right"><b class="ng-binding">{{ total }}</b></td>
+                            </tr>
+                            <tr>
+                                <td>运费：</td>
+                                <td></td>
+                                <td class="text-right">0</td>
+                            </tr>
+                            <tr>
+                                <td>税费：</td>
+                                <td></td>
+                                <td class="text-right">0</td>
+                            </tr>
+                            <tr>
+                                <td>合计：</td>
+                                <td></td>
+                                <td class="text-right">{{ total }}</td>
+                            </tr>
+                        </tbody>
+                    </table>
+                    <a href="{{ url_for('order.trolley_commit') }}" class="text-center" role="button"><h3>结账</h3></a>
+                </div>
             </div>
         </div>
     {% endblock %}
