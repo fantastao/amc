@@ -1,12 +1,5 @@
-function drawPie(pie){
+function drawPie(pie, title, legend_name, series_data){
     var myChart = echarts.init(document.getElementById(pie));
-    var title = '';
-    if (pie == 'pie'){
-        title = '各产品销售额占比';
-    }
-    else {
-        title = '各产品销售量占比';
-    }
     var idx = 1;
     var option = {
         title : {
@@ -26,7 +19,7 @@ function drawPie(pie){
                     '#6b8e23', '#ff00ff', '#3cb371', '#b8860b', '#30e0e0'], 
         */
         legend: {
-            data:['Chrome','Firefox','Safari','IE9+','IE8-'],
+            data: legend_name,
             y: 310,
             //textStyle:{color:'auto'},
         },
@@ -58,27 +51,21 @@ function drawPie(pie){
                 type:'pie',
                 center: ['50%', '45%'],
                 radius: '50%',
-                data:[
-                    {value: idx * 128 + 80,  name:'Chrome'},
-                    {value: idx * 64  + 160,  name:'Firefox'},
-                    {value: idx * 32  + 320,  name:'Safari'},
-                    {value: idx * 16  + 640,  name:'IE9+'},
-                    {value: idx++ * 8  + 1280, name:'IE8-'}
-                ]
+                data: series_data,
             }
         ]
     };
     myChart.setOption(option);
 }
 
-function drawBar(bar){
+function drawBar(bar, series, xAxis){
     var myChart = echarts.init(document.getElementById(bar));
     var option = {
         tooltip : {
             trigger: 'axis'
         },
         legend: {
-            data:['最高','高','最低','低']
+            data:['销售额','订单量']
         },
         color: ['#ff7f50', '#87cefa'],
         /*
@@ -104,19 +91,7 @@ function drawBar(bar){
             start : 40,
             end : 60
         },
-        xAxis : [
-            {
-                type : 'category',
-                boundaryGap : true,
-                data : function (){
-                    var list = [];
-                    for (var i = 1; i <= 30; i++) {
-                        list.push('2013-03-' + i);
-                    }
-                    return list;
-                }()
-            }
-        ],
+        xAxis : xAxis,
         yAxis : [
             {
                 type : 'value',
@@ -133,73 +108,134 @@ function drawBar(bar){
                 }
             },
         ],
-        series : [
-            {
-                name:'最高',
-                type:'line',
-                yAxisIndex: 1,
-                data:function (){
-                    var list = [];
-                    for (var i = 1; i <= 30; i++) {
-                        list.push(Math.round(Math.random()* 30) + 30);
-                    }
-                    return list;
-                }()
-            },
-            {
-                name:'高',
-                type:'line',
-                data:function (){
-                    var list = [];
-                    for (var i = 1; i <= 30; i++) {
-                        list.push(Math.round(Math.random()* 30) + 30);
-                    }
-                    return list;
-                }()
-            },
-            {
-                name:'最低',
-                type:'bar',
-                yAxisIndex: 1,
-                data:function (){
-                    var list = [];
-                    for (var i = 1; i <= 30; i++) {
-                        list.push(Math.round(Math.random()* 10));
-                    }
-                    return list;
-                }()
-            },
-            {
-                name:'低',
-                type:'bar',
-                data:function (){
-                    var list = [];
-                    for (var i = 1; i <= 30; i++) {
-                        list.push(Math.round(Math.random()* 10));
-                    }
-                    return list;
-                }()
-            }
-        ]
+        series : series,
     };
-    /*
-    var ecConfig = echarts.config;
-    function eConsole(param) {
-        console.log(param);
-    }
-    */
-    /*
-    myChart.on(ecConfig.EVENT.CLICK, eConsole);
-    myChart.on(ecConfig.EVENT.DBLCLICK, eConsole);
-    myChart.on(ecConfig.EVENT.HOVER, eConsole);
-    myChart.on(ecConfig.EVENT.DATA_ZOOM, eConsole);
-    myChart.on(ecConfig.EVENT.LEGEND_SELECTED, eConsole);
-    myChart.on(ecConfig.EVENT.MAGIC_TYPE_CHANGED, eConsole);
-    myChart.on(ecConfig.EVENT.DATA_VIEW_CHANGED, eConsole);
-    */
     myChart.setOption(option);
 }
 
-drawBar('bar');
-drawPie('pie');
-drawPie('piepie');
+function bar_callback(bar_data){
+    var time_list = [];
+    var order_bar_list = [];
+    var order_line_list = [];
+    var income_bar_list = [];
+    var income_line_list = [];
+    for (var date in bar_data){
+        time_list.push(date);
+        order_bar_list.push(bar_data[date][0])
+        order_line_list.push(bar_data[date][0])
+        income_bar_list.push(bar_data[date][1])
+        income_line_list.push(bar_data[date][1])
+    }
+    var series = [
+        {
+            name:'销售额',
+            type:'bar',
+            data: income_bar_list,
+        },
+        {
+            name:'订单量',
+            type:'bar',
+            yAxisIndex: 1,
+            data: order_bar_list,
+        },
+        {
+            name:'销售额',
+            type:'line',
+            data: income_line_list,
+        },
+        {
+            name:'订单量',
+            type:'line',
+            yAxisIndex: 1,
+            data: order_line_list,
+        }
+    ];
+    var xAxis = [
+        {
+            type : 'category',
+            boundaryGap : true,
+            data: time_list,
+        }
+    ];
+    drawBar(bar_div, series, xAxis);
+}
+
+function series_sort(a,b){
+    return b['value'] - a['value'];
+}
+
+function pie_limit(series_data){
+    if (series_data.length > TOP_LIMIT){
+        var total = 0;
+        for (var i = TOP_LIMIT;i < series_data.length;i++){
+            total += series_data[i]['value'];
+        }
+        var last = {
+            name: '其它',
+            value: total
+        };
+        series_data[TOP_LIMIT] = last;
+    }
+    return series_data;
+}
+
+function pie_callback(pie_data){
+    var order_title = '产品销售量占比';
+    var income_title = '产品销售额占比';
+    var order_legend_name = [];
+    var income_legend_name = [];
+    var order_series_data = [];
+    var income_series_data = [];
+    for (var product_id in pie_data){
+        var product = pie_data[product_id];
+        order_series_data.push({
+            name: product[0],
+            value: product[1],
+        });
+        income_series_data.push({
+            name: product[0],
+            value: product[2],
+        });
+    }
+    var length = Math.min(TOP_LIMIT, income_series_data.length); // 最多取前五个产品
+    
+    if (length == 0){
+        drawPie(pie_div, income_title, income_legend_name, income_series_data);
+        drawPie(pie_pie_div, order_title, order_legend_name, order_series_data);
+        return;
+    }
+    
+    income_series_data.sort(series_sort);
+    income_series_data = pie_limit(income_series_data);
+
+    for (var i = 0;i < length; i++){
+        income_legend_name.push(income_series_data[i]['name']);
+    }
+    drawPie(pie_div, income_title, income_legend_name, income_series_data);
+
+    order_series_data.sort(series_sort);
+    order_series_data = pie_limit(order_series_data);
+    for (var i = 0;i < length; i++){
+        order_legend_name.push(order_series_data[i]['name']);
+    }
+    drawPie(pie_pie_div, order_title, order_legend_name, order_series_data);
+}
+
+function call_ajax_request(url, callback){
+    $.ajax({
+        url: url,
+        type: "get",
+        dataType: "json",
+        async: true,
+        success: callback
+    })
+}
+
+var bar_div = 'bar';
+var pie_div = 'pie';
+var pie_pie_div = 'piepie';
+var TOP_LIMIT = 5;
+var bar_url = "/apis/panel/index_bar_chart/";
+var pie_url = "/apis/panel/index_pie_chart/";
+call_ajax_request(bar_url, bar_callback);
+call_ajax_request(pie_url, pie_callback);
