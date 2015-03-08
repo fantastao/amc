@@ -9,7 +9,7 @@ function drawPie(pie, title, legend_name, series_data){
         },
         tooltip : {
             trigger: 'item',
-            formatter: "{a} <br/>{b} : {c} ({d}%)"
+            formatter: "{b} : {c} ({d}%)"
         },
         color: ['#00fa9a', '#ffd700', '#6495ed', '#ff69b4', '#7b68ee'], 
         /*
@@ -47,7 +47,6 @@ function drawPie(pie, title, legend_name, series_data){
         calculable:true,
         series : [
             {
-                name:'浏览器（数据纯属虚构）',
                 type:'pie',
                 center: ['50%', '45%'],
                 radius: '50%',
@@ -62,7 +61,8 @@ function drawBar(bar, series, xAxis){
     var myChart = echarts.init(document.getElementById(bar));
     var option = {
         tooltip : {
-            trigger: 'axis'
+            trigger: 'axis',
+            formatter: "{b}<br/>{a0}：{c0}<br/>{a1}：{c1}",
         },
         legend: {
             data:['销售额','订单量']
@@ -88,8 +88,8 @@ function drawBar(bar, series, xAxis){
         dataZoom : {
             show : true,
             realtime : true,
-            start : 40,
-            end : 60
+            start : 20,
+            end : 80,
         },
         xAxis : xAxis,
         yAxis : [
