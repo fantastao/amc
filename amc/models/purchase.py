@@ -6,8 +6,6 @@ from .base import ModelBase, SurrogatePK, db
 
 
 class PurchaseModel(SurrogatePK, ModelBase):
-    """for convenience, PurchaseModel ProductModel one2one
-    """
 
     STATUS_BEGIN = 'begin'
     STATUS_OVER = 'over'

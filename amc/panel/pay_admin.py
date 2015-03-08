@@ -1,11 +1,13 @@
 # -*- coding: utf-8 -*-
 
+from datetime import timedelta
+
 from flask import (Blueprint, render_template,
                    views, url_for, redirect, abort)
 
 from flask.ext.login import login_required
 
-from amc.models import PayModel, DueModel
+from amc.models import PayModel, DueModel, UserModel
 from amc.utils import now
 from amc.permissions import panel_permission
 
@@ -28,6 +30,23 @@ class PayListAdmin(views.MethodView):
         return render_template(self.template, pays=pays)
 
 
+class DangerousPayListAdmin(views.MethodView):
+    """`get`: 查询坏账款列表"""
+
+    template = 'panel/dangerous_pay_list.html'
+
+    @login_required
+    @panel_permission.require(401)
+    def get(self):
+        timeline = now() - timedelta(days=30)
+        pays = (PayModel.query
+                .filter(PayModel.status == PayModel.STATUS_PENDING)
+                .filter(PayModel.date_created < timeline)
+                .order_by(PayModel.date_created.desc())
+                .all())
+        return render_template(self.template, pays=pays)
+
+
 class PayConfirmAdmin(views.MethodView):
 
     @login_required
@@ -41,6 +60,19 @@ class PayConfirmAdmin(views.MethodView):
         pay.status = PayModel.STATUS_RECEIVED
         pay.date_updated = now()
         pay.save()
+
+        # 处理客户信誉，目前只有下降
+        if (pay.date_updated - timedelta(days=30)
+                > pay.date_created):
+            user = pay.order.user
+            credit = user.credit
+            if not credit:
+                # never happen
+                pass
+            index = UserModel.CREDIT.index(credit)
+            index = index - 1 if index != 0 else 0
+            user.update(credit=UserModel.CREDIT[index])
+
         return redirect(url_for('.pay_list'))
 
 
@@ -143,6 +175,9 @@ bp.add_url_rule(
 bp.add_url_rule(
     '/admin/pays/<int:id>/',
     view_func=PayConfirmAdmin.as_view('pay_confirm'))
+bp.add_url_rule(
+    '/admin/danpays/',
+    view_func=DangerousPayListAdmin.as_view('dangerous_pay_list'))
 bp.add_url_rule(
     '/admin/dues/',
     view_func=DueListAdmin.as_view('due_list'))

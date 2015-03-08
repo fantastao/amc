@@ -62,6 +62,11 @@ class TrolleyCommitView(views.MethodView):
             product.date_updated = now()
             product.save()
 
+            # 修改库存低于安全库存自动新增采购
+            # 但是采购成本不固定，需要管理员新建采购单
+            if not product.is_safe:
+                pass
+
             # 清空购物车
             item.delete()
 

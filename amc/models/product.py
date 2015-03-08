@@ -1,5 +1,7 @@
 # -*- coding: utf-8 -*-
 
+from sqlalchemy.ext.hybrid import hybrid_property
+
 from .base import ModelBase, SurrogatePK, db
 
 
@@ -25,6 +27,10 @@ class ProductModel(SurrogatePK, ModelBase):
     date_updated = db.Column(db.DateTime(timezone=True),
                              nullable=False, index=True,
                              server_default=db.func.current_timestamp())
+
+    @hybrid_property
+    def is_safe(self):
+        return self.quantity >= self.safe_quantity
 
 
 class LackedProductHistoryModel(SurrogatePK, ModelBase):

@@ -16,11 +16,10 @@ def load_user(user_id):
 
 class UserModel(SurrogatePK, ModelBase, UserMixin):
 
-    credit_dict = {
-        'high': u'信用情况较好',
-        'common': u'信用情况一般',
-        'low': u'信用情况较差',
-    }
+    HIGH = u'信用情况较好'
+    COMMON = u'信用情况一般'
+    LOW = u'信用情况较差'
+    CREDIT = (LOW, COMMON, HIGH)
 
     __tablename__ = 'user'
 
@@ -30,7 +29,7 @@ class UserModel(SurrogatePK, ModelBase, UserMixin):
     phone = db.Column(db.String(), nullable=True)
     address = db.Column(db.String(), nullable=True)
     credit = db.Column(db.String(), nullable=False, index=True,
-                       default=credit_dict.get('common'))
+                       default=HIGH)
     date_created = db.Column(db.DateTime(timezone=True), nullable=False,
                              server_default=db.func.current_timestamp())
 
