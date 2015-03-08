@@ -10,7 +10,7 @@ from .forms import LoginForm
 bp = Blueprint('auth', __name__, url_prefix='/auth')
 
 
-@bp.route('/login', methods=['GET', 'POST'])
+@bp.route('/login/', methods=['GET', 'POST'])
 def login():
     if request.method == 'GET':
         form = LoginForm()
@@ -25,7 +25,7 @@ def login():
         return redirect(request.args.get('next') or url_for('home.index'))
 
 
-@bp.route('/logout', methods=['GET'])
+@bp.route('/logout/', methods=['GET'])
 @login_required
 def logout():
     logout_user()

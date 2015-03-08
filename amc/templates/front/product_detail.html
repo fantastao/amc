@@ -25,15 +25,11 @@
                     <div class="caption">
                     <h3 class="text-center">{{ product.name }}</h3>
                     &nbsp;
-                    <table class="table" style="width:350px;">
+                    <table class="table" style="margin:auto;width:400px">
     					<tbody>
     						<tr>
     							<td>商品名称</td>
     							<td class="text-center">{{ product.name }}</td>
-    						</tr>
-    						<tr>
-    							<td>商品编号</td>
-    							<td class="text-center">{{ product.id }}</td>
     						</tr>
     						<tr>
     							<td>商品类型</td>
@@ -43,11 +39,21 @@
     							<td>商品来源</td>
     							<td class="text-center">{{ product.made_in }}</td>
     						</tr>
+                            <tr>
+                                <td>商品单价</td>
+                                <td class="text-center" style="color:red;">{{ product.price }}</td>
+                            </tr>
+                            <tr>
+                                <td>商品库存</td>
+                                <td class="text-center">{{ product.quantity }}</td>
+                            </tr>
     					</tbody>
     				</table>
-					<p>价格：<b style="color:red;">￥{{ product.price }}</b>&nbsp;&nbsp;&nbsp;&nbsp;库存：<span class="span" style="color:red">{{ product.quantity }}</span>件&nbsp;&nbsp;&nbsp;&nbsp;
+					<p class="text-right">
 						<input id="quantity" type="number" min="1" max="{{ product.quantity }}" style="width:50px;" value="1">
-						<button onclick="addToTrolley();" class="btn btn-default" role="button">加购物车</button>
+                        &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;						
+                        <button onclick="addToTrolley();" class="btn btn-default" role="button">加购物车</button>
+                        &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
                     </p>
                     </div>
                 </div>
@@ -63,7 +69,7 @@
             function addToTrolley(){
                 user = "{{ current_user.name }}";
                 if (!user){
-                    window.location.href="{{ url_for('auth.login') }}";
+                    window.location.href="{{ url_for('auth.login',next=request.url) }}";
                 }
                 id = {{ product.id }};
                 quantity = $("#quantity").val();
@@ -90,6 +96,6 @@
                         },
                     }
                 });
-            }
+            };
         </script>
     {% endblock %}
