@@ -44,7 +44,11 @@
         {% if form.quantity.errors %}
         <p>{{ form.quantity.errors[0] }}</p>
         {% endif %}
+        {% if request.endpoint == 'product_admin.detail' %}
+        {{ form.quantity(class='form-control', placeholder='必填项', readonly=True) }}
+        {% else %}
         {{ form.quantity(class='form-control', placeholder='必填项') }}
+        {% endif %}
     </div>
     <div class="form-group">
         {{ form.safe_quantity.label }}
