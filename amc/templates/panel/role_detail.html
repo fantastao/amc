@@ -1,0 +1,23 @@
+{% extends "panel/index.html" %}
+
+{% block content %}
+<h1>管理员权限管理</h1>
+<form method="post">
+    {{ form.csrf_token }}
+    <div class="form-group">
+        {{ form.user_id.label }}
+        {% if form.user_id.errors %}
+        <p>{{ form.user_id.errors[0] }}</p>
+        {% endif %}
+        {{ form.user_id(class='form-control', placeholder='必填项') }}
+    </div>
+    <div class="form-group">
+        {{ form.department.label }}
+        {% if form.department.errors %}
+        <p>{{ form.department.errors[0] }}</p>
+        {% endif %}
+        {{ form.department(class='form-control', placeholder='必填项') }}
+    </div>
+    <button type="submit">提交</button>
+</form>
+{% endblock %}

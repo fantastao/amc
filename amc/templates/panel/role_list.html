@@ -1,0 +1,28 @@
+{% extends "panel/index.html" %}
+
+{% block content %}
+<h1>管理员权限管理</h1>
+<a class="btn btn-default" href="{{ url_for('extra_admin.create') }}" role="button">创建管理员</a>
+<div class="table-responsive">
+    <table class="table table-striped">
+        <thead>
+            <tr>
+                <th class="text-left">id</th>
+                <th class="text-center">姓名</th>
+                <th class="text-center">所在部门</th>
+                <th class="text-center">操作</th>
+            </tr>
+        </thead>
+        <tbody>
+            {% for admin in users %}
+            <tr>
+                <td class="text-left">{{ admin.user_id }}</td>
+                <td class="text-center">{{ admin.user.name }}</td>
+                <td class="text-center">{{ admin.department }}</td>
+                <td class="text-center">
+                    <a href="{{ url_for('extra_admin.delete', id=admin.user_id) }}">删除</a>
+                </td>
+            </tr>
+            {% endfor %}
+        </tbody>
+{% endblock %}

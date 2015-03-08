@@ -78,3 +78,9 @@ class PayInfoForm(Form):
 
     order_id = IntegerField(u'订单编号')
     status = StringField(u'账款状态')  # choose from STATUS_PENDING,STATUS_RECEIVED
+
+
+class RoleInfoForm(Form):
+
+    user_id = IntegerField(u'用户编号', validators=[DataRequired()])
+    department = StringField(u'所在部门', validators=[DataRequired()])
