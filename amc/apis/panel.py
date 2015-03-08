@@ -2,10 +2,11 @@
 
 from flask import views, Blueprint, request, jsonify, abort
 
-# from flask.ext.login import current_user, login_required
+from flask.ext.login import current_user, login_required
 
 from amc.models import OrderModel, OrderHistoryModel
 from amc.utils import now
+from amc.permissions import panel_permission
 
 from .rest import AmcValidator
 
@@ -22,6 +23,8 @@ schema_dict = {
 
 class OrderPanelAPI(views.MethodView):
 
+    @login_required
+    @panel_permission.require(401)
     def put(self, id):
         schema = {
             'status': schema_dict['status'],
@@ -60,12 +63,11 @@ class OrderPanelAPI(views.MethodView):
                 product.date_updated = now()
                 product.save()
 
-        # 没有权限管理时用2
-        current_user_id = 2 
+        # 添加到订单修改历史 
         OrderHistoryModel.create(
             order_id=order.id,
             status=order.status,
-            operator_id=current_user_id)
+            operator_id=current_user.id)
 
         return jsonify(order.as_dict()), 200
 
