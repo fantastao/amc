@@ -5,7 +5,7 @@ from flask import (Blueprint, render_template,
 
 from flask.ext.login import login_required
 
-from amc.models import ProductModel
+from amc.models import ProductModel, LackedProductHistoryModel
 from amc.utils import now
 from amc.permissions import panel_permission
 
@@ -24,6 +24,17 @@ class ProductListAdmin(views.MethodView):
     def get(self):
         products = ProductModel.query.order_by(ProductModel.id).all()
         return render_template(self.template, products=products)
+
+
+class LackedProductListAdmin(views.MethodView):
+
+    template = 'panel/lacked_product_list.html'
+
+    @login_required
+    @panel_permission.require(401)
+    def get(self):
+        lacked_products = LackedProductHistoryModel.query.all()
+        return render_template(self.template, lacked_products=lacked_products)
 
 
 class ProductCreateAdmin(views.MethodView):
@@ -123,6 +134,9 @@ bp.add_url_rule(
 bp.add_url_rule(
     '/admin/products/create/',
     view_func=ProductCreateAdmin.as_view('create'))
+bp.add_url_rule(
+    '/admin/products/lack/',
+    view_func=LackedProductListAdmin.as_view('lack'))
 bp.add_url_rule(
     '/admin/products/<int:id>/',
     view_func=ProductDetailAdmin.as_view('detail'))

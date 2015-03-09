@@ -6,7 +6,7 @@ from flask import (Blueprint, views, render_template,
 from flask.ext.login import current_user, login_required
 
 from amc.models import (OrderModel, OrderProductModel,
-                        OrderHistoryModel, PayModel)
+                        OrderHistoryModel, PayModel, LackedProductHistoryModel)
 from amc.utils import now
 
 bp = Blueprint('order', __name__)
@@ -37,6 +37,20 @@ class TrolleyCommitView(views.MethodView):
         if not items:
             abort(404, u'购物车为空')
 
+        flag = False
+        # 判断有没有库存不够
+        for item in items:
+            if item.lacked_quantity != 0:
+                # 某件产品库存不足，添加缺件记录
+                flag = True
+                LackedProductHistoryModel.create(
+                    product_id=item.product_id,
+                    user_id=current_user.id,
+                    quantity=item.lacked_quantity)
+
+        if flag:
+            abort(409, u'产品库存不足')
+
         # 创建订单，载入历史
         order = OrderModel.create(user_id=current_user.id)
         OrderHistoryModel.create(
@@ -46,10 +60,6 @@ class TrolleyCommitView(views.MethodView):
 
         # 填充订单信息，将购物车结账清算
         for item in items:
-            if not item.is_supplied:
-                # 某件产品库存不足
-                abort(409, u'产品库存不足')
-
             product = item.product
             OrderProductModel.create(
                 order_id=order.id,

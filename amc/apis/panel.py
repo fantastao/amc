@@ -1,6 +1,6 @@
 # -*- coding: utf-8 -*-
 
-from datetime import timedelta
+from datetime import datetime, timedelta
 
 from flask import views, Blueprint, request, jsonify, abort
 
@@ -65,7 +65,7 @@ class OrderPanelAPI(views.MethodView):
                 product.date_updated = now()
                 product.save()
 
-        # 添加到订单修改历史 
+        # 添加到订单修改历史
         OrderHistoryModel.create(
             order_id=order.id,
             status=order.status,
@@ -73,53 +73,56 @@ class OrderPanelAPI(views.MethodView):
 
         return jsonify(order.as_dict()), 200
 
+
 class IndexBarChartAPI(views.MethodView):
 
     @login_required
     @panel_permission.require(401)
-
     def get(self):
         results = dict()
-        timeline = now() - timedelta(days=30)
+        start_date = (now() - timedelta(days=29)).date()
+        timeline = datetime(start_date.year, start_date.month, start_date.day)
+        # 这里订单量销售额定义为交易成功订单
         orders = (OrderModel.query
-                        .filter(OrderModel.date_created > timeline)
-                        .order_by(OrderModel.date_created.asc())
-                        .all())
+                  .filter(OrderModel.date_created >= timeline)
+                  .filter(OrderModel.status == OrderModel.STATUS_SUCCESS)
+                  .all())
         for order in orders:
             timestamp = order.date_created.strftime('%Y-%m-%d')
-            try:
-                results[timestamp][0] += 1
-                results[timestamp][1] += order.order_price
-            except KeyError:
-                results[timestamp] = [0,0]
+            if not results.get(timestamp):
+                results[timestamp] = [0, 0]
+            results[timestamp][0] += 1
+            results[timestamp][1] += order.order_price
 
-        return jsonify(results)
+        return jsonify(results), 200
+
 
 class IndexPieChartAPI(views.MethodView):
 
     @login_required
     @panel_permission.require(401)
-
     def get(self):
-        product_info = dict()
-        timeline = now() - timedelta(days=7)
+        results = dict()
+        start_date = (now() - timedelta(days=6)).date()
+        timeline = datetime(start_date.year, start_date.month, start_date.day)
         orders = (OrderModel.query
-                        .filter(OrderModel.date_created > timeline)
-                        .all())
+                  .filter(OrderModel.status == OrderModel.STATUS_SUCCESS)
+                  .filter(OrderModel.date_created > timeline)
+                  .all())
         for order in orders:
             products = order.products
-            for product in products:
-                product_id = product.product_id
-                product_name = product.product.name
-                product_quantity = product.product_quantity
-                total_price = product.total_price
-                try:
-                    product_info[product_id][1] += product_quantity
-                    product_info[product_id][2] += total_price
-                except KeyError:
-                    product_info[product_id] = [product_name, product_quantity, total_price]
+            for item in products:
+                product_id = item.product_id
+                product_name = item.product.name
+                product_quantity = item.product_quantity
+                total_price = item.total_price
+                if not results.get(product_id):
+                    results[product_id] = [product_name, 0, 0]
+                results[product_id][1] += product_quantity
+                results[product_id][2] += total_price
 
-        return jsonify(product_info)
+        return jsonify(results), 200
+
 
 bp.add_url_rule(
     '/order/<int:id>/',
