@@ -107,7 +107,7 @@ def upgrade():
         'lacked_product_history',
         sa.Column('id', sa.Integer(), primary_key=True),
         sa.Column('product_id', sa.Integer(), nullable=False, index=True),
-        sa.Column('order_id', sa.Integer(), nullable=False, index=True),
+        sa.Column('user_id', sa.Integer(), nullable=False, index=True),
         sa.Column('quantity', sa.Integer(), nullable=False),
         sa.Column('date_created', sa.DateTime(timezone=True), nullable=False,
                   server_default=sa.func.current_timestamp())

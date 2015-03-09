@@ -143,6 +143,12 @@ class TrolleyProductModel(ModelBase):
             return False
         return True
 
+    @hybrid_property
+    def lacked_quantity(self):
+        if self.product_quantity > self.product.quantity:
+            return self.product_quantity - self.product.quantity
+        return 0
+
     def as_dict(self):
         result = {
             'trolley_id': self.trolley_id,
