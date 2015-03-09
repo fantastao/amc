@@ -11,7 +11,7 @@ function drawPie(pie, title, legend_name, series_data){
             trigger: 'item',
             formatter: "{b} : {c} ({d}%)"
         },
-        color: ['#00fa9a', '#ffd700', '#6495ed', '#ff69b4', '#7b68ee'], 
+        color: ['#20B2AA', '#CC99CD', '#3399cc', '#ff9966','#993333'], 
         /*
         color: ['#ff7f50', '#87cefa', '#da70d6', '#32cd32', '#6495ed',
             '#ff69b4', '#ba55d3', '#cd5c5c', '#ffa500', '#40e0d0',
