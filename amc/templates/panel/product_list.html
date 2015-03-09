@@ -3,6 +3,7 @@
 {% block content %}
 <h1>库存管理</h1>
 <a class="btn btn-danger" href="{{ url_for('product_admin.create') }}" role="button">创建新产品</a>
+<a class="btn btn-warning" href="{{ url_for('product_admin.lack') }}" role="button">缺件纪录</a>
 <div class="table-responsive">
     <table class="table table-striped">
         <thead>

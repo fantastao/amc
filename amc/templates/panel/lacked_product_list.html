@@ -1,0 +1,31 @@
+{% extends "panel/index.html" %}
+
+{% block content %}
+<h1>库存管理</h1>
+<a class="btn btn-danger" href="{{ url_for('product_admin.create') }}" role="button">创建新产品</a>
+<a class="btn btn-warning" href="{{ url_for('product_admin.lack') }}" role="button">缺件纪录</a>
+<div class="table-responsive">
+    <table class="table table-striped">
+        <thead>
+            <tr>
+                <th>#</th>
+                <th class="text-center">产品id</th>
+                <th class="text-center">产品名称</th>
+                <th class="text-center">用户名</th>
+                <th class="text-center">缺失库存量</th>
+                <th class="text-center">缺失时间</th>
+            </tr>
+        </thead>
+        <tbody>
+            {% for item in lacked_products %}
+            <tr>
+                <td>{{ item.id }}</td>
+                <td class="text-center">{{ item.product_id }}</td>
+                <td class="text-center">{{ item.product.name }}</td>
+                <td class="text-center">{{ item.user.name }}</td>
+                <td class="text-center">{{ item.quantity }}</td>
+                <td class="text-center">{{ fmt_time(item.date_created) }}</td>
+            </tr>
+            {% endfor %}
+        </tbody>
+{% endblock %}

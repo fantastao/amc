@@ -42,3 +42,15 @@ class LackedProductHistoryModel(SurrogatePK, ModelBase):
     quantity = db.Column(db.Integer(), nullable=False)
     date_created = db.Column(db.DateTime(timezone=True), nullable=False,
                              server_default=db.func.current_timestamp())
+
+    product = db.relationship(
+        'ProductModel',
+        primaryjoin='ProductModel.id==LackedProductHistoryModel.product_id',
+        foreign_keys='LackedProductHistoryModel.product_id',
+        uselist=False)
+
+    user = db.relationship(
+        'UserModel',
+        primaryjoin='UserModel.id==LackedProductHistoryModel.user_id',
+        foreign_keys='LackedProductHistoryModel.user_id',
+        uselist=False)
